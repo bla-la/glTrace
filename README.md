@@ -9,3 +9,9 @@ Build
 Basic usage
 ===========
 LD_PRELOAD="./libgltrace.so" ./ogl_app
+
+Alternatives
+============
+https://github.com/ValveSoftware/vogl
+http://apitrace.github.io/
+http://www.opengl.org/sdk/tools/BuGLe/
