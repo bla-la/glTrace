@@ -1,0 +1,53 @@
+#include <glTraceCommon.h>
+#include <generated.h>
+
+#define $procNameWrp						\
+    (($procRet (*)($paramStr                                        \
+    ))GL_ENTRY_PTR($procNameIdx))
+
+
+GLAPI $procRet APIENTRY $procName($paramStr)
+{
+	struct timespec st,ed;
+
+	if(!GL_ENTRY_PTR($procNameIdx))
+	{
+            GL_ENTRY_PTR($procNameIdx) = dlsym(RTLD_NEXT,"$procName");
+            if(!GL_ENTRY_PTR($procNameIdx))
+                abort();
+	}
+
+
+	if( !GL_ENTRY_PREV_TS($procNameIdx))
+    	{
+            GL_ENTRY_PREV_TS($procNameIdx) = get_ts();
+        }
+
+        clock_gettime(CLOCK_REALTIME,&st);
+
+	$retVal$procNameWrp($paramCallStr);
+
+        clock_gettime(CLOCK_REALTIME,&ed);
+
+        GL_ENTRY_CALL_TIME($procNameIdx) += ts_diff(&st,&ed);
+        GL_ENTRY_CALL_COUNT($procNameIdx) ++;
+
+        GL_ENTRY_LAST_TS($procNameIdx) = get_ts();
+        long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS($procNameIdx),
+				 GL_ENTRY_LAST_TS($procNameIdx));
+        if(last_diff > 1000000000){
+            printf("$procName %lld %lld avg %lld  total time left %lld pct %f\n",
+	             GL_ENTRY_CALL_COUNT($procNameIdx),
+	             GL_ENTRY_CALL_TIME($procNameIdx),
+	             GL_ENTRY_CALL_TIME($procNameIdx) /
+	             GL_ENTRY_CALL_COUNT($procNameIdx),
+	             last_diff,GL_ENTRY_CALL_TIME($procNameIdx)/ (last_diff/100.0));
+             GL_ENTRY_CALL_COUNT($procNameIdx) = 0;
+             GL_ENTRY_CALL_TIME($procNameIdx)  = 0;
+	     GL_ENTRY_PREV_TS($procNameIdx) = get_ts();
+        }
+
+
+	$ret
+
+}

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/repos/!svn/ver/27089/ogl/trunk/doc/registry/public/api
+END
+gl.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/repos/!svn/ver/27089/ogl/trunk/doc/registry/public/api/gl.xml
+END
+reg.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/repos/!svn/ver/25401/ogl/trunk/doc/registry/public/api/reg.py
+END
+readme.pdf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/repos/!svn/ver/23652/ogl/trunk/doc/registry/public/api/readme.pdf
+END
+egl.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/repos/!svn/ver/27022/ogl/trunk/doc/registry/public/api/egl.xml
+END
+wgl.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/repos/!svn/ver/25401/ogl/trunk/doc/registry/public/api/wgl.xml
+END
+glx.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/repos/!svn/ver/27022/ogl/trunk/doc/registry/public/api/glx.xml
+END
+registry.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/repos/!svn/ver/27088/ogl/trunk/doc/registry/public/api/registry.rnc
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/repos/!svn/ver/21968/ogl/trunk/doc/registry/public/api/.htaccess
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/repos/!svn/ver/22006/ogl/trunk/doc/registry/public/api/README.txt
+END
+genheaders.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/repos/!svn/ver/25923/ogl/trunk/doc/registry/public/api/genheaders.py
+END
+readme.tex
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/repos/!svn/ver/27088/ogl/trunk/doc/registry/public/api/readme.tex
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/repos/!svn/ver/25401/ogl/trunk/doc/registry/public/api/Makefile
+END

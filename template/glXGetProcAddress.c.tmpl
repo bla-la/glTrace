@@ -1,0 +1,22 @@
+#include <glTraceCommon.h>
+#include <generated.h>
+
+
+__GLXextFuncPtr (*real_glXGetProcAddress) (const GLubyte *procName) = NULL;
+
+__GLXextFuncPtr glXGetProcAddress (const GLubyte *procName)
+{
+    if(!real_glXGetProcAddress)
+    {
+	real_glXGetProcAddress = dlsym(RTLD_NEXT,"glXGetProcAddress");
+	if(!real_glXGetProcAddress)
+	    abort();
+    }
+
+    if(!strcmp("zzzz",procName))
+	return (void *)0;
+    $procBind
+    else
+	return real_glXGetProcAddress(procName);
+
+}

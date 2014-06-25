@@ -1,0 +1,12 @@
+About **glTrace**
+==================
+**glTrace** simple OpenGL trace and accounting tool. For Linux amd64 platform.
+
+Build
+======
+generate.sh && make
+
+Basic usage
+===========
+
+LD_PRELOAD="./libgltrace.so" ./ogl_app

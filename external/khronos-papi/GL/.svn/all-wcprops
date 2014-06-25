@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/repos/!svn/ver/27089/ogl/trunk/doc/registry/public/api/GL
+END
+wglext.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/repos/!svn/ver/26290/ogl/trunk/doc/registry/public/api/GL/wglext.h
+END
+glxext.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/repos/!svn/ver/27022/ogl/trunk/doc/registry/public/api/GL/glxext.h
+END
+glcorearb.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/repos/!svn/ver/27088/ogl/trunk/doc/registry/public/api/GL/glcorearb.h
+END
+glext.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/repos/!svn/ver/27089/ogl/trunk/doc/registry/public/api/GL/glext.h
+END
