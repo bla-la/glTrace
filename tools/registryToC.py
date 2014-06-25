@@ -14,6 +14,17 @@ hide = ['glCreateSyncFromCLeventARB',
             'glSampleCoveragexOES']
 
 
+def makeTemplate(template,out,param):
+    templateFile = open(template)
+    template = string.Template(templateFile.read())
+
+    result = template.substitute(param)
+
+    wrTo = open(out,'w')
+    wrTo.write(result)
+    wrTo.close()
+
+
 def getParamName(declare):
     pos = -1
     for i in declare:
@@ -46,11 +57,11 @@ def parseCommand(xml):
     retType = ''
     is_void = 1
     params = []
-    #print('parse comm:\n'+xml)
+
     comm = libxml2.parseDoc(xml)
     commCtxt = comm.xpathNewContext()
-    tmp = commCtxt.xpathEval("//proto")[0].content.split(' ')[1].split('*')
-    print(commCtxt.xpathEval("//proto")[0].content)
+#    tmp = commCtxt.xpathEval("//proto")[0].content.split(' ')[1].split('*')
+
 
     p = getProcParamAndName(commCtxt.xpathEval("//proto")[0].content)
 
@@ -60,7 +71,6 @@ def parseCommand(xml):
 
     paramPars = commCtxt.xpathEval("//param")
     for i in paramPars:
-#        print('parse: '+str(i.content))
         paramName = ''
         paramDeclare = str(i.content)
 
@@ -68,7 +78,6 @@ def parseCommand(xml):
         paramName = getParamName(i.content)
 
 
-        #print('declare: '+ paramDeclare + ' name: '+paramName)
         params.append([paramDeclare,paramName])
 
     proc = [retType,name,params]
@@ -89,22 +98,15 @@ def parseCommand(xml):
         retVal = proc[0]+ ' retval = '
         retStmt  = 'return retval;'
 
-    #print(proc[0] + ' '+proc[1]+'('+paramStr+');')
     if paramStr is None:
         return None
 
-    tf = open('template/glFuncTemplate.tmpl')
-    template = string.Template( tf.read() )
-
-    d = { 'procRet':proc[0],'procName':proc[1],
-          'paramStr':paramStr,'paramCallStr':paramCallStr,
-          'retVal':retVal,'ret':retStmt,'procNameWrp':proc[1]+'_wrp',
-          'procNameIdx':proc[1]+"_Idx"}
-    result = template.substitute(d)
- #   print(result)
-    wrTo = open('./src/generated/'+proc[1]+'.c','w')
-    wrTo.write(result)
-    wrTo.close()
+    makeTemplate('./template/glFuncTemplate.tmpl',
+             './src/generated/'+proc[1]+'.c',
+             {'procRet':proc[0],'procName':proc[1],
+              'paramStr':paramStr,'paramCallStr':paramCallStr,
+              'retVal':retVal,'ret':retStmt,'procNameWrp':proc[1]+'_wrp',
+              'procNameIdx':proc[1]+"_Idx"})
 
     return [proc[0],proc[1],paramStr]
 
@@ -125,7 +127,6 @@ procs = []
 
 for ch in res:
 
-    #print("ch: "+str(ch))
     comm = libxml2.parseDoc(str(ch))
     commCtxt = comm.xpathNewContext()
     tmp = commCtxt.xpathEval("//proto")[0].content.split(' ')[1].split('*')
@@ -133,11 +134,6 @@ for ch in res:
         name = tmp[0]
     else:
         name = tmp[1]
-    #for i in name:
-    #print("name: "+str(name))
-    #glGetBufferPointerv
-#    if name in needProcs:
-#    if 'glGetBufferPointerv' in name:
     if name not in hide:
         procDef = parseCommand(str(ch))
         if procDef is not None:
@@ -159,33 +155,15 @@ for i in procs:
         exit(1)
     procBind += 'else if(!strcmp("'+i[1]+'",procName)) return (void *)'+i[1]+';\n'
 
-tf = open('template/generated.h.tmpl')
-template = string.Template( tf.read() )
 
-d = { 'procIdx':procIdx,'procPrototype':procPrototype}
-result = template.substitute(d)
-#print(result)
-wrTo = open('./include/generated.h','w')
-wrTo.write(result)
-wrTo.close()
+makeTemplate('./template/generated.h.tmpl',
+             './include/generated.h',
+             {'procIdx':procIdx,'procPrototype':procPrototype})
 
-tf = open('template/glEntry.c.tmpl')
-template = string.Template( tf.read() )
+makeTemplate('./template/glEntry.c.tmpl',
+             './src/generated/glEntry.c',
+             { 'procDeclare':procDeclare})
 
-d = { 'procDeclare':procDeclare}
-result = template.substitute(d)
-#print(result)
-wrTo = open('./src/generated/glEntry.c','w')
-wrTo.write(result)
-wrTo.close()
-
-
-tf = open('template/glXGetProcAddress.c.tmpl')
-template = string.Template( tf.read() )
-
-d = { 'procBind':procBind}
-result = template.substitute(d)
-#print(result)
-wrTo = open('./src/generated/glXGetProcAddress.c','w')
-wrTo.write(result)
-wrTo.close()
+makeTemplate('./template/glXGetProcAddress.c.tmpl',
+             './src/generated/glXGetProcAddress.c',
+             {'procBind':procBind})
