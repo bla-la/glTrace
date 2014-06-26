@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColorTableSGI(GLenum target,GLenum internalformat,GLsizei
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColorTableSGI_Idx))
-	{
-            GL_ENTRY_PTR(glColorTableSGI_Idx) = dlsym(RTLD_NEXT,"glColorTableSGI");
-            if(!GL_ENTRY_PTR(glColorTableSGI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColorTableSGI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColorTableSGI(GLenum target,GLenum internalformat,GLsizei
         GL_ENTRY_LAST_TS(glColorTableSGI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColorTableSGI_Idx),
 				 GL_ENTRY_LAST_TS(glColorTableSGI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColorTableSGI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColorTableSGI_Idx),

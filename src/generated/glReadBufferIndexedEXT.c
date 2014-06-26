@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glReadBufferIndexedEXT(GLenum src,GLint index)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glReadBufferIndexedEXT_Idx))
-	{
-            GL_ENTRY_PTR(glReadBufferIndexedEXT_Idx) = dlsym(RTLD_NEXT,"glReadBufferIndexedEXT");
-            if(!GL_ENTRY_PTR(glReadBufferIndexedEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glReadBufferIndexedEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glReadBufferIndexedEXT(GLenum src,GLint index)
         GL_ENTRY_LAST_TS(glReadBufferIndexedEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glReadBufferIndexedEXT_Idx),
 				 GL_ENTRY_LAST_TS(glReadBufferIndexedEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glReadBufferIndexedEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glReadBufferIndexedEXT_Idx),

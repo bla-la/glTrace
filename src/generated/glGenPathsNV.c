@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glGenPathsNV(GLsizei range)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenPathsNV_Idx))
-	{
-            GL_ENTRY_PTR(glGenPathsNV_Idx) = dlsym(RTLD_NEXT,"glGenPathsNV");
-            if(!GL_ENTRY_PTR(glGenPathsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenPathsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glGenPathsNV(GLsizei range)
         GL_ENTRY_LAST_TS(glGenPathsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenPathsNV_Idx),
 				 GL_ENTRY_LAST_TS(glGenPathsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenPathsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenPathsNV_Idx),

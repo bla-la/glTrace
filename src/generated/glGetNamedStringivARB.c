@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetNamedStringivARB(GLint namelen,const GLchar *name,GLen
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetNamedStringivARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetNamedStringivARB_Idx) = dlsym(RTLD_NEXT,"glGetNamedStringivARB");
-            if(!GL_ENTRY_PTR(glGetNamedStringivARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetNamedStringivARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetNamedStringivARB(GLint namelen,const GLchar *name,GLen
         GL_ENTRY_LAST_TS(glGetNamedStringivARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetNamedStringivARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetNamedStringivARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetNamedStringivARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetNamedStringivARB_Idx),

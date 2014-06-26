@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawRangeElementArrayATI(GLenum mode,GLuint start,GLuint 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawRangeElementArrayATI_Idx))
-	{
-            GL_ENTRY_PTR(glDrawRangeElementArrayATI_Idx) = dlsym(RTLD_NEXT,"glDrawRangeElementArrayATI");
-            if(!GL_ENTRY_PTR(glDrawRangeElementArrayATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawRangeElementArrayATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawRangeElementArrayATI(GLenum mode,GLuint start,GLuint 
         GL_ENTRY_LAST_TS(glDrawRangeElementArrayATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawRangeElementArrayATI_Idx),
 				 GL_ENTRY_LAST_TS(glDrawRangeElementArrayATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawRangeElementArrayATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawRangeElementArrayATI_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMinSampleShadingARB(GLfloat value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMinSampleShadingARB_Idx))
-	{
-            GL_ENTRY_PTR(glMinSampleShadingARB_Idx) = dlsym(RTLD_NEXT,"glMinSampleShadingARB");
-            if(!GL_ENTRY_PTR(glMinSampleShadingARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMinSampleShadingARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMinSampleShadingARB(GLfloat value)
         GL_ENTRY_LAST_TS(glMinSampleShadingARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMinSampleShadingARB_Idx),
 				 GL_ENTRY_LAST_TS(glMinSampleShadingARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMinSampleShadingARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMinSampleShadingARB_Idx),

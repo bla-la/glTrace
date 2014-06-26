@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMap1d(GLenum target,GLdouble u1,GLdouble u2,GLint stride,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMap1d_Idx))
-	{
-            GL_ENTRY_PTR(glMap1d_Idx) = dlsym(RTLD_NEXT,"glMap1d");
-            if(!GL_ENTRY_PTR(glMap1d_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMap1d_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMap1d(GLenum target,GLdouble u1,GLdouble u2,GLint stride,
         GL_ENTRY_LAST_TS(glMap1d_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMap1d_Idx),
 				 GL_ENTRY_LAST_TS(glMap1d_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMap1d %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMap1d_Idx),

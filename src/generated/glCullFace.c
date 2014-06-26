@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCullFace(GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCullFace_Idx))
-	{
-            GL_ENTRY_PTR(glCullFace_Idx) = dlsym(RTLD_NEXT,"glCullFace");
-            if(!GL_ENTRY_PTR(glCullFace_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCullFace_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCullFace(GLenum mode)
         GL_ENTRY_LAST_TS(glCullFace_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCullFace_Idx),
 				 GL_ENTRY_LAST_TS(glCullFace_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCullFace %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCullFace_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColor4ubv(const GLubyte *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColor4ubv_Idx))
-	{
-            GL_ENTRY_PTR(glColor4ubv_Idx) = dlsym(RTLD_NEXT,"glColor4ubv");
-            if(!GL_ENTRY_PTR(glColor4ubv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColor4ubv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColor4ubv(const GLubyte *v)
         GL_ENTRY_LAST_TS(glColor4ubv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColor4ubv_Idx),
 				 GL_ENTRY_LAST_TS(glColor4ubv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColor4ubv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColor4ubv_Idx),

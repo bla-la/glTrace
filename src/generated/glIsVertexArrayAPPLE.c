@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsVertexArrayAPPLE(GLuint array)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsVertexArrayAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glIsVertexArrayAPPLE_Idx) = dlsym(RTLD_NEXT,"glIsVertexArrayAPPLE");
-            if(!GL_ENTRY_PTR(glIsVertexArrayAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsVertexArrayAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsVertexArrayAPPLE(GLuint array)
         GL_ENTRY_LAST_TS(glIsVertexArrayAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsVertexArrayAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glIsVertexArrayAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsVertexArrayAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsVertexArrayAPPLE_Idx),

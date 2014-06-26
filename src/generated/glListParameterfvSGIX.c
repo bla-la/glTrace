@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glListParameterfvSGIX(GLuint list,GLenum pname,const GLfloa
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glListParameterfvSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glListParameterfvSGIX_Idx) = dlsym(RTLD_NEXT,"glListParameterfvSGIX");
-            if(!GL_ENTRY_PTR(glListParameterfvSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glListParameterfvSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glListParameterfvSGIX(GLuint list,GLenum pname,const GLfloa
         GL_ENTRY_LAST_TS(glListParameterfvSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glListParameterfvSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glListParameterfvSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glListParameterfvSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glListParameterfvSGIX_Idx),

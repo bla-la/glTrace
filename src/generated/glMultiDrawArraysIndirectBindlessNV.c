@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectBindlessNV(GLenum mode,const void 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectBindlessNV_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawArraysIndirectBindlessNV_Idx) = dlsym(RTLD_NEXT,"glMultiDrawArraysIndirectBindlessNV");
-            if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectBindlessNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectBindlessNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectBindlessNV(GLenum mode,const void 
         GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectBindlessNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectBindlessNV_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectBindlessNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawArraysIndirectBindlessNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawArraysIndirectBindlessNV_Idx),

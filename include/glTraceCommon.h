@@ -8,6 +8,7 @@
 #define __USE_GNU
 #include <dlfcn.h>
 
+#include <lock.h>
 
 #include <X11/Xlib.h>
 #include <GL/gl.h>
@@ -41,14 +42,13 @@ struct callEntry
     long long prevCallStamp;
     long long lastCallStamp;
     void * trace;
+    void * udata;
 };
 
 extern struct callEntry callTable[];
 
-#define customIdx	zz			 \
-
-
-#define CUSTOM_DECLARE	{0}			\
+#define customIdx	dumyIdx
+#define CUSTOM_DECLARE	{0}
 
 
 #define DECLARE_CALL_ENTRY(name) {name,0,0,0,0,0}
@@ -60,19 +60,29 @@ extern struct callEntry callTable[];
 #define GL_ENTRY_LAST_TS(idx)(GL_ENTRY(idx).lastCallStamp)
 
 
+extern spinlock __init_lock;
+extern int __is_init;
 
-#define glReadPixels_wrp						\
-    ((void (*)( GLint x, GLint y,					\
-		GLsizei width, GLsizei height,				\
-		GLenum format, GLenum type,				\
-		GLvoid *pixels))GL_ENTRY_PTR(glReadPixels_idx))
 
-#define glCopyTexImage2D_wrp						\
-    ((void (*)( GLenum target, GLint level,				\
-		GLenum internalformat,					\
-		GLint x, GLint y,					\
-		GLsizei width, GLsizei height,				\
-		GLint border))GL_ENTRY_PTR(glCopyTexImage2D_idx))
+static __inline void
+initCallEntry()
+{
+    int i = 1;
+    spin_lock(&__init_lock);
+    if(VOLATILE(int,__is_init))
+    {
+	spin_unlock(&__init_lock);
+	return;
+    }
+    while(callTable[i].name)
+    {
+	callTable[i].func_ptr = dlsym(RTLD_NEXT,callTable[i].name);
+	i++;
+    }
+
+    VOLATILE(int,__is_init) = 1;
+    spin_unlock(&__init_lock);
+}
 
 
 #endif

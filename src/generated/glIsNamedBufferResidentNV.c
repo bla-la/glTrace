@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsNamedBufferResidentNV(GLuint buffer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsNamedBufferResidentNV_Idx))
-	{
-            GL_ENTRY_PTR(glIsNamedBufferResidentNV_Idx) = dlsym(RTLD_NEXT,"glIsNamedBufferResidentNV");
-            if(!GL_ENTRY_PTR(glIsNamedBufferResidentNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsNamedBufferResidentNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsNamedBufferResidentNV(GLuint buffer)
         GL_ENTRY_LAST_TS(glIsNamedBufferResidentNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsNamedBufferResidentNV_Idx),
 				 GL_ENTRY_LAST_TS(glIsNamedBufferResidentNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsNamedBufferResidentNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsNamedBufferResidentNV_Idx),

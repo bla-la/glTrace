@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetVertexAttribArrayObjectfvATI(GLuint index,GLenum pname
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetVertexAttribArrayObjectfvATI_Idx))
-	{
-            GL_ENTRY_PTR(glGetVertexAttribArrayObjectfvATI_Idx) = dlsym(RTLD_NEXT,"glGetVertexAttribArrayObjectfvATI");
-            if(!GL_ENTRY_PTR(glGetVertexAttribArrayObjectfvATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetVertexAttribArrayObjectfvATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetVertexAttribArrayObjectfvATI(GLuint index,GLenum pname
         GL_ENTRY_LAST_TS(glGetVertexAttribArrayObjectfvATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetVertexAttribArrayObjectfvATI_Idx),
 				 GL_ENTRY_LAST_TS(glGetVertexAttribArrayObjectfvATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetVertexAttribArrayObjectfvATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetVertexAttribArrayObjectfvATI_Idx),

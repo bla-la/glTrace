@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixScaledEXT(GLenum mode,GLdouble x,GLdouble y,GLdoubl
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixScaledEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixScaledEXT_Idx) = dlsym(RTLD_NEXT,"glMatrixScaledEXT");
-            if(!GL_ENTRY_PTR(glMatrixScaledEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixScaledEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixScaledEXT(GLenum mode,GLdouble x,GLdouble y,GLdoubl
         GL_ENTRY_LAST_TS(glMatrixScaledEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixScaledEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixScaledEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixScaledEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixScaledEXT_Idx),

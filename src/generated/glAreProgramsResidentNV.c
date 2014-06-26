@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glAreProgramsResidentNV(GLsizei n,const GLuint *progra
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glAreProgramsResidentNV_Idx))
-	{
-            GL_ENTRY_PTR(glAreProgramsResidentNV_Idx) = dlsym(RTLD_NEXT,"glAreProgramsResidentNV");
-            if(!GL_ENTRY_PTR(glAreProgramsResidentNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glAreProgramsResidentNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glAreProgramsResidentNV(GLsizei n,const GLuint *progra
         GL_ENTRY_LAST_TS(glAreProgramsResidentNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glAreProgramsResidentNV_Idx),
 				 GL_ENTRY_LAST_TS(glAreProgramsResidentNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glAreProgramsResidentNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glAreProgramsResidentNV_Idx),

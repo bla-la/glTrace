@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glIndexxOES(GLfixed component)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIndexxOES_Idx))
-	{
-            GL_ENTRY_PTR(glIndexxOES_Idx) = dlsym(RTLD_NEXT,"glIndexxOES");
-            if(!GL_ENTRY_PTR(glIndexxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIndexxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glIndexxOES(GLfixed component)
         GL_ENTRY_LAST_TS(glIndexxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIndexxOES_Idx),
 				 GL_ENTRY_LAST_TS(glIndexxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIndexxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIndexxOES_Idx),

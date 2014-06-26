@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindImageTextureEXT(GLuint index,GLuint texture,GLint lev
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindImageTextureEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBindImageTextureEXT_Idx) = dlsym(RTLD_NEXT,"glBindImageTextureEXT");
-            if(!GL_ENTRY_PTR(glBindImageTextureEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindImageTextureEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindImageTextureEXT(GLuint index,GLuint texture,GLint lev
         GL_ENTRY_LAST_TS(glBindImageTextureEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindImageTextureEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBindImageTextureEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindImageTextureEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindImageTextureEXT_Idx),

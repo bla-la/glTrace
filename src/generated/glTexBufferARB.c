@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexBufferARB(GLenum target,GLenum internalformat,GLuint b
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexBufferARB_Idx))
-	{
-            GL_ENTRY_PTR(glTexBufferARB_Idx) = dlsym(RTLD_NEXT,"glTexBufferARB");
-            if(!GL_ENTRY_PTR(glTexBufferARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexBufferARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexBufferARB(GLenum target,GLenum internalformat,GLuint b
         GL_ENTRY_LAST_TS(glTexBufferARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexBufferARB_Idx),
 				 GL_ENTRY_LAST_TS(glTexBufferARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexBufferARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexBufferARB_Idx),

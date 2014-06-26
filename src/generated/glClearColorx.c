@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClearColorx(GLfixed red,GLfixed green,GLfixed blue,GLfixe
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClearColorx_Idx))
-	{
-            GL_ENTRY_PTR(glClearColorx_Idx) = dlsym(RTLD_NEXT,"glClearColorx");
-            if(!GL_ENTRY_PTR(glClearColorx_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClearColorx_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClearColorx(GLfixed red,GLfixed green,GLfixed blue,GLfixe
         GL_ENTRY_LAST_TS(glClearColorx_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClearColorx_Idx),
 				 GL_ENTRY_LAST_TS(glClearColorx_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClearColorx %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClearColorx_Idx),

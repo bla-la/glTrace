@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetPathTexGenivNV(GLenum texCoordSet,GLenum pname,GLint *
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetPathTexGenivNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetPathTexGenivNV_Idx) = dlsym(RTLD_NEXT,"glGetPathTexGenivNV");
-            if(!GL_ENTRY_PTR(glGetPathTexGenivNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetPathTexGenivNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetPathTexGenivNV(GLenum texCoordSet,GLenum pname,GLint *
         GL_ENTRY_LAST_TS(glGetPathTexGenivNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetPathTexGenivNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetPathTexGenivNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetPathTexGenivNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetPathTexGenivNV_Idx),

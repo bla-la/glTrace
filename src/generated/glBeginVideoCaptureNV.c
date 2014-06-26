@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBeginVideoCaptureNV(GLuint video_capture_slot)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBeginVideoCaptureNV_Idx))
-	{
-            GL_ENTRY_PTR(glBeginVideoCaptureNV_Idx) = dlsym(RTLD_NEXT,"glBeginVideoCaptureNV");
-            if(!GL_ENTRY_PTR(glBeginVideoCaptureNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBeginVideoCaptureNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBeginVideoCaptureNV(GLuint video_capture_slot)
         GL_ENTRY_LAST_TS(glBeginVideoCaptureNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBeginVideoCaptureNV_Idx),
 				 GL_ENTRY_LAST_TS(glBeginVideoCaptureNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBeginVideoCaptureNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBeginVideoCaptureNV_Idx),

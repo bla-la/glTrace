@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glIndexsv(const GLshort *c)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIndexsv_Idx))
-	{
-            GL_ENTRY_PTR(glIndexsv_Idx) = dlsym(RTLD_NEXT,"glIndexsv");
-            if(!GL_ENTRY_PTR(glIndexsv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIndexsv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glIndexsv(const GLshort *c)
         GL_ENTRY_LAST_TS(glIndexsv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIndexsv_Idx),
 				 GL_ENTRY_LAST_TS(glIndexsv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIndexsv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIndexsv_Idx),

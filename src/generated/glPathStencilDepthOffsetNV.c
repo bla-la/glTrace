@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathStencilDepthOffsetNV(GLfloat factor,GLfloat units)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathStencilDepthOffsetNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathStencilDepthOffsetNV_Idx) = dlsym(RTLD_NEXT,"glPathStencilDepthOffsetNV");
-            if(!GL_ENTRY_PTR(glPathStencilDepthOffsetNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathStencilDepthOffsetNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathStencilDepthOffsetNV(GLfloat factor,GLfloat units)
         GL_ENTRY_LAST_TS(glPathStencilDepthOffsetNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathStencilDepthOffsetNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathStencilDepthOffsetNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathStencilDepthOffsetNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathStencilDepthOffsetNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSecondaryColorFormatNV(GLint size,GLenum type,GLsizei str
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSecondaryColorFormatNV_Idx))
-	{
-            GL_ENTRY_PTR(glSecondaryColorFormatNV_Idx) = dlsym(RTLD_NEXT,"glSecondaryColorFormatNV");
-            if(!GL_ENTRY_PTR(glSecondaryColorFormatNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSecondaryColorFormatNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSecondaryColorFormatNV(GLint size,GLenum type,GLsizei str
         GL_ENTRY_LAST_TS(glSecondaryColorFormatNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSecondaryColorFormatNV_Idx),
 				 GL_ENTRY_LAST_TS(glSecondaryColorFormatNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSecondaryColorFormatNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSecondaryColorFormatNV_Idx),

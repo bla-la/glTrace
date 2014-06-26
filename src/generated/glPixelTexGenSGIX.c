@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPixelTexGenSGIX(GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPixelTexGenSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glPixelTexGenSGIX_Idx) = dlsym(RTLD_NEXT,"glPixelTexGenSGIX");
-            if(!GL_ENTRY_PTR(glPixelTexGenSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPixelTexGenSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPixelTexGenSGIX(GLenum mode)
         GL_ENTRY_LAST_TS(glPixelTexGenSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPixelTexGenSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glPixelTexGenSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPixelTexGenSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPixelTexGenSGIX_Idx),

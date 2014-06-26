@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSampleMaski(GLuint maskNumber,GLbitfield mask)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSampleMaski_Idx))
-	{
-            GL_ENTRY_PTR(glSampleMaski_Idx) = dlsym(RTLD_NEXT,"glSampleMaski");
-            if(!GL_ENTRY_PTR(glSampleMaski_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSampleMaski_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSampleMaski(GLuint maskNumber,GLbitfield mask)
         GL_ENTRY_LAST_TS(glSampleMaski_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSampleMaski_Idx),
 				 GL_ENTRY_LAST_TS(glSampleMaski_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSampleMaski %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSampleMaski_Idx),

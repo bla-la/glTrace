@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawElementsBaseVertex(GLenum mode,GLsizei count,GLenum t
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawElementsBaseVertex_Idx))
-	{
-            GL_ENTRY_PTR(glDrawElementsBaseVertex_Idx) = dlsym(RTLD_NEXT,"glDrawElementsBaseVertex");
-            if(!GL_ENTRY_PTR(glDrawElementsBaseVertex_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawElementsBaseVertex_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawElementsBaseVertex(GLenum mode,GLsizei count,GLenum t
         GL_ENTRY_LAST_TS(glDrawElementsBaseVertex_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawElementsBaseVertex_Idx),
 				 GL_ENTRY_LAST_TS(glDrawElementsBaseVertex_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawElementsBaseVertex %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawElementsBaseVertex_Idx),

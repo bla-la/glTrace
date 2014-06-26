@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMaterialxvOES(GLenum face,GLenum pname,const GLfixed *par
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMaterialxvOES_Idx))
-	{
-            GL_ENTRY_PTR(glMaterialxvOES_Idx) = dlsym(RTLD_NEXT,"glMaterialxvOES");
-            if(!GL_ENTRY_PTR(glMaterialxvOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMaterialxvOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMaterialxvOES(GLenum face,GLenum pname,const GLfixed *par
         GL_ENTRY_LAST_TS(glMaterialxvOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMaterialxvOES_Idx),
 				 GL_ENTRY_LAST_TS(glMaterialxvOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMaterialxvOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMaterialxvOES_Idx),

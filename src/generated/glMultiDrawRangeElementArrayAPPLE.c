@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawRangeElementArrayAPPLE(GLenum mode,GLuint start,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawRangeElementArrayAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawRangeElementArrayAPPLE_Idx) = dlsym(RTLD_NEXT,"glMultiDrawRangeElementArrayAPPLE");
-            if(!GL_ENTRY_PTR(glMultiDrawRangeElementArrayAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawRangeElementArrayAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawRangeElementArrayAPPLE(GLenum mode,GLuint start,
         GL_ENTRY_LAST_TS(glMultiDrawRangeElementArrayAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawRangeElementArrayAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawRangeElementArrayAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawRangeElementArrayAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawRangeElementArrayAPPLE_Idx),

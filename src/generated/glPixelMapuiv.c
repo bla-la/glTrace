@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPixelMapuiv(GLenum map,GLsizei mapsize,const GLuint *valu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPixelMapuiv_Idx))
-	{
-            GL_ENTRY_PTR(glPixelMapuiv_Idx) = dlsym(RTLD_NEXT,"glPixelMapuiv");
-            if(!GL_ENTRY_PTR(glPixelMapuiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPixelMapuiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPixelMapuiv(GLenum map,GLsizei mapsize,const GLuint *valu
         GL_ENTRY_LAST_TS(glPixelMapuiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPixelMapuiv_Idx),
 				 GL_ENTRY_LAST_TS(glPixelMapuiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPixelMapuiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPixelMapuiv_Idx),

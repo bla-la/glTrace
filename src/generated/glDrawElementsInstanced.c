@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawElementsInstanced(GLenum mode,GLsizei count,GLenum ty
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawElementsInstanced_Idx))
-	{
-            GL_ENTRY_PTR(glDrawElementsInstanced_Idx) = dlsym(RTLD_NEXT,"glDrawElementsInstanced");
-            if(!GL_ENTRY_PTR(glDrawElementsInstanced_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawElementsInstanced_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawElementsInstanced(GLenum mode,GLsizei count,GLenum ty
         GL_ENTRY_LAST_TS(glDrawElementsInstanced_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawElementsInstanced_Idx),
 				 GL_ENTRY_LAST_TS(glDrawElementsInstanced_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawElementsInstanced %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawElementsInstanced_Idx),

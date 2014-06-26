@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFeedbackBuffer(GLsizei size,GLenum type,GLfloat *buffer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFeedbackBuffer_Idx))
-	{
-            GL_ENTRY_PTR(glFeedbackBuffer_Idx) = dlsym(RTLD_NEXT,"glFeedbackBuffer");
-            if(!GL_ENTRY_PTR(glFeedbackBuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFeedbackBuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFeedbackBuffer(GLsizei size,GLenum type,GLfloat *buffer)
         GL_ENTRY_LAST_TS(glFeedbackBuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFeedbackBuffer_Idx),
 				 GL_ENTRY_LAST_TS(glFeedbackBuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFeedbackBuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFeedbackBuffer_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glExtTexObjectStateOverrideiQCOM(GLenum target,GLenum pname
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glExtTexObjectStateOverrideiQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glExtTexObjectStateOverrideiQCOM_Idx) = dlsym(RTLD_NEXT,"glExtTexObjectStateOverrideiQCOM");
-            if(!GL_ENTRY_PTR(glExtTexObjectStateOverrideiQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glExtTexObjectStateOverrideiQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glExtTexObjectStateOverrideiQCOM(GLenum target,GLenum pname
         GL_ENTRY_LAST_TS(glExtTexObjectStateOverrideiQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glExtTexObjectStateOverrideiQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glExtTexObjectStateOverrideiQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glExtTexObjectStateOverrideiQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glExtTexObjectStateOverrideiQCOM_Idx),

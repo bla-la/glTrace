@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glInvalidateBufferSubData(GLuint buffer,GLintptr offset,GLs
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glInvalidateBufferSubData_Idx))
-	{
-            GL_ENTRY_PTR(glInvalidateBufferSubData_Idx) = dlsym(RTLD_NEXT,"glInvalidateBufferSubData");
-            if(!GL_ENTRY_PTR(glInvalidateBufferSubData_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glInvalidateBufferSubData_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glInvalidateBufferSubData(GLuint buffer,GLintptr offset,GLs
         GL_ENTRY_LAST_TS(glInvalidateBufferSubData_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glInvalidateBufferSubData_Idx),
 				 GL_ENTRY_LAST_TS(glInvalidateBufferSubData_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glInvalidateBufferSubData %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glInvalidateBufferSubData_Idx),

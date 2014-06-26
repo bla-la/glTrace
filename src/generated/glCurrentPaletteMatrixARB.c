@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCurrentPaletteMatrixARB(GLint index)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCurrentPaletteMatrixARB_Idx))
-	{
-            GL_ENTRY_PTR(glCurrentPaletteMatrixARB_Idx) = dlsym(RTLD_NEXT,"glCurrentPaletteMatrixARB");
-            if(!GL_ENTRY_PTR(glCurrentPaletteMatrixARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCurrentPaletteMatrixARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCurrentPaletteMatrixARB(GLint index)
         GL_ENTRY_LAST_TS(glCurrentPaletteMatrixARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCurrentPaletteMatrixARB_Idx),
 				 GL_ENTRY_LAST_TS(glCurrentPaletteMatrixARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCurrentPaletteMatrixARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCurrentPaletteMatrixARB_Idx),

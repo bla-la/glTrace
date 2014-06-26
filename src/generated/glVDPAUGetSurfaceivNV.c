@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVDPAUGetSurfaceivNV(GLvdpauSurfaceNV surface,GLenum pname
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVDPAUGetSurfaceivNV_Idx))
-	{
-            GL_ENTRY_PTR(glVDPAUGetSurfaceivNV_Idx) = dlsym(RTLD_NEXT,"glVDPAUGetSurfaceivNV");
-            if(!GL_ENTRY_PTR(glVDPAUGetSurfaceivNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVDPAUGetSurfaceivNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVDPAUGetSurfaceivNV(GLvdpauSurfaceNV surface,GLenum pname
         GL_ENTRY_LAST_TS(glVDPAUGetSurfaceivNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVDPAUGetSurfaceivNV_Idx),
 				 GL_ENTRY_LAST_TS(glVDPAUGetSurfaceivNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVDPAUGetSurfaceivNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVDPAUGetSurfaceivNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glIndexPointerEXT(GLenum type,GLsizei stride,GLsizei count,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIndexPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glIndexPointerEXT_Idx) = dlsym(RTLD_NEXT,"glIndexPointerEXT");
-            if(!GL_ENTRY_PTR(glIndexPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIndexPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glIndexPointerEXT(GLenum type,GLsizei stride,GLsizei count,
         GL_ENTRY_LAST_TS(glIndexPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIndexPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glIndexPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIndexPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIndexPointerEXT_Idx),

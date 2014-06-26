@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glInvalidateSubFramebuffer(GLenum target,GLsizei numAttachm
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glInvalidateSubFramebuffer_Idx))
-	{
-            GL_ENTRY_PTR(glInvalidateSubFramebuffer_Idx) = dlsym(RTLD_NEXT,"glInvalidateSubFramebuffer");
-            if(!GL_ENTRY_PTR(glInvalidateSubFramebuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glInvalidateSubFramebuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glInvalidateSubFramebuffer(GLenum target,GLsizei numAttachm
         GL_ENTRY_LAST_TS(glInvalidateSubFramebuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glInvalidateSubFramebuffer_Idx),
 				 GL_ENTRY_LAST_TS(glInvalidateSubFramebuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glInvalidateSubFramebuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glInvalidateSubFramebuffer_Idx),

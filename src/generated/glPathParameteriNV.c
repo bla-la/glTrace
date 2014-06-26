@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathParameteriNV(GLuint path,GLenum pname,GLint value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathParameteriNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathParameteriNV_Idx) = dlsym(RTLD_NEXT,"glPathParameteriNV");
-            if(!GL_ENTRY_PTR(glPathParameteriNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathParameteriNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathParameteriNV(GLuint path,GLenum pname,GLint value)
         GL_ENTRY_LAST_TS(glPathParameteriNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathParameteriNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathParameteriNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathParameteriNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathParameteriNV_Idx),

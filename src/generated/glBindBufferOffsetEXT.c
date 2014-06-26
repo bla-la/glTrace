@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindBufferOffsetEXT(GLenum target,GLuint index,GLuint buf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindBufferOffsetEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBindBufferOffsetEXT_Idx) = dlsym(RTLD_NEXT,"glBindBufferOffsetEXT");
-            if(!GL_ENTRY_PTR(glBindBufferOffsetEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindBufferOffsetEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindBufferOffsetEXT(GLenum target,GLuint index,GLuint buf
         GL_ENTRY_LAST_TS(glBindBufferOffsetEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindBufferOffsetEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBindBufferOffsetEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindBufferOffsetEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindBufferOffsetEXT_Idx),

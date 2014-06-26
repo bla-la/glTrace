@@ -1,6 +1,12 @@
 #include <glTraceCommon.h>
 #include <generated.h>
 
+
+spinlock __init_lock = 0;
+int __is_init = 0;
+
+
+
 struct callEntry callTable[] =
 {
 	CUSTOM_DECLARE,
@@ -2804,6 +2810,7 @@ struct callEntry callTable[] =
 		DECLARE_CALL_ENTRY("glWindowPos4svMESA"),
 		DECLARE_CALL_ENTRY("glWriteMaskEXT"),
 
+	{0,0,0,0,0,0,0,0}
 };
 
 

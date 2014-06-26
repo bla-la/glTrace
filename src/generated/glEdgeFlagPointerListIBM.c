@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEdgeFlagPointerListIBM(GLint stride,const GLboolean **poi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEdgeFlagPointerListIBM_Idx))
-	{
-            GL_ENTRY_PTR(glEdgeFlagPointerListIBM_Idx) = dlsym(RTLD_NEXT,"glEdgeFlagPointerListIBM");
-            if(!GL_ENTRY_PTR(glEdgeFlagPointerListIBM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEdgeFlagPointerListIBM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEdgeFlagPointerListIBM(GLint stride,const GLboolean **poi
         GL_ENTRY_LAST_TS(glEdgeFlagPointerListIBM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEdgeFlagPointerListIBM_Idx),
 				 GL_ENTRY_LAST_TS(glEdgeFlagPointerListIBM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEdgeFlagPointerListIBM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEdgeFlagPointerListIBM_Idx),

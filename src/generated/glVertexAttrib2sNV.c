@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexAttrib2sNV(GLuint index,GLshort x,GLshort y)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexAttrib2sNV_Idx))
-	{
-            GL_ENTRY_PTR(glVertexAttrib2sNV_Idx) = dlsym(RTLD_NEXT,"glVertexAttrib2sNV");
-            if(!GL_ENTRY_PTR(glVertexAttrib2sNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexAttrib2sNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexAttrib2sNV(GLuint index,GLshort x,GLshort y)
         GL_ENTRY_LAST_TS(glVertexAttrib2sNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexAttrib2sNV_Idx),
 				 GL_ENTRY_LAST_TS(glVertexAttrib2sNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexAttrib2sNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexAttrib2sNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFragmentColorMaterialSGIX(GLenum face,GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFragmentColorMaterialSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glFragmentColorMaterialSGIX_Idx) = dlsym(RTLD_NEXT,"glFragmentColorMaterialSGIX");
-            if(!GL_ENTRY_PTR(glFragmentColorMaterialSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFragmentColorMaterialSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFragmentColorMaterialSGIX(GLenum face,GLenum mode)
         GL_ENTRY_LAST_TS(glFragmentColorMaterialSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFragmentColorMaterialSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glFragmentColorMaterialSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFragmentColorMaterialSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFragmentColorMaterialSGIX_Idx),

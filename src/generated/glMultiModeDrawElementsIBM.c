@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiModeDrawElementsIBM(const GLenum *mode,const GLsizei
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiModeDrawElementsIBM_Idx))
-	{
-            GL_ENTRY_PTR(glMultiModeDrawElementsIBM_Idx) = dlsym(RTLD_NEXT,"glMultiModeDrawElementsIBM");
-            if(!GL_ENTRY_PTR(glMultiModeDrawElementsIBM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiModeDrawElementsIBM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiModeDrawElementsIBM(const GLenum *mode,const GLsizei
         GL_ENTRY_LAST_TS(glMultiModeDrawElementsIBM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiModeDrawElementsIBM_Idx),
 				 GL_ENTRY_LAST_TS(glMultiModeDrawElementsIBM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiModeDrawElementsIBM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiModeDrawElementsIBM_Idx),

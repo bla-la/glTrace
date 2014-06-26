@@ -10,13 +10,9 @@ GLAPI void * APIENTRY glMapBufferARB(GLenum target,GLenum access)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMapBufferARB_Idx))
-	{
-            GL_ENTRY_PTR(glMapBufferARB_Idx) = dlsym(RTLD_NEXT,"glMapBufferARB");
-            if(!GL_ENTRY_PTR(glMapBufferARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMapBufferARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void * APIENTRY glMapBufferARB(GLenum target,GLenum access)
         GL_ENTRY_LAST_TS(glMapBufferARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMapBufferARB_Idx),
 				 GL_ENTRY_LAST_TS(glMapBufferARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMapBufferARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMapBufferARB_Idx),

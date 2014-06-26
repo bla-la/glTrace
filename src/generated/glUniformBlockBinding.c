@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUniformBlockBinding(GLuint program,GLuint uniformBlockInd
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUniformBlockBinding_Idx))
-	{
-            GL_ENTRY_PTR(glUniformBlockBinding_Idx) = dlsym(RTLD_NEXT,"glUniformBlockBinding");
-            if(!GL_ENTRY_PTR(glUniformBlockBinding_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUniformBlockBinding_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUniformBlockBinding(GLuint program,GLuint uniformBlockInd
         GL_ENTRY_LAST_TS(glUniformBlockBinding_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUniformBlockBinding_Idx),
 				 GL_ENTRY_LAST_TS(glUniformBlockBinding_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUniformBlockBinding %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUniformBlockBinding_Idx),

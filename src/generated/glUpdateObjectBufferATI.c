@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUpdateObjectBufferATI(GLuint buffer,GLuint offset,GLsizei
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUpdateObjectBufferATI_Idx))
-	{
-            GL_ENTRY_PTR(glUpdateObjectBufferATI_Idx) = dlsym(RTLD_NEXT,"glUpdateObjectBufferATI");
-            if(!GL_ENTRY_PTR(glUpdateObjectBufferATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUpdateObjectBufferATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUpdateObjectBufferATI(GLuint buffer,GLuint offset,GLsizei
         GL_ENTRY_LAST_TS(glUpdateObjectBufferATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUpdateObjectBufferATI_Idx),
 				 GL_ENTRY_LAST_TS(glUpdateObjectBufferATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUpdateObjectBufferATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUpdateObjectBufferATI_Idx),

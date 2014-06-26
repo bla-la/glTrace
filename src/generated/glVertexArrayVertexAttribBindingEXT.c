@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexArrayVertexAttribBindingEXT(GLuint vaobj,GLuint att
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexArrayVertexAttribBindingEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexArrayVertexAttribBindingEXT_Idx) = dlsym(RTLD_NEXT,"glVertexArrayVertexAttribBindingEXT");
-            if(!GL_ENTRY_PTR(glVertexArrayVertexAttribBindingEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexArrayVertexAttribBindingEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexArrayVertexAttribBindingEXT(GLuint vaobj,GLuint att
         GL_ENTRY_LAST_TS(glVertexArrayVertexAttribBindingEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexArrayVertexAttribBindingEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexArrayVertexAttribBindingEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexArrayVertexAttribBindingEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexArrayVertexAttribBindingEXT_Idx),

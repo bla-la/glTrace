@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixIndexPointerOES(GLint size,GLenum type,GLsizei stri
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixIndexPointerOES_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixIndexPointerOES_Idx) = dlsym(RTLD_NEXT,"glMatrixIndexPointerOES");
-            if(!GL_ENTRY_PTR(glMatrixIndexPointerOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixIndexPointerOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixIndexPointerOES(GLint size,GLenum type,GLsizei stri
         GL_ENTRY_LAST_TS(glMatrixIndexPointerOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixIndexPointerOES_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixIndexPointerOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixIndexPointerOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixIndexPointerOES_Idx),

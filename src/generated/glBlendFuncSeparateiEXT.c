@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlendFuncSeparateiEXT(GLuint buf,GLenum srcRGB,GLenum dst
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlendFuncSeparateiEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBlendFuncSeparateiEXT_Idx) = dlsym(RTLD_NEXT,"glBlendFuncSeparateiEXT");
-            if(!GL_ENTRY_PTR(glBlendFuncSeparateiEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlendFuncSeparateiEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlendFuncSeparateiEXT(GLuint buf,GLenum srcRGB,GLenum dst
         GL_ENTRY_LAST_TS(glBlendFuncSeparateiEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlendFuncSeparateiEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBlendFuncSeparateiEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlendFuncSeparateiEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlendFuncSeparateiEXT_Idx),

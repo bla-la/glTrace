@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glCreateShaderProgramEXT(GLenum type,const GLchar *string
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCreateShaderProgramEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCreateShaderProgramEXT_Idx) = dlsym(RTLD_NEXT,"glCreateShaderProgramEXT");
-            if(!GL_ENTRY_PTR(glCreateShaderProgramEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCreateShaderProgramEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glCreateShaderProgramEXT(GLenum type,const GLchar *string
         GL_ENTRY_LAST_TS(glCreateShaderProgramEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCreateShaderProgramEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCreateShaderProgramEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCreateShaderProgramEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCreateShaderProgramEXT_Idx),

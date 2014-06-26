@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNormalPointervINTEL(GLenum type,const void **pointer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNormalPointervINTEL_Idx))
-	{
-            GL_ENTRY_PTR(glNormalPointervINTEL_Idx) = dlsym(RTLD_NEXT,"glNormalPointervINTEL");
-            if(!GL_ENTRY_PTR(glNormalPointervINTEL_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNormalPointervINTEL_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNormalPointervINTEL(GLenum type,const void **pointer)
         GL_ENTRY_LAST_TS(glNormalPointervINTEL_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNormalPointervINTEL_Idx),
 				 GL_ENTRY_LAST_TS(glNormalPointervINTEL_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNormalPointervINTEL %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNormalPointervINTEL_Idx),

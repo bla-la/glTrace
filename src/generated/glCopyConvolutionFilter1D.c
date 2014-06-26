@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyConvolutionFilter1D(GLenum target,GLenum internalform
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyConvolutionFilter1D_Idx))
-	{
-            GL_ENTRY_PTR(glCopyConvolutionFilter1D_Idx) = dlsym(RTLD_NEXT,"glCopyConvolutionFilter1D");
-            if(!GL_ENTRY_PTR(glCopyConvolutionFilter1D_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyConvolutionFilter1D_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyConvolutionFilter1D(GLenum target,GLenum internalform
         GL_ENTRY_LAST_TS(glCopyConvolutionFilter1D_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyConvolutionFilter1D_Idx),
 				 GL_ENTRY_LAST_TS(glCopyConvolutionFilter1D_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyConvolutionFilter1D %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyConvolutionFilter1D_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultTransposeMatrixdARB(const GLdouble *m)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultTransposeMatrixdARB_Idx))
-	{
-            GL_ENTRY_PTR(glMultTransposeMatrixdARB_Idx) = dlsym(RTLD_NEXT,"glMultTransposeMatrixdARB");
-            if(!GL_ENTRY_PTR(glMultTransposeMatrixdARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultTransposeMatrixdARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultTransposeMatrixdARB(const GLdouble *m)
         GL_ENTRY_LAST_TS(glMultTransposeMatrixdARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultTransposeMatrixdARB_Idx),
 				 GL_ENTRY_LAST_TS(glMultTransposeMatrixdARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultTransposeMatrixdARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultTransposeMatrixdARB_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glRenderbufferStorageOES(GLenum target,GLenum internalforma
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glRenderbufferStorageOES_Idx))
-	{
-            GL_ENTRY_PTR(glRenderbufferStorageOES_Idx) = dlsym(RTLD_NEXT,"glRenderbufferStorageOES");
-            if(!GL_ENTRY_PTR(glRenderbufferStorageOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glRenderbufferStorageOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glRenderbufferStorageOES(GLenum target,GLenum internalforma
         GL_ENTRY_LAST_TS(glRenderbufferStorageOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glRenderbufferStorageOES_Idx),
 				 GL_ENTRY_LAST_TS(glRenderbufferStorageOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glRenderbufferStorageOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glRenderbufferStorageOES_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glReplacementCodeuiColor4ubVertex3fSUN(GLuint rc,GLubyte r,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glReplacementCodeuiColor4ubVertex3fSUN_Idx))
-	{
-            GL_ENTRY_PTR(glReplacementCodeuiColor4ubVertex3fSUN_Idx) = dlsym(RTLD_NEXT,"glReplacementCodeuiColor4ubVertex3fSUN");
-            if(!GL_ENTRY_PTR(glReplacementCodeuiColor4ubVertex3fSUN_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glReplacementCodeuiColor4ubVertex3fSUN_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glReplacementCodeuiColor4ubVertex3fSUN(GLuint rc,GLubyte r,
         GL_ENTRY_LAST_TS(glReplacementCodeuiColor4ubVertex3fSUN_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glReplacementCodeuiColor4ubVertex3fSUN_Idx),
 				 GL_ENTRY_LAST_TS(glReplacementCodeuiColor4ubVertex3fSUN_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glReplacementCodeuiColor4ubVertex3fSUN %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glReplacementCodeuiColor4ubVertex3fSUN_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVariantArrayObjectATI(GLuint id,GLenum type,GLsizei strid
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVariantArrayObjectATI_Idx))
-	{
-            GL_ENTRY_PTR(glVariantArrayObjectATI_Idx) = dlsym(RTLD_NEXT,"glVariantArrayObjectATI");
-            if(!GL_ENTRY_PTR(glVariantArrayObjectATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVariantArrayObjectATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVariantArrayObjectATI(GLuint id,GLenum type,GLsizei strid
         GL_ENTRY_LAST_TS(glVariantArrayObjectATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVariantArrayObjectATI_Idx),
 				 GL_ENTRY_LAST_TS(glVariantArrayObjectATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVariantArrayObjectATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVariantArrayObjectATI_Idx),

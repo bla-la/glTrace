@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCompileShaderARB(GLhandleARB shaderObj)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCompileShaderARB_Idx))
-	{
-            GL_ENTRY_PTR(glCompileShaderARB_Idx) = dlsym(RTLD_NEXT,"glCompileShaderARB");
-            if(!GL_ENTRY_PTR(glCompileShaderARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCompileShaderARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCompileShaderARB(GLhandleARB shaderObj)
         GL_ENTRY_LAST_TS(glCompileShaderARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCompileShaderARB_Idx),
 				 GL_ENTRY_LAST_TS(glCompileShaderARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCompileShaderARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCompileShaderARB_Idx),

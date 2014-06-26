@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetSeparableFilter(GLenum target,GLenum format,GLenum typ
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetSeparableFilter_Idx))
-	{
-            GL_ENTRY_PTR(glGetSeparableFilter_Idx) = dlsym(RTLD_NEXT,"glGetSeparableFilter");
-            if(!GL_ENTRY_PTR(glGetSeparableFilter_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetSeparableFilter_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetSeparableFilter(GLenum target,GLenum format,GLenum typ
         GL_ENTRY_LAST_TS(glGetSeparableFilter_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetSeparableFilter_Idx),
 				 GL_ENTRY_LAST_TS(glGetSeparableFilter_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetSeparableFilter %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetSeparableFilter_Idx),

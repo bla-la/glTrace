@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindRenderbuffer(GLenum target,GLuint renderbuffer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindRenderbuffer_Idx))
-	{
-            GL_ENTRY_PTR(glBindRenderbuffer_Idx) = dlsym(RTLD_NEXT,"glBindRenderbuffer");
-            if(!GL_ENTRY_PTR(glBindRenderbuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindRenderbuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindRenderbuffer(GLenum target,GLuint renderbuffer)
         GL_ENTRY_LAST_TS(glBindRenderbuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindRenderbuffer_Idx),
 				 GL_ENTRY_LAST_TS(glBindRenderbuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindRenderbuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindRenderbuffer_Idx),

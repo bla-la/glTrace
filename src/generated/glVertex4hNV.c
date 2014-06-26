@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertex4hNV(GLhalfNV x,GLhalfNV y,GLhalfNV z,GLhalfNV w)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertex4hNV_Idx))
-	{
-            GL_ENTRY_PTR(glVertex4hNV_Idx) = dlsym(RTLD_NEXT,"glVertex4hNV");
-            if(!GL_ENTRY_PTR(glVertex4hNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertex4hNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertex4hNV(GLhalfNV x,GLhalfNV y,GLhalfNV z,GLhalfNV w)
         GL_ENTRY_LAST_TS(glVertex4hNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertex4hNV_Idx),
 				 GL_ENTRY_LAST_TS(glVertex4hNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertex4hNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertex4hNV_Idx),

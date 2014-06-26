@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixRotatefEXT(GLenum mode,GLfloat angle,GLfloat x,GLfl
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixRotatefEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixRotatefEXT_Idx) = dlsym(RTLD_NEXT,"glMatrixRotatefEXT");
-            if(!GL_ENTRY_PTR(glMatrixRotatefEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixRotatefEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixRotatefEXT(GLenum mode,GLfloat angle,GLfloat x,GLfl
         GL_ENTRY_LAST_TS(glMatrixRotatefEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixRotatefEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixRotatefEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixRotatefEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixRotatefEXT_Idx),

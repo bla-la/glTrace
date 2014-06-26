@@ -10,13 +10,9 @@ GLAPI GLvdpauSurfaceNV  APIENTRY glVDPAURegisterVideoSurfaceNV(const void *vdpSu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVDPAURegisterVideoSurfaceNV_Idx))
-	{
-            GL_ENTRY_PTR(glVDPAURegisterVideoSurfaceNV_Idx) = dlsym(RTLD_NEXT,"glVDPAURegisterVideoSurfaceNV");
-            if(!GL_ENTRY_PTR(glVDPAURegisterVideoSurfaceNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVDPAURegisterVideoSurfaceNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLvdpauSurfaceNV  APIENTRY glVDPAURegisterVideoSurfaceNV(const void *vdpSu
         GL_ENTRY_LAST_TS(glVDPAURegisterVideoSurfaceNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVDPAURegisterVideoSurfaceNV_Idx),
 				 GL_ENTRY_LAST_TS(glVDPAURegisterVideoSurfaceNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVDPAURegisterVideoSurfaceNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVDPAURegisterVideoSurfaceNV_Idx),

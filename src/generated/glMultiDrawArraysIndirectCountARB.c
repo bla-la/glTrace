@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectCountARB(GLenum mode,GLintptr indi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectCountARB_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawArraysIndirectCountARB_Idx) = dlsym(RTLD_NEXT,"glMultiDrawArraysIndirectCountARB");
-            if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectCountARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectCountARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectCountARB(GLenum mode,GLintptr indi
         GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectCountARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectCountARB_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectCountARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawArraysIndirectCountARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawArraysIndirectCountARB_Idx),

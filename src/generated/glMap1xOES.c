@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMap1xOES(GLenum target,GLfixed u1,GLfixed u2,GLint stride
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMap1xOES_Idx))
-	{
-            GL_ENTRY_PTR(glMap1xOES_Idx) = dlsym(RTLD_NEXT,"glMap1xOES");
-            if(!GL_ENTRY_PTR(glMap1xOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMap1xOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMap1xOES(GLenum target,GLfixed u1,GLfixed u2,GLint stride
         GL_ENTRY_LAST_TS(glMap1xOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMap1xOES_Idx),
 				 GL_ENTRY_LAST_TS(glMap1xOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMap1xOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMap1xOES_Idx),

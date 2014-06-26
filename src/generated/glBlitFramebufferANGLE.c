@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlitFramebufferANGLE(GLint srcX0,GLint srcY0,GLint srcX1,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlitFramebufferANGLE_Idx))
-	{
-            GL_ENTRY_PTR(glBlitFramebufferANGLE_Idx) = dlsym(RTLD_NEXT,"glBlitFramebufferANGLE");
-            if(!GL_ENTRY_PTR(glBlitFramebufferANGLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlitFramebufferANGLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlitFramebufferANGLE(GLint srcX0,GLint srcY0,GLint srcX1,
         GL_ENTRY_LAST_TS(glBlitFramebufferANGLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlitFramebufferANGLE_Idx),
 				 GL_ENTRY_LAST_TS(glBlitFramebufferANGLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlitFramebufferANGLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlitFramebufferANGLE_Idx),

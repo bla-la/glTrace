@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramBinary(GLuint program,GLenum binaryFormat,const vo
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramBinary_Idx))
-	{
-            GL_ENTRY_PTR(glProgramBinary_Idx) = dlsym(RTLD_NEXT,"glProgramBinary");
-            if(!GL_ENTRY_PTR(glProgramBinary_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramBinary_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramBinary(GLuint program,GLenum binaryFormat,const vo
         GL_ENTRY_LAST_TS(glProgramBinary_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramBinary_Idx),
 				 GL_ENTRY_LAST_TS(glProgramBinary_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramBinary %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramBinary_Idx),

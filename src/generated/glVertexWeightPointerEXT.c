@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexWeightPointerEXT(GLint size,GLenum type,GLsizei str
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexWeightPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexWeightPointerEXT_Idx) = dlsym(RTLD_NEXT,"glVertexWeightPointerEXT");
-            if(!GL_ENTRY_PTR(glVertexWeightPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexWeightPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexWeightPointerEXT(GLint size,GLenum type,GLsizei str
         GL_ENTRY_LAST_TS(glVertexWeightPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexWeightPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexWeightPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexWeightPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexWeightPointerEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeformationMap3fSGIX(GLenum target,GLfloat u1,GLfloat u2,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeformationMap3fSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glDeformationMap3fSGIX_Idx) = dlsym(RTLD_NEXT,"glDeformationMap3fSGIX");
-            if(!GL_ENTRY_PTR(glDeformationMap3fSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeformationMap3fSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeformationMap3fSGIX(GLenum target,GLfloat u1,GLfloat u2,
         GL_ENTRY_LAST_TS(glDeformationMap3fSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeformationMap3fSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glDeformationMap3fSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeformationMap3fSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeformationMap3fSGIX_Idx),

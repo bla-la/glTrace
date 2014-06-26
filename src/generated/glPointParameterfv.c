@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPointParameterfv(GLenum pname,const GLfloat *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPointParameterfv_Idx))
-	{
-            GL_ENTRY_PTR(glPointParameterfv_Idx) = dlsym(RTLD_NEXT,"glPointParameterfv");
-            if(!GL_ENTRY_PTR(glPointParameterfv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPointParameterfv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPointParameterfv(GLenum pname,const GLfloat *params)
         GL_ENTRY_LAST_TS(glPointParameterfv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPointParameterfv_Idx),
 				 GL_ENTRY_LAST_TS(glPointParameterfv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPointParameterfv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPointParameterfv_Idx),

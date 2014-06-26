@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glInterpolatePathsNV(GLuint resultPath,GLuint pathA,GLuint 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glInterpolatePathsNV_Idx))
-	{
-            GL_ENTRY_PTR(glInterpolatePathsNV_Idx) = dlsym(RTLD_NEXT,"glInterpolatePathsNV");
-            if(!GL_ENTRY_PTR(glInterpolatePathsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glInterpolatePathsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glInterpolatePathsNV(GLuint resultPath,GLuint pathA,GLuint 
         GL_ENTRY_LAST_TS(glInterpolatePathsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glInterpolatePathsNV_Idx),
 				 GL_ENTRY_LAST_TS(glInterpolatePathsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glInterpolatePathsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glInterpolatePathsNV_Idx),

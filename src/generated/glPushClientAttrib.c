@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPushClientAttrib(GLbitfield mask)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPushClientAttrib_Idx))
-	{
-            GL_ENTRY_PTR(glPushClientAttrib_Idx) = dlsym(RTLD_NEXT,"glPushClientAttrib");
-            if(!GL_ENTRY_PTR(glPushClientAttrib_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPushClientAttrib_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPushClientAttrib(GLbitfield mask)
         GL_ENTRY_LAST_TS(glPushClientAttrib_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPushClientAttrib_Idx),
 				 GL_ENTRY_LAST_TS(glPushClientAttrib_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPushClientAttrib %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPushClientAttrib_Idx),

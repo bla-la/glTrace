@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNormalP3uiv(GLenum type,const GLuint *coords)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNormalP3uiv_Idx))
-	{
-            GL_ENTRY_PTR(glNormalP3uiv_Idx) = dlsym(RTLD_NEXT,"glNormalP3uiv");
-            if(!GL_ENTRY_PTR(glNormalP3uiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNormalP3uiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNormalP3uiv(GLenum type,const GLuint *coords)
         GL_ENTRY_LAST_TS(glNormalP3uiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNormalP3uiv_Idx),
 				 GL_ENTRY_LAST_TS(glNormalP3uiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNormalP3uiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNormalP3uiv_Idx),

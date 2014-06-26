@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindTextures(GLuint first,GLsizei count,const GLuint *tex
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindTextures_Idx))
-	{
-            GL_ENTRY_PTR(glBindTextures_Idx) = dlsym(RTLD_NEXT,"glBindTextures");
-            if(!GL_ENTRY_PTR(glBindTextures_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindTextures_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindTextures(GLuint first,GLsizei count,const GLuint *tex
         GL_ENTRY_LAST_TS(glBindTextures_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindTextures_Idx),
 				 GL_ENTRY_LAST_TS(glBindTextures_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindTextures %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindTextures_Idx),

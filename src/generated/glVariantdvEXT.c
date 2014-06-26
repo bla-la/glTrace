@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVariantdvEXT(GLuint id,const GLdouble *addr)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVariantdvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVariantdvEXT_Idx) = dlsym(RTLD_NEXT,"glVariantdvEXT");
-            if(!GL_ENTRY_PTR(glVariantdvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVariantdvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVariantdvEXT(GLuint id,const GLdouble *addr)
         GL_ENTRY_LAST_TS(glVariantdvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVariantdvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVariantdvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVariantdvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVariantdvEXT_Idx),

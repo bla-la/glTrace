@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetInternalformati64v(GLenum target,GLenum internalformat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetInternalformati64v_Idx))
-	{
-            GL_ENTRY_PTR(glGetInternalformati64v_Idx) = dlsym(RTLD_NEXT,"glGetInternalformati64v");
-            if(!GL_ENTRY_PTR(glGetInternalformati64v_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetInternalformati64v_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetInternalformati64v(GLenum target,GLenum internalformat
         GL_ENTRY_LAST_TS(glGetInternalformati64v_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetInternalformati64v_Idx),
 				 GL_ENTRY_LAST_TS(glGetInternalformati64v_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetInternalformati64v %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetInternalformati64v_Idx),

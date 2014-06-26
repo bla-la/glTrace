@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetDetailTexFuncSGIS(GLenum target,GLfloat *points)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetDetailTexFuncSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glGetDetailTexFuncSGIS_Idx) = dlsym(RTLD_NEXT,"glGetDetailTexFuncSGIS");
-            if(!GL_ENTRY_PTR(glGetDetailTexFuncSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetDetailTexFuncSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetDetailTexFuncSGIS(GLenum target,GLfloat *points)
         GL_ENTRY_LAST_TS(glGetDetailTexFuncSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetDetailTexFuncSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glGetDetailTexFuncSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetDetailTexFuncSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetDetailTexFuncSGIS_Idx),

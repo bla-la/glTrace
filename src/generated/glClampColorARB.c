@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClampColorARB(GLenum target,GLenum clamp)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClampColorARB_Idx))
-	{
-            GL_ENTRY_PTR(glClampColorARB_Idx) = dlsym(RTLD_NEXT,"glClampColorARB");
-            if(!GL_ENTRY_PTR(glClampColorARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClampColorARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClampColorARB(GLenum target,GLenum clamp)
         GL_ENTRY_LAST_TS(glClampColorARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClampColorARB_Idx),
 				 GL_ENTRY_LAST_TS(glClampColorARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClampColorARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClampColorARB_Idx),

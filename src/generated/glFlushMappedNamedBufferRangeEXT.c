@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFlushMappedNamedBufferRangeEXT(GLuint buffer,GLintptr off
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFlushMappedNamedBufferRangeEXT_Idx))
-	{
-            GL_ENTRY_PTR(glFlushMappedNamedBufferRangeEXT_Idx) = dlsym(RTLD_NEXT,"glFlushMappedNamedBufferRangeEXT");
-            if(!GL_ENTRY_PTR(glFlushMappedNamedBufferRangeEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFlushMappedNamedBufferRangeEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFlushMappedNamedBufferRangeEXT(GLuint buffer,GLintptr off
         GL_ENTRY_LAST_TS(glFlushMappedNamedBufferRangeEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFlushMappedNamedBufferRangeEXT_Idx),
 				 GL_ENTRY_LAST_TS(glFlushMappedNamedBufferRangeEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFlushMappedNamedBufferRangeEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFlushMappedNamedBufferRangeEXT_Idx),

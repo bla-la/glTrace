@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEdgeFlagFormatNV(GLsizei stride)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEdgeFlagFormatNV_Idx))
-	{
-            GL_ENTRY_PTR(glEdgeFlagFormatNV_Idx) = dlsym(RTLD_NEXT,"glEdgeFlagFormatNV");
-            if(!GL_ENTRY_PTR(glEdgeFlagFormatNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEdgeFlagFormatNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEdgeFlagFormatNV(GLsizei stride)
         GL_ENTRY_LAST_TS(glEdgeFlagFormatNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEdgeFlagFormatNV_Idx),
 				 GL_ENTRY_LAST_TS(glEdgeFlagFormatNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEdgeFlagFormatNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEdgeFlagFormatNV_Idx),

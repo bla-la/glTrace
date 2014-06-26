@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPassThroughxOES(GLfixed token)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPassThroughxOES_Idx))
-	{
-            GL_ENTRY_PTR(glPassThroughxOES_Idx) = dlsym(RTLD_NEXT,"glPassThroughxOES");
-            if(!GL_ENTRY_PTR(glPassThroughxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPassThroughxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPassThroughxOES(GLfixed token)
         GL_ENTRY_LAST_TS(glPassThroughxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPassThroughxOES_Idx),
 				 GL_ENTRY_LAST_TS(glPassThroughxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPassThroughxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPassThroughxOES_Idx),

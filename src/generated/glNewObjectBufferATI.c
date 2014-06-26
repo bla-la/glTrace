@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glNewObjectBufferATI(GLsizei size,const void *pointer,GLe
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNewObjectBufferATI_Idx))
-	{
-            GL_ENTRY_PTR(glNewObjectBufferATI_Idx) = dlsym(RTLD_NEXT,"glNewObjectBufferATI");
-            if(!GL_ENTRY_PTR(glNewObjectBufferATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNewObjectBufferATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glNewObjectBufferATI(GLsizei size,const void *pointer,GLe
         GL_ENTRY_LAST_TS(glNewObjectBufferATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNewObjectBufferATI_Idx),
 				 GL_ENTRY_LAST_TS(glNewObjectBufferATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNewObjectBufferATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNewObjectBufferATI_Idx),

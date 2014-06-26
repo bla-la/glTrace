@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexBindingDivisor(GLuint bindingindex,GLuint divisor)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexBindingDivisor_Idx))
-	{
-            GL_ENTRY_PTR(glVertexBindingDivisor_Idx) = dlsym(RTLD_NEXT,"glVertexBindingDivisor");
-            if(!GL_ENTRY_PTR(glVertexBindingDivisor_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexBindingDivisor_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexBindingDivisor(GLuint bindingindex,GLuint divisor)
         GL_ENTRY_LAST_TS(glVertexBindingDivisor_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexBindingDivisor_Idx),
 				 GL_ENTRY_LAST_TS(glVertexBindingDivisor_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexBindingDivisor %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexBindingDivisor_Idx),

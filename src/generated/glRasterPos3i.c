@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glRasterPos3i(GLint x,GLint y,GLint z)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glRasterPos3i_Idx))
-	{
-            GL_ENTRY_PTR(glRasterPos3i_Idx) = dlsym(RTLD_NEXT,"glRasterPos3i");
-            if(!GL_ENTRY_PTR(glRasterPos3i_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glRasterPos3i_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glRasterPos3i(GLint x,GLint y,GLint z)
         GL_ENTRY_LAST_TS(glRasterPos3i_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glRasterPos3i_Idx),
 				 GL_ENTRY_LAST_TS(glRasterPos3i_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glRasterPos3i %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glRasterPos3i_Idx),

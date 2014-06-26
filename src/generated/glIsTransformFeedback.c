@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsTransformFeedback(GLuint id)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsTransformFeedback_Idx))
-	{
-            GL_ENTRY_PTR(glIsTransformFeedback_Idx) = dlsym(RTLD_NEXT,"glIsTransformFeedback");
-            if(!GL_ENTRY_PTR(glIsTransformFeedback_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsTransformFeedback_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsTransformFeedback(GLuint id)
         GL_ENTRY_LAST_TS(glIsTransformFeedback_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsTransformFeedback_Idx),
 				 GL_ENTRY_LAST_TS(glIsTransformFeedback_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsTransformFeedback %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsTransformFeedback_Idx),

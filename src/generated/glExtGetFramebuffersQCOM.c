@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glExtGetFramebuffersQCOM(GLuint *framebuffers,GLint maxFram
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glExtGetFramebuffersQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glExtGetFramebuffersQCOM_Idx) = dlsym(RTLD_NEXT,"glExtGetFramebuffersQCOM");
-            if(!GL_ENTRY_PTR(glExtGetFramebuffersQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glExtGetFramebuffersQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glExtGetFramebuffersQCOM(GLuint *framebuffers,GLint maxFram
         GL_ENTRY_LAST_TS(glExtGetFramebuffersQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glExtGetFramebuffersQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glExtGetFramebuffersQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glExtGetFramebuffersQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glExtGetFramebuffersQCOM_Idx),

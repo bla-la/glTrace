@@ -10,13 +10,9 @@ GLAPI GLbitfield  APIENTRY glQueryMatrixxOES(GLfixed *mantissa,GLint *exponent)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glQueryMatrixxOES_Idx))
-	{
-            GL_ENTRY_PTR(glQueryMatrixxOES_Idx) = dlsym(RTLD_NEXT,"glQueryMatrixxOES");
-            if(!GL_ENTRY_PTR(glQueryMatrixxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glQueryMatrixxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLbitfield  APIENTRY glQueryMatrixxOES(GLfixed *mantissa,GLint *exponent)
         GL_ENTRY_LAST_TS(glQueryMatrixxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glQueryMatrixxOES_Idx),
 				 GL_ENTRY_LAST_TS(glQueryMatrixxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glQueryMatrixxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glQueryMatrixxOES_Idx),

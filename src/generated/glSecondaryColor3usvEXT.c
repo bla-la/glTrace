@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSecondaryColor3usvEXT(const GLushort *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSecondaryColor3usvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glSecondaryColor3usvEXT_Idx) = dlsym(RTLD_NEXT,"glSecondaryColor3usvEXT");
-            if(!GL_ENTRY_PTR(glSecondaryColor3usvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSecondaryColor3usvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSecondaryColor3usvEXT(const GLushort *v)
         GL_ENTRY_LAST_TS(glSecondaryColor3usvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSecondaryColor3usvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glSecondaryColor3usvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSecondaryColor3usvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSecondaryColor3usvEXT_Idx),

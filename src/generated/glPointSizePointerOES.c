@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPointSizePointerOES(GLenum type,GLsizei stride,const void
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPointSizePointerOES_Idx))
-	{
-            GL_ENTRY_PTR(glPointSizePointerOES_Idx) = dlsym(RTLD_NEXT,"glPointSizePointerOES");
-            if(!GL_ENTRY_PTR(glPointSizePointerOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPointSizePointerOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPointSizePointerOES(GLenum type,GLsizei stride,const void
         GL_ENTRY_LAST_TS(glPointSizePointerOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPointSizePointerOES_Idx),
 				 GL_ENTRY_LAST_TS(glPointSizePointerOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPointSizePointerOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPointSizePointerOES_Idx),

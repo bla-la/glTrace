@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glBindTextureUnitParameterEXT(GLenum unit,GLenum value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindTextureUnitParameterEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBindTextureUnitParameterEXT_Idx) = dlsym(RTLD_NEXT,"glBindTextureUnitParameterEXT");
-            if(!GL_ENTRY_PTR(glBindTextureUnitParameterEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindTextureUnitParameterEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glBindTextureUnitParameterEXT(GLenum unit,GLenum value)
         GL_ENTRY_LAST_TS(glBindTextureUnitParameterEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindTextureUnitParameterEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBindTextureUnitParameterEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindTextureUnitParameterEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindTextureUnitParameterEXT_Idx),

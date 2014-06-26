@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlendEquationIndexedAMD(GLuint buf,GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlendEquationIndexedAMD_Idx))
-	{
-            GL_ENTRY_PTR(glBlendEquationIndexedAMD_Idx) = dlsym(RTLD_NEXT,"glBlendEquationIndexedAMD");
-            if(!GL_ENTRY_PTR(glBlendEquationIndexedAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlendEquationIndexedAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlendEquationIndexedAMD(GLuint buf,GLenum mode)
         GL_ENTRY_LAST_TS(glBlendEquationIndexedAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlendEquationIndexedAMD_Idx),
 				 GL_ENTRY_LAST_TS(glBlendEquationIndexedAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlendEquationIndexedAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlendEquationIndexedAMD_Idx),

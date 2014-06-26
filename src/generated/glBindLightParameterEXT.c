@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glBindLightParameterEXT(GLenum light,GLenum value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindLightParameterEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBindLightParameterEXT_Idx) = dlsym(RTLD_NEXT,"glBindLightParameterEXT");
-            if(!GL_ENTRY_PTR(glBindLightParameterEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindLightParameterEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glBindLightParameterEXT(GLenum light,GLenum value)
         GL_ENTRY_LAST_TS(glBindLightParameterEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindLightParameterEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBindLightParameterEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindLightParameterEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindLightParameterEXT_Idx),

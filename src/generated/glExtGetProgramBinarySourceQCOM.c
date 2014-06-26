@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glExtGetProgramBinarySourceQCOM(GLuint program,GLenum shade
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glExtGetProgramBinarySourceQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glExtGetProgramBinarySourceQCOM_Idx) = dlsym(RTLD_NEXT,"glExtGetProgramBinarySourceQCOM");
-            if(!GL_ENTRY_PTR(glExtGetProgramBinarySourceQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glExtGetProgramBinarySourceQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glExtGetProgramBinarySourceQCOM(GLuint program,GLenum shade
         GL_ENTRY_LAST_TS(glExtGetProgramBinarySourceQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glExtGetProgramBinarySourceQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glExtGetProgramBinarySourceQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glExtGetProgramBinarySourceQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glExtGetProgramBinarySourceQCOM_Idx),

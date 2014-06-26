@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetUniformdv(GLuint program,GLint location,GLdouble *para
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetUniformdv_Idx))
-	{
-            GL_ENTRY_PTR(glGetUniformdv_Idx) = dlsym(RTLD_NEXT,"glGetUniformdv");
-            if(!GL_ENTRY_PTR(glGetUniformdv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetUniformdv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetUniformdv(GLuint program,GLint location,GLdouble *para
         GL_ENTRY_LAST_TS(glGetUniformdv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetUniformdv_Idx),
 				 GL_ENTRY_LAST_TS(glGetUniformdv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetUniformdv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetUniformdv_Idx),

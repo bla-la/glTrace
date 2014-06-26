@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCompressedMultiTexSubImage3DEXT(GLenum texunit,GLenum tar
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCompressedMultiTexSubImage3DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCompressedMultiTexSubImage3DEXT_Idx) = dlsym(RTLD_NEXT,"glCompressedMultiTexSubImage3DEXT");
-            if(!GL_ENTRY_PTR(glCompressedMultiTexSubImage3DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCompressedMultiTexSubImage3DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCompressedMultiTexSubImage3DEXT(GLenum texunit,GLenum tar
         GL_ENTRY_LAST_TS(glCompressedMultiTexSubImage3DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCompressedMultiTexSubImage3DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCompressedMultiTexSubImage3DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCompressedMultiTexSubImage3DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCompressedMultiTexSubImage3DEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeletePerfMonitorsAMD(GLsizei n,GLuint *monitors)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeletePerfMonitorsAMD_Idx))
-	{
-            GL_ENTRY_PTR(glDeletePerfMonitorsAMD_Idx) = dlsym(RTLD_NEXT,"glDeletePerfMonitorsAMD");
-            if(!GL_ENTRY_PTR(glDeletePerfMonitorsAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeletePerfMonitorsAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeletePerfMonitorsAMD(GLsizei n,GLuint *monitors)
         GL_ENTRY_LAST_TS(glDeletePerfMonitorsAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeletePerfMonitorsAMD_Idx),
 				 GL_ENTRY_LAST_TS(glDeletePerfMonitorsAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeletePerfMonitorsAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeletePerfMonitorsAMD_Idx),

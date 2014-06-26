@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertex4xOES(GLfixed x,GLfixed y,GLfixed z)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertex4xOES_Idx))
-	{
-            GL_ENTRY_PTR(glVertex4xOES_Idx) = dlsym(RTLD_NEXT,"glVertex4xOES");
-            if(!GL_ENTRY_PTR(glVertex4xOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertex4xOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertex4xOES(GLfixed x,GLfixed y,GLfixed z)
         GL_ENTRY_LAST_TS(glVertex4xOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertex4xOES_Idx),
 				 GL_ENTRY_LAST_TS(glVertex4xOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertex4xOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertex4xOES_Idx),

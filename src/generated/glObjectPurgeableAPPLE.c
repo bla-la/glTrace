@@ -10,13 +10,9 @@ GLAPI GLenum  APIENTRY glObjectPurgeableAPPLE(GLenum objectType,GLuint name,GLen
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glObjectPurgeableAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glObjectPurgeableAPPLE_Idx) = dlsym(RTLD_NEXT,"glObjectPurgeableAPPLE");
-            if(!GL_ENTRY_PTR(glObjectPurgeableAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glObjectPurgeableAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLenum  APIENTRY glObjectPurgeableAPPLE(GLenum objectType,GLuint name,GLen
         GL_ENTRY_LAST_TS(glObjectPurgeableAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glObjectPurgeableAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glObjectPurgeableAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glObjectPurgeableAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glObjectPurgeableAPPLE_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetNextPerfQueryIdINTEL(GLuint queryId,GLuint *nextQueryI
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetNextPerfQueryIdINTEL_Idx))
-	{
-            GL_ENTRY_PTR(glGetNextPerfQueryIdINTEL_Idx) = dlsym(RTLD_NEXT,"glGetNextPerfQueryIdINTEL");
-            if(!GL_ENTRY_PTR(glGetNextPerfQueryIdINTEL_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetNextPerfQueryIdINTEL_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetNextPerfQueryIdINTEL(GLuint queryId,GLuint *nextQueryI
         GL_ENTRY_LAST_TS(glGetNextPerfQueryIdINTEL_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetNextPerfQueryIdINTEL_Idx),
 				 GL_ENTRY_LAST_TS(glGetNextPerfQueryIdINTEL_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetNextPerfQueryIdINTEL %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetNextPerfQueryIdINTEL_Idx),

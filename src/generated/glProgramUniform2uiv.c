@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramUniform2uiv(GLuint program,GLint location,GLsizei 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramUniform2uiv_Idx))
-	{
-            GL_ENTRY_PTR(glProgramUniform2uiv_Idx) = dlsym(RTLD_NEXT,"glProgramUniform2uiv");
-            if(!GL_ENTRY_PTR(glProgramUniform2uiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramUniform2uiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramUniform2uiv(GLuint program,GLint location,GLsizei 
         GL_ENTRY_LAST_TS(glProgramUniform2uiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramUniform2uiv_Idx),
 				 GL_ENTRY_LAST_TS(glProgramUniform2uiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramUniform2uiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramUniform2uiv_Idx),

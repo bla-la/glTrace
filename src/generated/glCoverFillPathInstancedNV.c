@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCoverFillPathInstancedNV(GLsizei numPaths,GLenum pathName
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCoverFillPathInstancedNV_Idx))
-	{
-            GL_ENTRY_PTR(glCoverFillPathInstancedNV_Idx) = dlsym(RTLD_NEXT,"glCoverFillPathInstancedNV");
-            if(!GL_ENTRY_PTR(glCoverFillPathInstancedNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCoverFillPathInstancedNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCoverFillPathInstancedNV(GLsizei numPaths,GLenum pathName
         GL_ENTRY_LAST_TS(glCoverFillPathInstancedNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCoverFillPathInstancedNV_Idx),
 				 GL_ENTRY_LAST_TS(glCoverFillPathInstancedNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCoverFillPathInstancedNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCoverFillPathInstancedNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUniform1dv(GLint location,GLsizei count,const GLdouble *v
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUniform1dv_Idx))
-	{
-            GL_ENTRY_PTR(glUniform1dv_Idx) = dlsym(RTLD_NEXT,"glUniform1dv");
-            if(!GL_ENTRY_PTR(glUniform1dv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUniform1dv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUniform1dv(GLint location,GLsizei count,const GLdouble *v
         GL_ENTRY_LAST_TS(glUniform1dv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUniform1dv_Idx),
 				 GL_ENTRY_LAST_TS(glUniform1dv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUniform1dv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUniform1dv_Idx),

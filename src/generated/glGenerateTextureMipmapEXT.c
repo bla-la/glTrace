@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenerateTextureMipmapEXT(GLuint texture,GLenum target)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenerateTextureMipmapEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGenerateTextureMipmapEXT_Idx) = dlsym(RTLD_NEXT,"glGenerateTextureMipmapEXT");
-            if(!GL_ENTRY_PTR(glGenerateTextureMipmapEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenerateTextureMipmapEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenerateTextureMipmapEXT(GLuint texture,GLenum target)
         GL_ENTRY_LAST_TS(glGenerateTextureMipmapEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenerateTextureMipmapEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGenerateTextureMipmapEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenerateTextureMipmapEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenerateTextureMipmapEXT_Idx),

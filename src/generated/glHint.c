@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glHint(GLenum target,GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glHint_Idx))
-	{
-            GL_ENTRY_PTR(glHint_Idx) = dlsym(RTLD_NEXT,"glHint");
-            if(!GL_ENTRY_PTR(glHint_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glHint_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glHint(GLenum target,GLenum mode)
         GL_ENTRY_LAST_TS(glHint_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glHint_Idx),
 				 GL_ENTRY_LAST_TS(glHint_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glHint %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glHint_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWeightdvARB(GLint size,const GLdouble *weights)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWeightdvARB_Idx))
-	{
-            GL_ENTRY_PTR(glWeightdvARB_Idx) = dlsym(RTLD_NEXT,"glWeightdvARB");
-            if(!GL_ENTRY_PTR(glWeightdvARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWeightdvARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWeightdvARB(GLint size,const GLdouble *weights)
         GL_ENTRY_LAST_TS(glWeightdvARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWeightdvARB_Idx),
 				 GL_ENTRY_LAST_TS(glWeightdvARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWeightdvARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWeightdvARB_Idx),

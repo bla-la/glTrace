@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDepthRangex(GLfixed n,GLfixed f)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDepthRangex_Idx))
-	{
-            GL_ENTRY_PTR(glDepthRangex_Idx) = dlsym(RTLD_NEXT,"glDepthRangex");
-            if(!GL_ENTRY_PTR(glDepthRangex_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDepthRangex_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDepthRangex(GLfixed n,GLfixed f)
         GL_ENTRY_LAST_TS(glDepthRangex_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDepthRangex_Idx),
 				 GL_ENTRY_LAST_TS(glDepthRangex_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDepthRangex %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDepthRangex_Idx),

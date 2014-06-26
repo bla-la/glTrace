@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyMultiTexSubImage2DEXT(GLenum texunit,GLenum target,GL
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyMultiTexSubImage2DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCopyMultiTexSubImage2DEXT_Idx) = dlsym(RTLD_NEXT,"glCopyMultiTexSubImage2DEXT");
-            if(!GL_ENTRY_PTR(glCopyMultiTexSubImage2DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyMultiTexSubImage2DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyMultiTexSubImage2DEXT(GLenum texunit,GLenum target,GL
         GL_ENTRY_LAST_TS(glCopyMultiTexSubImage2DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyMultiTexSubImage2DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCopyMultiTexSubImage2DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyMultiTexSubImage2DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyMultiTexSubImage2DEXT_Idx),

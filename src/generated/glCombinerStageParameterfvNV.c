@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCombinerStageParameterfvNV(GLenum stage,GLenum pname,cons
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCombinerStageParameterfvNV_Idx))
-	{
-            GL_ENTRY_PTR(glCombinerStageParameterfvNV_Idx) = dlsym(RTLD_NEXT,"glCombinerStageParameterfvNV");
-            if(!GL_ENTRY_PTR(glCombinerStageParameterfvNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCombinerStageParameterfvNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCombinerStageParameterfvNV(GLenum stage,GLenum pname,cons
         GL_ENTRY_LAST_TS(glCombinerStageParameterfvNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCombinerStageParameterfvNV_Idx),
 				 GL_ENTRY_LAST_TS(glCombinerStageParameterfvNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCombinerStageParameterfvNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCombinerStageParameterfvNV_Idx),

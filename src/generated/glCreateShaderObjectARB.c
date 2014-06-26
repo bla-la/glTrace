@@ -10,13 +10,9 @@ GLAPI GLhandleARB  APIENTRY glCreateShaderObjectARB(GLenum shaderType)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCreateShaderObjectARB_Idx))
-	{
-            GL_ENTRY_PTR(glCreateShaderObjectARB_Idx) = dlsym(RTLD_NEXT,"glCreateShaderObjectARB");
-            if(!GL_ENTRY_PTR(glCreateShaderObjectARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCreateShaderObjectARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLhandleARB  APIENTRY glCreateShaderObjectARB(GLenum shaderType)
         GL_ENTRY_LAST_TS(glCreateShaderObjectARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCreateShaderObjectARB_Idx),
 				 GL_ENTRY_LAST_TS(glCreateShaderObjectARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCreateShaderObjectARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCreateShaderObjectARB_Idx),

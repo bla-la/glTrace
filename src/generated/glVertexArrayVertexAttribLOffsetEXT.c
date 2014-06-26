@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexArrayVertexAttribLOffsetEXT(GLuint vaobj,GLuint buf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexArrayVertexAttribLOffsetEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexArrayVertexAttribLOffsetEXT_Idx) = dlsym(RTLD_NEXT,"glVertexArrayVertexAttribLOffsetEXT");
-            if(!GL_ENTRY_PTR(glVertexArrayVertexAttribLOffsetEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexArrayVertexAttribLOffsetEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexArrayVertexAttribLOffsetEXT(GLuint vaobj,GLuint buf
         GL_ENTRY_LAST_TS(glVertexArrayVertexAttribLOffsetEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexArrayVertexAttribLOffsetEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexArrayVertexAttribLOffsetEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexArrayVertexAttribLOffsetEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexArrayVertexAttribLOffsetEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureStorage2DMultisampleEXT(GLuint texture,GLenum targ
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureStorage2DMultisampleEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTextureStorage2DMultisampleEXT_Idx) = dlsym(RTLD_NEXT,"glTextureStorage2DMultisampleEXT");
-            if(!GL_ENTRY_PTR(glTextureStorage2DMultisampleEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureStorage2DMultisampleEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureStorage2DMultisampleEXT(GLuint texture,GLenum targ
         GL_ENTRY_LAST_TS(glTextureStorage2DMultisampleEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureStorage2DMultisampleEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTextureStorage2DMultisampleEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureStorage2DMultisampleEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureStorage2DMultisampleEXT_Idx),

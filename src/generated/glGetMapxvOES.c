@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMapxvOES(GLenum target,GLenum query,GLfixed *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMapxvOES_Idx))
-	{
-            GL_ENTRY_PTR(glGetMapxvOES_Idx) = dlsym(RTLD_NEXT,"glGetMapxvOES");
-            if(!GL_ENTRY_PTR(glGetMapxvOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMapxvOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMapxvOES(GLenum target,GLenum query,GLfixed *v)
         GL_ENTRY_LAST_TS(glGetMapxvOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMapxvOES_Idx),
 				 GL_ENTRY_LAST_TS(glGetMapxvOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMapxvOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMapxvOES_Idx),

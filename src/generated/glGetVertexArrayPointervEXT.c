@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetVertexArrayPointervEXT(GLuint vaobj,GLenum pname,void 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetVertexArrayPointervEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetVertexArrayPointervEXT_Idx) = dlsym(RTLD_NEXT,"glGetVertexArrayPointervEXT");
-            if(!GL_ENTRY_PTR(glGetVertexArrayPointervEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetVertexArrayPointervEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetVertexArrayPointervEXT(GLuint vaobj,GLenum pname,void 
         GL_ENTRY_LAST_TS(glGetVertexArrayPointervEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetVertexArrayPointervEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetVertexArrayPointervEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetVertexArrayPointervEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetVertexArrayPointervEXT_Idx),

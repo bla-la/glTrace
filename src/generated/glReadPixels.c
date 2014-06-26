@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glReadPixels(GLint x,GLint y,GLsizei width,GLsizei height,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glReadPixels_Idx))
-	{
-            GL_ENTRY_PTR(glReadPixels_Idx) = dlsym(RTLD_NEXT,"glReadPixels");
-            if(!GL_ENTRY_PTR(glReadPixels_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glReadPixels_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glReadPixels(GLint x,GLint y,GLsizei width,GLsizei height,G
         GL_ENTRY_LAST_TS(glReadPixels_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glReadPixels_Idx),
 				 GL_ENTRY_LAST_TS(glReadPixels_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glReadPixels %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glReadPixels_Idx),

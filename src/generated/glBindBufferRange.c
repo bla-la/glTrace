@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindBufferRange(GLenum target,GLuint index,GLuint buffer,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindBufferRange_Idx))
-	{
-            GL_ENTRY_PTR(glBindBufferRange_Idx) = dlsym(RTLD_NEXT,"glBindBufferRange");
-            if(!GL_ENTRY_PTR(glBindBufferRange_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindBufferRange_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindBufferRange(GLenum target,GLuint index,GLuint buffer,
         GL_ENTRY_LAST_TS(glBindBufferRange_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindBufferRange_Idx),
 				 GL_ENTRY_LAST_TS(glBindBufferRange_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindBufferRange %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindBufferRange_Idx),

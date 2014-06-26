@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenPerfMonitorsAMD(GLsizei n,GLuint *monitors)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenPerfMonitorsAMD_Idx))
-	{
-            GL_ENTRY_PTR(glGenPerfMonitorsAMD_Idx) = dlsym(RTLD_NEXT,"glGenPerfMonitorsAMD");
-            if(!GL_ENTRY_PTR(glGenPerfMonitorsAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenPerfMonitorsAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenPerfMonitorsAMD(GLsizei n,GLuint *monitors)
         GL_ENTRY_LAST_TS(glGenPerfMonitorsAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenPerfMonitorsAMD_Idx),
 				 GL_ENTRY_LAST_TS(glGenPerfMonitorsAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenPerfMonitorsAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenPerfMonitorsAMD_Idx),

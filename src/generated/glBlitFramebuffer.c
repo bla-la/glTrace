@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlitFramebuffer(GLint srcX0,GLint srcY0,GLint srcX1,GLint
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlitFramebuffer_Idx))
-	{
-            GL_ENTRY_PTR(glBlitFramebuffer_Idx) = dlsym(RTLD_NEXT,"glBlitFramebuffer");
-            if(!GL_ENTRY_PTR(glBlitFramebuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlitFramebuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlitFramebuffer(GLint srcX0,GLint srcY0,GLint srcX1,GLint
         GL_ENTRY_LAST_TS(glBlitFramebuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlitFramebuffer_Idx),
 				 GL_ENTRY_LAST_TS(glBlitFramebuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlitFramebuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlitFramebuffer_Idx),

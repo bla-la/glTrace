@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetQueryObjectivEXT(GLuint id,GLenum pname,GLint *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetQueryObjectivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetQueryObjectivEXT_Idx) = dlsym(RTLD_NEXT,"glGetQueryObjectivEXT");
-            if(!GL_ENTRY_PTR(glGetQueryObjectivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetQueryObjectivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetQueryObjectivEXT(GLuint id,GLenum pname,GLint *params)
         GL_ENTRY_LAST_TS(glGetQueryObjectivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetQueryObjectivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetQueryObjectivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetQueryObjectivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetQueryObjectivEXT_Idx),

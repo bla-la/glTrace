@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMapVertexAttrib1dAPPLE(GLuint index,GLuint size,GLdouble 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMapVertexAttrib1dAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glMapVertexAttrib1dAPPLE_Idx) = dlsym(RTLD_NEXT,"glMapVertexAttrib1dAPPLE");
-            if(!GL_ENTRY_PTR(glMapVertexAttrib1dAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMapVertexAttrib1dAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMapVertexAttrib1dAPPLE(GLuint index,GLuint size,GLdouble 
         GL_ENTRY_LAST_TS(glMapVertexAttrib1dAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMapVertexAttrib1dAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glMapVertexAttrib1dAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMapVertexAttrib1dAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMapVertexAttrib1dAPPLE_Idx),

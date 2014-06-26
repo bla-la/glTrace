@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSetFragmentShaderConstantATI(GLuint dst,const GLfloat *va
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSetFragmentShaderConstantATI_Idx))
-	{
-            GL_ENTRY_PTR(glSetFragmentShaderConstantATI_Idx) = dlsym(RTLD_NEXT,"glSetFragmentShaderConstantATI");
-            if(!GL_ENTRY_PTR(glSetFragmentShaderConstantATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSetFragmentShaderConstantATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSetFragmentShaderConstantATI(GLuint dst,const GLfloat *va
         GL_ENTRY_LAST_TS(glSetFragmentShaderConstantATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSetFragmentShaderConstantATI_Idx),
 				 GL_ENTRY_LAST_TS(glSetFragmentShaderConstantATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSetFragmentShaderConstantATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSetFragmentShaderConstantATI_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetTextureParameterivEXT(GLuint texture,GLenum target,GLe
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTextureParameterivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetTextureParameterivEXT_Idx) = dlsym(RTLD_NEXT,"glGetTextureParameterivEXT");
-            if(!GL_ENTRY_PTR(glGetTextureParameterivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTextureParameterivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetTextureParameterivEXT(GLuint texture,GLenum target,GLe
         GL_ENTRY_LAST_TS(glGetTextureParameterivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTextureParameterivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetTextureParameterivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTextureParameterivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTextureParameterivEXT_Idx),

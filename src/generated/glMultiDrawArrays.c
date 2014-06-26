@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawArrays(GLenum mode,const GLint *first,const GLsi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawArrays_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawArrays_Idx) = dlsym(RTLD_NEXT,"glMultiDrawArrays");
-            if(!GL_ENTRY_PTR(glMultiDrawArrays_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawArrays_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawArrays(GLenum mode,const GLint *first,const GLsi
         GL_ENTRY_LAST_TS(glMultiDrawArrays_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawArrays_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawArrays_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawArrays %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawArrays_Idx),

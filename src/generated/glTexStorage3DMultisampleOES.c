@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexStorage3DMultisampleOES(GLenum target,GLsizei samples,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexStorage3DMultisampleOES_Idx))
-	{
-            GL_ENTRY_PTR(glTexStorage3DMultisampleOES_Idx) = dlsym(RTLD_NEXT,"glTexStorage3DMultisampleOES");
-            if(!GL_ENTRY_PTR(glTexStorage3DMultisampleOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexStorage3DMultisampleOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexStorage3DMultisampleOES(GLenum target,GLsizei samples,
         GL_ENTRY_LAST_TS(glTexStorage3DMultisampleOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexStorage3DMultisampleOES_Idx),
 				 GL_ENTRY_LAST_TS(glTexStorage3DMultisampleOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexStorage3DMultisampleOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexStorage3DMultisampleOES_Idx),

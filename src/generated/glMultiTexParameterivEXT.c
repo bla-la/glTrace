@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiTexParameterivEXT(GLenum texunit,GLenum target,GLenu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiTexParameterivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMultiTexParameterivEXT_Idx) = dlsym(RTLD_NEXT,"glMultiTexParameterivEXT");
-            if(!GL_ENTRY_PTR(glMultiTexParameterivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiTexParameterivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiTexParameterivEXT(GLenum texunit,GLenum target,GLenu
         GL_ENTRY_LAST_TS(glMultiTexParameterivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiTexParameterivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMultiTexParameterivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiTexParameterivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiTexParameterivEXT_Idx),

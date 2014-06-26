@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyPathNV(GLuint resultPath,GLuint srcPath)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyPathNV_Idx))
-	{
-            GL_ENTRY_PTR(glCopyPathNV_Idx) = dlsym(RTLD_NEXT,"glCopyPathNV");
-            if(!GL_ENTRY_PTR(glCopyPathNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyPathNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyPathNV(GLuint resultPath,GLuint srcPath)
         GL_ENTRY_LAST_TS(glCopyPathNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyPathNV_Idx),
 				 GL_ENTRY_LAST_TS(glCopyPathNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyPathNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyPathNV_Idx),

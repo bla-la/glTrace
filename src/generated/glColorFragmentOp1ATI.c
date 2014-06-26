@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColorFragmentOp1ATI(GLenum op,GLuint dst,GLuint dstMask,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColorFragmentOp1ATI_Idx))
-	{
-            GL_ENTRY_PTR(glColorFragmentOp1ATI_Idx) = dlsym(RTLD_NEXT,"glColorFragmentOp1ATI");
-            if(!GL_ENTRY_PTR(glColorFragmentOp1ATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColorFragmentOp1ATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColorFragmentOp1ATI(GLenum op,GLuint dst,GLuint dstMask,G
         GL_ENTRY_LAST_TS(glColorFragmentOp1ATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColorFragmentOp1ATI_Idx),
 				 GL_ENTRY_LAST_TS(glColorFragmentOp1ATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColorFragmentOp1ATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColorFragmentOp1ATI_Idx),

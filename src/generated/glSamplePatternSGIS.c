@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSamplePatternSGIS(GLenum pattern)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSamplePatternSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glSamplePatternSGIS_Idx) = dlsym(RTLD_NEXT,"glSamplePatternSGIS");
-            if(!GL_ENTRY_PTR(glSamplePatternSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSamplePatternSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSamplePatternSGIS(GLenum pattern)
         GL_ENTRY_LAST_TS(glSamplePatternSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSamplePatternSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glSamplePatternSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSamplePatternSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSamplePatternSGIS_Idx),

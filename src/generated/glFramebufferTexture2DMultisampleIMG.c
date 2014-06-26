@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFramebufferTexture2DMultisampleIMG(GLenum target,GLenum a
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFramebufferTexture2DMultisampleIMG_Idx))
-	{
-            GL_ENTRY_PTR(glFramebufferTexture2DMultisampleIMG_Idx) = dlsym(RTLD_NEXT,"glFramebufferTexture2DMultisampleIMG");
-            if(!GL_ENTRY_PTR(glFramebufferTexture2DMultisampleIMG_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFramebufferTexture2DMultisampleIMG_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFramebufferTexture2DMultisampleIMG(GLenum target,GLenum a
         GL_ENTRY_LAST_TS(glFramebufferTexture2DMultisampleIMG_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFramebufferTexture2DMultisampleIMG_Idx),
 				 GL_ENTRY_LAST_TS(glFramebufferTexture2DMultisampleIMG_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFramebufferTexture2DMultisampleIMG %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFramebufferTexture2DMultisampleIMG_Idx),

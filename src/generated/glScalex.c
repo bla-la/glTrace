@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glScalex(GLfixed x,GLfixed y,GLfixed z)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glScalex_Idx))
-	{
-            GL_ENTRY_PTR(glScalex_Idx) = dlsym(RTLD_NEXT,"glScalex");
-            if(!GL_ENTRY_PTR(glScalex_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glScalex_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glScalex(GLfixed x,GLfixed y,GLfixed z)
         GL_ENTRY_LAST_TS(glScalex_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glScalex_Idx),
 				 GL_ENTRY_LAST_TS(glScalex_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glScalex %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glScalex_Idx),

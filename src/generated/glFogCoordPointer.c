@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFogCoordPointer(GLenum type,GLsizei stride,const void *po
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFogCoordPointer_Idx))
-	{
-            GL_ENTRY_PTR(glFogCoordPointer_Idx) = dlsym(RTLD_NEXT,"glFogCoordPointer");
-            if(!GL_ENTRY_PTR(glFogCoordPointer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFogCoordPointer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFogCoordPointer(GLenum type,GLsizei stride,const void *po
         GL_ENTRY_LAST_TS(glFogCoordPointer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFogCoordPointer_Idx),
 				 GL_ENTRY_LAST_TS(glFogCoordPointer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFogCoordPointer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFogCoordPointer_Idx),

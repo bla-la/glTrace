@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetHistogramParameterxvOES(GLenum target,GLenum pname,GLf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetHistogramParameterxvOES_Idx))
-	{
-            GL_ENTRY_PTR(glGetHistogramParameterxvOES_Idx) = dlsym(RTLD_NEXT,"glGetHistogramParameterxvOES");
-            if(!GL_ENTRY_PTR(glGetHistogramParameterxvOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetHistogramParameterxvOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetHistogramParameterxvOES(GLenum target,GLenum pname,GLf
         GL_ENTRY_LAST_TS(glGetHistogramParameterxvOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetHistogramParameterxvOES_Idx),
 				 GL_ENTRY_LAST_TS(glGetHistogramParameterxvOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetHistogramParameterxvOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetHistogramParameterxvOES_Idx),

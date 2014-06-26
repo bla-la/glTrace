@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColorMaski(GLuint index,GLboolean r,GLboolean g,GLboolean
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColorMaski_Idx))
-	{
-            GL_ENTRY_PTR(glColorMaski_Idx) = dlsym(RTLD_NEXT,"glColorMaski");
-            if(!GL_ENTRY_PTR(glColorMaski_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColorMaski_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColorMaski(GLuint index,GLboolean r,GLboolean g,GLboolean
         GL_ENTRY_LAST_TS(glColorMaski_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColorMaski_Idx),
 				 GL_ENTRY_LAST_TS(glColorMaski_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColorMaski %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColorMaski_Idx),

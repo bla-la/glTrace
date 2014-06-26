@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexAttrib4NuivARB(GLuint index,const GLuint *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexAttrib4NuivARB_Idx))
-	{
-            GL_ENTRY_PTR(glVertexAttrib4NuivARB_Idx) = dlsym(RTLD_NEXT,"glVertexAttrib4NuivARB");
-            if(!GL_ENTRY_PTR(glVertexAttrib4NuivARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexAttrib4NuivARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexAttrib4NuivARB(GLuint index,const GLuint *v)
         GL_ENTRY_LAST_TS(glVertexAttrib4NuivARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexAttrib4NuivARB_Idx),
 				 GL_ENTRY_LAST_TS(glVertexAttrib4NuivARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexAttrib4NuivARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexAttrib4NuivARB_Idx),

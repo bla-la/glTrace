@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUniformMatrix3fv(GLint location,GLsizei count,GLboolean t
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUniformMatrix3fv_Idx))
-	{
-            GL_ENTRY_PTR(glUniformMatrix3fv_Idx) = dlsym(RTLD_NEXT,"glUniformMatrix3fv");
-            if(!GL_ENTRY_PTR(glUniformMatrix3fv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUniformMatrix3fv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUniformMatrix3fv(GLint location,GLsizei count,GLboolean t
         GL_ENTRY_LAST_TS(glUniformMatrix3fv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUniformMatrix3fv_Idx),
 				 GL_ENTRY_LAST_TS(glUniformMatrix3fv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUniformMatrix3fv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUniformMatrix3fv_Idx),

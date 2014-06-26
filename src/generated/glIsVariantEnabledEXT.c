@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsVariantEnabledEXT(GLuint id,GLenum cap)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsVariantEnabledEXT_Idx))
-	{
-            GL_ENTRY_PTR(glIsVariantEnabledEXT_Idx) = dlsym(RTLD_NEXT,"glIsVariantEnabledEXT");
-            if(!GL_ENTRY_PTR(glIsVariantEnabledEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsVariantEnabledEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsVariantEnabledEXT(GLuint id,GLenum cap)
         GL_ENTRY_LAST_TS(glIsVariantEnabledEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsVariantEnabledEXT_Idx),
 				 GL_ENTRY_LAST_TS(glIsVariantEnabledEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsVariantEnabledEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsVariantEnabledEXT_Idx),

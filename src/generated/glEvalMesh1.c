@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEvalMesh1(GLenum mode,GLint i1,GLint i2)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEvalMesh1_Idx))
-	{
-            GL_ENTRY_PTR(glEvalMesh1_Idx) = dlsym(RTLD_NEXT,"glEvalMesh1");
-            if(!GL_ENTRY_PTR(glEvalMesh1_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEvalMesh1_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEvalMesh1(GLenum mode,GLint i1,GLint i2)
         GL_ENTRY_LAST_TS(glEvalMesh1_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEvalMesh1_Idx),
 				 GL_ENTRY_LAST_TS(glEvalMesh1_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEvalMesh1 %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEvalMesh1_Idx),

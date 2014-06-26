@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGlobalAlphaFactorubSUN(GLubyte factor)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGlobalAlphaFactorubSUN_Idx))
-	{
-            GL_ENTRY_PTR(glGlobalAlphaFactorubSUN_Idx) = dlsym(RTLD_NEXT,"glGlobalAlphaFactorubSUN");
-            if(!GL_ENTRY_PTR(glGlobalAlphaFactorubSUN_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGlobalAlphaFactorubSUN_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGlobalAlphaFactorubSUN(GLubyte factor)
         GL_ENTRY_LAST_TS(glGlobalAlphaFactorubSUN_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGlobalAlphaFactorubSUN_Idx),
 				 GL_ENTRY_LAST_TS(glGlobalAlphaFactorubSUN_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGlobalAlphaFactorubSUN %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGlobalAlphaFactorubSUN_Idx),

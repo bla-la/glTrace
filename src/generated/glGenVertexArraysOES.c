@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenVertexArraysOES(GLsizei n,GLuint *arrays)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenVertexArraysOES_Idx))
-	{
-            GL_ENTRY_PTR(glGenVertexArraysOES_Idx) = dlsym(RTLD_NEXT,"glGenVertexArraysOES");
-            if(!GL_ENTRY_PTR(glGenVertexArraysOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenVertexArraysOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenVertexArraysOES(GLsizei n,GLuint *arrays)
         GL_ENTRY_LAST_TS(glGenVertexArraysOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenVertexArraysOES_Idx),
 				 GL_ENTRY_LAST_TS(glGenVertexArraysOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenVertexArraysOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenVertexArraysOES_Idx),

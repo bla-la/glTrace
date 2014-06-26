@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClearColorIuiEXT(GLuint red,GLuint green,GLuint blue,GLui
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClearColorIuiEXT_Idx))
-	{
-            GL_ENTRY_PTR(glClearColorIuiEXT_Idx) = dlsym(RTLD_NEXT,"glClearColorIuiEXT");
-            if(!GL_ENTRY_PTR(glClearColorIuiEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClearColorIuiEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClearColorIuiEXT(GLuint red,GLuint green,GLuint blue,GLui
         GL_ENTRY_LAST_TS(glClearColorIuiEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClearColorIuiEXT_Idx),
 				 GL_ENTRY_LAST_TS(glClearColorIuiEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClearColorIuiEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClearColorIuiEXT_Idx),

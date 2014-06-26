@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSampleCoverage(GLfloat value,GLboolean invert)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSampleCoverage_Idx))
-	{
-            GL_ENTRY_PTR(glSampleCoverage_Idx) = dlsym(RTLD_NEXT,"glSampleCoverage");
-            if(!GL_ENTRY_PTR(glSampleCoverage_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSampleCoverage_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSampleCoverage(GLfloat value,GLboolean invert)
         GL_ENTRY_LAST_TS(glSampleCoverage_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSampleCoverage_Idx),
 				 GL_ENTRY_LAST_TS(glSampleCoverage_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSampleCoverage %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSampleCoverage_Idx),

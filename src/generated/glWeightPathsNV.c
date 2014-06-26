@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWeightPathsNV(GLuint resultPath,GLsizei numPaths,const GL
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWeightPathsNV_Idx))
-	{
-            GL_ENTRY_PTR(glWeightPathsNV_Idx) = dlsym(RTLD_NEXT,"glWeightPathsNV");
-            if(!GL_ENTRY_PTR(glWeightPathsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWeightPathsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWeightPathsNV(GLuint resultPath,GLsizei numPaths,const GL
         GL_ENTRY_LAST_TS(glWeightPathsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWeightPathsNV_Idx),
 				 GL_ENTRY_LAST_TS(glWeightPathsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWeightPathsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWeightPathsNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glObjectPtrLabelKHR(const void *ptr,GLsizei length,const GL
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glObjectPtrLabelKHR_Idx))
-	{
-            GL_ENTRY_PTR(glObjectPtrLabelKHR_Idx) = dlsym(RTLD_NEXT,"glObjectPtrLabelKHR");
-            if(!GL_ENTRY_PTR(glObjectPtrLabelKHR_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glObjectPtrLabelKHR_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glObjectPtrLabelKHR(const void *ptr,GLsizei length,const GL
         GL_ENTRY_LAST_TS(glObjectPtrLabelKHR_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glObjectPtrLabelKHR_Idx),
 				 GL_ENTRY_LAST_TS(glObjectPtrLabelKHR_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glObjectPtrLabelKHR %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glObjectPtrLabelKHR_Idx),

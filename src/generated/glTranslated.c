@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTranslated(GLdouble x,GLdouble y,GLdouble z)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTranslated_Idx))
-	{
-            GL_ENTRY_PTR(glTranslated_Idx) = dlsym(RTLD_NEXT,"glTranslated");
-            if(!GL_ENTRY_PTR(glTranslated_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTranslated_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTranslated(GLdouble x,GLdouble y,GLdouble z)
         GL_ENTRY_LAST_TS(glTranslated_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTranslated_Idx),
 				 GL_ENTRY_LAST_TS(glTranslated_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTranslated %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTranslated_Idx),

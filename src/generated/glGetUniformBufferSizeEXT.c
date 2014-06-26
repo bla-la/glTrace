@@ -10,13 +10,9 @@ GLAPI GLint  APIENTRY glGetUniformBufferSizeEXT(GLuint program,GLint location)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetUniformBufferSizeEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetUniformBufferSizeEXT_Idx) = dlsym(RTLD_NEXT,"glGetUniformBufferSizeEXT");
-            if(!GL_ENTRY_PTR(glGetUniformBufferSizeEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetUniformBufferSizeEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLint  APIENTRY glGetUniformBufferSizeEXT(GLuint program,GLint location)
         GL_ENTRY_LAST_TS(glGetUniformBufferSizeEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetUniformBufferSizeEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetUniformBufferSizeEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetUniformBufferSizeEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetUniformBufferSizeEXT_Idx),

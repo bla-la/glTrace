@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetVideoCaptureStreamivNV(GLuint video_capture_slot,GLuin
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetVideoCaptureStreamivNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetVideoCaptureStreamivNV_Idx) = dlsym(RTLD_NEXT,"glGetVideoCaptureStreamivNV");
-            if(!GL_ENTRY_PTR(glGetVideoCaptureStreamivNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetVideoCaptureStreamivNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetVideoCaptureStreamivNV(GLuint video_capture_slot,GLuin
         GL_ENTRY_LAST_TS(glGetVideoCaptureStreamivNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetVideoCaptureStreamivNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetVideoCaptureStreamivNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetVideoCaptureStreamivNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetVideoCaptureStreamivNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramParameter4dNV(GLenum target,GLuint index,GLdouble 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramParameter4dNV_Idx))
-	{
-            GL_ENTRY_PTR(glProgramParameter4dNV_Idx) = dlsym(RTLD_NEXT,"glProgramParameter4dNV");
-            if(!GL_ENTRY_PTR(glProgramParameter4dNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramParameter4dNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramParameter4dNV(GLenum target,GLuint index,GLdouble 
         GL_ENTRY_LAST_TS(glProgramParameter4dNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramParameter4dNV_Idx),
 				 GL_ENTRY_LAST_TS(glProgramParameter4dNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramParameter4dNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramParameter4dNV_Idx),

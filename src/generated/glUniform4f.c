@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUniform4f(GLint location,GLfloat v0,GLfloat v1,GLfloat v2
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUniform4f_Idx))
-	{
-            GL_ENTRY_PTR(glUniform4f_Idx) = dlsym(RTLD_NEXT,"glUniform4f");
-            if(!GL_ENTRY_PTR(glUniform4f_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUniform4f_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUniform4f(GLint location,GLfloat v0,GLfloat v1,GLfloat v2
         GL_ENTRY_LAST_TS(glUniform4f_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUniform4f_Idx),
 				 GL_ENTRY_LAST_TS(glUniform4f_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUniform4f %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUniform4f_Idx),

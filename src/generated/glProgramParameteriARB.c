@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramParameteriARB(GLuint program,GLenum pname,GLint va
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramParameteriARB_Idx))
-	{
-            GL_ENTRY_PTR(glProgramParameteriARB_Idx) = dlsym(RTLD_NEXT,"glProgramParameteriARB");
-            if(!GL_ENTRY_PTR(glProgramParameteriARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramParameteriARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramParameteriARB(GLuint program,GLenum pname,GLint va
         GL_ENTRY_LAST_TS(glProgramParameteriARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramParameteriARB_Idx),
 				 GL_ENTRY_LAST_TS(glProgramParameteriARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramParameteriARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramParameteriARB_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetActiveUniformBlockName(GLuint program,GLuint uniformBl
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetActiveUniformBlockName_Idx))
-	{
-            GL_ENTRY_PTR(glGetActiveUniformBlockName_Idx) = dlsym(RTLD_NEXT,"glGetActiveUniformBlockName");
-            if(!GL_ENTRY_PTR(glGetActiveUniformBlockName_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetActiveUniformBlockName_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetActiveUniformBlockName(GLuint program,GLuint uniformBl
         GL_ENTRY_LAST_TS(glGetActiveUniformBlockName_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetActiveUniformBlockName_Idx),
 				 GL_ENTRY_LAST_TS(glGetActiveUniformBlockName_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetActiveUniformBlockName %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetActiveUniformBlockName_Idx),

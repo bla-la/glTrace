@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEnableDriverControlQCOM(GLuint driverControl)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEnableDriverControlQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glEnableDriverControlQCOM_Idx) = dlsym(RTLD_NEXT,"glEnableDriverControlQCOM");
-            if(!GL_ENTRY_PTR(glEnableDriverControlQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEnableDriverControlQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEnableDriverControlQCOM(GLuint driverControl)
         GL_ENTRY_LAST_TS(glEnableDriverControlQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEnableDriverControlQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glEnableDriverControlQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEnableDriverControlQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEnableDriverControlQCOM_Idx),

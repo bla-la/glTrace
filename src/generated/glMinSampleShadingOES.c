@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMinSampleShadingOES(GLfloat value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMinSampleShadingOES_Idx))
-	{
-            GL_ENTRY_PTR(glMinSampleShadingOES_Idx) = dlsym(RTLD_NEXT,"glMinSampleShadingOES");
-            if(!GL_ENTRY_PTR(glMinSampleShadingOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMinSampleShadingOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMinSampleShadingOES(GLfloat value)
         GL_ENTRY_LAST_TS(glMinSampleShadingOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMinSampleShadingOES_Idx),
 				 GL_ENTRY_LAST_TS(glMinSampleShadingOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMinSampleShadingOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMinSampleShadingOES_Idx),

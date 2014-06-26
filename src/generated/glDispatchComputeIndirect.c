@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDispatchComputeIndirect(GLintptr indirect)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDispatchComputeIndirect_Idx))
-	{
-            GL_ENTRY_PTR(glDispatchComputeIndirect_Idx) = dlsym(RTLD_NEXT,"glDispatchComputeIndirect");
-            if(!GL_ENTRY_PTR(glDispatchComputeIndirect_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDispatchComputeIndirect_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDispatchComputeIndirect(GLintptr indirect)
         GL_ENTRY_LAST_TS(glDispatchComputeIndirect_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDispatchComputeIndirect_Idx),
 				 GL_ENTRY_LAST_TS(glDispatchComputeIndirect_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDispatchComputeIndirect %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDispatchComputeIndirect_Idx),

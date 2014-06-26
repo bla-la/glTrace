@@ -10,13 +10,9 @@ GLAPI GLuint64  APIENTRY glGetImageHandleNV(GLuint texture,GLint level,GLboolean
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetImageHandleNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetImageHandleNV_Idx) = dlsym(RTLD_NEXT,"glGetImageHandleNV");
-            if(!GL_ENTRY_PTR(glGetImageHandleNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetImageHandleNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint64  APIENTRY glGetImageHandleNV(GLuint texture,GLint level,GLboolean
         GL_ENTRY_LAST_TS(glGetImageHandleNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetImageHandleNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetImageHandleNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetImageHandleNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetImageHandleNV_Idx),

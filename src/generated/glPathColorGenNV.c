@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathColorGenNV(GLenum color,GLenum genMode,GLenum colorFo
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathColorGenNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathColorGenNV_Idx) = dlsym(RTLD_NEXT,"glPathColorGenNV");
-            if(!GL_ENTRY_PTR(glPathColorGenNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathColorGenNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathColorGenNV(GLenum color,GLenum genMode,GLenum colorFo
         GL_ENTRY_LAST_TS(glPathColorGenNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathColorGenNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathColorGenNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathColorGenNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathColorGenNV_Idx),

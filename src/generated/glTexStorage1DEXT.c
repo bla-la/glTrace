@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexStorage1DEXT(GLenum target,GLsizei levels,GLenum inter
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexStorage1DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTexStorage1DEXT_Idx) = dlsym(RTLD_NEXT,"glTexStorage1DEXT");
-            if(!GL_ENTRY_PTR(glTexStorage1DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexStorage1DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexStorage1DEXT(GLenum target,GLsizei levels,GLenum inter
         GL_ENTRY_LAST_TS(glTexStorage1DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexStorage1DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTexStorage1DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexStorage1DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexStorage1DEXT_Idx),

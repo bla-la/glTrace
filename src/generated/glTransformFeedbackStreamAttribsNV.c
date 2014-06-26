@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTransformFeedbackStreamAttribsNV(GLsizei count,const GLin
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTransformFeedbackStreamAttribsNV_Idx))
-	{
-            GL_ENTRY_PTR(glTransformFeedbackStreamAttribsNV_Idx) = dlsym(RTLD_NEXT,"glTransformFeedbackStreamAttribsNV");
-            if(!GL_ENTRY_PTR(glTransformFeedbackStreamAttribsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTransformFeedbackStreamAttribsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTransformFeedbackStreamAttribsNV(GLsizei count,const GLin
         GL_ENTRY_LAST_TS(glTransformFeedbackStreamAttribsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTransformFeedbackStreamAttribsNV_Idx),
 				 GL_ENTRY_LAST_TS(glTransformFeedbackStreamAttribsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTransformFeedbackStreamAttribsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTransformFeedbackStreamAttribsNV_Idx),

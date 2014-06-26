@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCompressedTextureSubImage1DEXT(GLuint texture,GLenum targ
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCompressedTextureSubImage1DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCompressedTextureSubImage1DEXT_Idx) = dlsym(RTLD_NEXT,"glCompressedTextureSubImage1DEXT");
-            if(!GL_ENTRY_PTR(glCompressedTextureSubImage1DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCompressedTextureSubImage1DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCompressedTextureSubImage1DEXT(GLuint texture,GLenum targ
         GL_ENTRY_LAST_TS(glCompressedTextureSubImage1DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCompressedTextureSubImage1DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCompressedTextureSubImage1DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCompressedTextureSubImage1DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCompressedTextureSubImage1DEXT_Idx),

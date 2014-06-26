@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetImageTransformParameterfvHP(GLenum target,GLenum pname
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetImageTransformParameterfvHP_Idx))
-	{
-            GL_ENTRY_PTR(glGetImageTransformParameterfvHP_Idx) = dlsym(RTLD_NEXT,"glGetImageTransformParameterfvHP");
-            if(!GL_ENTRY_PTR(glGetImageTransformParameterfvHP_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetImageTransformParameterfvHP_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetImageTransformParameterfvHP(GLenum target,GLenum pname
         GL_ENTRY_LAST_TS(glGetImageTransformParameterfvHP_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetImageTransformParameterfvHP_Idx),
 				 GL_ENTRY_LAST_TS(glGetImageTransformParameterfvHP_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetImageTransformParameterfvHP %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetImageTransformParameterfvHP_Idx),

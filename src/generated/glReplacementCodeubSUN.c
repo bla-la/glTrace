@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glReplacementCodeubSUN(GLubyte code)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glReplacementCodeubSUN_Idx))
-	{
-            GL_ENTRY_PTR(glReplacementCodeubSUN_Idx) = dlsym(RTLD_NEXT,"glReplacementCodeubSUN");
-            if(!GL_ENTRY_PTR(glReplacementCodeubSUN_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glReplacementCodeubSUN_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glReplacementCodeubSUN(GLubyte code)
         GL_ENTRY_LAST_TS(glReplacementCodeubSUN_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glReplacementCodeubSUN_Idx),
 				 GL_ENTRY_LAST_TS(glReplacementCodeubSUN_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glReplacementCodeubSUN %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glReplacementCodeubSUN_Idx),

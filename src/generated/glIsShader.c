@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsShader(GLuint shader)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsShader_Idx))
-	{
-            GL_ENTRY_PTR(glIsShader_Idx) = dlsym(RTLD_NEXT,"glIsShader");
-            if(!GL_ENTRY_PTR(glIsShader_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsShader_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsShader(GLuint shader)
         GL_ENTRY_LAST_TS(glIsShader_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsShader_Idx),
 				 GL_ENTRY_LAST_TS(glIsShader_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsShader %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsShader_Idx),

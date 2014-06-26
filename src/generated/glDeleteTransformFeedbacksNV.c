@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteTransformFeedbacksNV(GLsizei n,const GLuint *ids)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteTransformFeedbacksNV_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteTransformFeedbacksNV_Idx) = dlsym(RTLD_NEXT,"glDeleteTransformFeedbacksNV");
-            if(!GL_ENTRY_PTR(glDeleteTransformFeedbacksNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteTransformFeedbacksNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteTransformFeedbacksNV(GLsizei n,const GLuint *ids)
         GL_ENTRY_LAST_TS(glDeleteTransformFeedbacksNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteTransformFeedbacksNV_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteTransformFeedbacksNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteTransformFeedbacksNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteTransformFeedbacksNV_Idx),

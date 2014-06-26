@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFramebufferRenderbuffer(GLenum target,GLenum attachment,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFramebufferRenderbuffer_Idx))
-	{
-            GL_ENTRY_PTR(glFramebufferRenderbuffer_Idx) = dlsym(RTLD_NEXT,"glFramebufferRenderbuffer");
-            if(!GL_ENTRY_PTR(glFramebufferRenderbuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFramebufferRenderbuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFramebufferRenderbuffer(GLenum target,GLenum attachment,G
         GL_ENTRY_LAST_TS(glFramebufferRenderbuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFramebufferRenderbuffer_Idx),
 				 GL_ENTRY_LAST_TS(glFramebufferRenderbuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFramebufferRenderbuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFramebufferRenderbuffer_Idx),

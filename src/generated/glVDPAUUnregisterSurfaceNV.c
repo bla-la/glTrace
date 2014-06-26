@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVDPAUUnregisterSurfaceNV(GLvdpauSurfaceNV surface)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVDPAUUnregisterSurfaceNV_Idx))
-	{
-            GL_ENTRY_PTR(glVDPAUUnregisterSurfaceNV_Idx) = dlsym(RTLD_NEXT,"glVDPAUUnregisterSurfaceNV");
-            if(!GL_ENTRY_PTR(glVDPAUUnregisterSurfaceNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVDPAUUnregisterSurfaceNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVDPAUUnregisterSurfaceNV(GLvdpauSurfaceNV surface)
         GL_ENTRY_LAST_TS(glVDPAUUnregisterSurfaceNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVDPAUUnregisterSurfaceNV_Idx),
 				 GL_ENTRY_LAST_TS(glVDPAUUnregisterSurfaceNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVDPAUUnregisterSurfaceNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVDPAUUnregisterSurfaceNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMultisamplefv(GLenum pname,GLuint index,GLfloat *val)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMultisamplefv_Idx))
-	{
-            GL_ENTRY_PTR(glGetMultisamplefv_Idx) = dlsym(RTLD_NEXT,"glGetMultisamplefv");
-            if(!GL_ENTRY_PTR(glGetMultisamplefv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMultisamplefv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMultisamplefv(GLenum pname,GLuint index,GLfloat *val)
         GL_ENTRY_LAST_TS(glGetMultisamplefv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMultisamplefv_Idx),
 				 GL_ENTRY_LAST_TS(glGetMultisamplefv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMultisamplefv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMultisamplefv_Idx),

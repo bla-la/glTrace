@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindSampler(GLuint unit,GLuint sampler)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindSampler_Idx))
-	{
-            GL_ENTRY_PTR(glBindSampler_Idx) = dlsym(RTLD_NEXT,"glBindSampler");
-            if(!GL_ENTRY_PTR(glBindSampler_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindSampler_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindSampler(GLuint unit,GLuint sampler)
         GL_ENTRY_LAST_TS(glBindSampler_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindSampler_Idx),
 				 GL_ENTRY_LAST_TS(glBindSampler_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindSampler %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindSampler_Idx),

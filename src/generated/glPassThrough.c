@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPassThrough(GLfloat token)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPassThrough_Idx))
-	{
-            GL_ENTRY_PTR(glPassThrough_Idx) = dlsym(RTLD_NEXT,"glPassThrough");
-            if(!GL_ENTRY_PTR(glPassThrough_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPassThrough_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPassThrough(GLfloat token)
         GL_ENTRY_LAST_TS(glPassThrough_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPassThrough_Idx),
 				 GL_ENTRY_LAST_TS(glPassThrough_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPassThrough %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPassThrough_Idx),

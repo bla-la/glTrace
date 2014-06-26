@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetCompressedTexImageARB(GLenum target,GLint level,void *
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetCompressedTexImageARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetCompressedTexImageARB_Idx) = dlsym(RTLD_NEXT,"glGetCompressedTexImageARB");
-            if(!GL_ENTRY_PTR(glGetCompressedTexImageARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetCompressedTexImageARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetCompressedTexImageARB(GLenum target,GLint level,void *
         GL_ENTRY_LAST_TS(glGetCompressedTexImageARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetCompressedTexImageARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetCompressedTexImageARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetCompressedTexImageARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetCompressedTexImageARB_Idx),

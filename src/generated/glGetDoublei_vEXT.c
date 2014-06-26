@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetDoublei_vEXT(GLenum pname,GLuint index,GLdouble *param
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetDoublei_vEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetDoublei_vEXT_Idx) = dlsym(RTLD_NEXT,"glGetDoublei_vEXT");
-            if(!GL_ENTRY_PTR(glGetDoublei_vEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetDoublei_vEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetDoublei_vEXT(GLenum pname,GLuint index,GLdouble *param
         GL_ENTRY_LAST_TS(glGetDoublei_vEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetDoublei_vEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetDoublei_vEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetDoublei_vEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetDoublei_vEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSecondaryColorPointerEXT(GLint size,GLenum type,GLsizei s
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSecondaryColorPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glSecondaryColorPointerEXT_Idx) = dlsym(RTLD_NEXT,"glSecondaryColorPointerEXT");
-            if(!GL_ENTRY_PTR(glSecondaryColorPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSecondaryColorPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSecondaryColorPointerEXT(GLint size,GLenum type,GLsizei s
         GL_ENTRY_LAST_TS(glSecondaryColorPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSecondaryColorPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glSecondaryColorPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSecondaryColorPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSecondaryColorPointerEXT_Idx),

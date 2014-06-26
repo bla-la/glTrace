@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetInternalformativ(GLenum target,GLenum internalformat,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetInternalformativ_Idx))
-	{
-            GL_ENTRY_PTR(glGetInternalformativ_Idx) = dlsym(RTLD_NEXT,"glGetInternalformativ");
-            if(!GL_ENTRY_PTR(glGetInternalformativ_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetInternalformativ_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetInternalformativ(GLenum target,GLenum internalformat,G
         GL_ENTRY_LAST_TS(glGetInternalformativ_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetInternalformativ_Idx),
 				 GL_ENTRY_LAST_TS(glGetInternalformativ_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetInternalformativ %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetInternalformativ_Idx),

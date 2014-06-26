@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexBumpParameterivATI(GLenum pname,const GLint *param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexBumpParameterivATI_Idx))
-	{
-            GL_ENTRY_PTR(glTexBumpParameterivATI_Idx) = dlsym(RTLD_NEXT,"glTexBumpParameterivATI");
-            if(!GL_ENTRY_PTR(glTexBumpParameterivATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexBumpParameterivATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexBumpParameterivATI(GLenum pname,const GLint *param)
         GL_ENTRY_LAST_TS(glTexBumpParameterivATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexBumpParameterivATI_Idx),
 				 GL_ENTRY_LAST_TS(glTexBumpParameterivATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexBumpParameterivATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexBumpParameterivATI_Idx),

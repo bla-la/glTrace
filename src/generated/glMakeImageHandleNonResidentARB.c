@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMakeImageHandleNonResidentARB(GLuint64 handle)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMakeImageHandleNonResidentARB_Idx))
-	{
-            GL_ENTRY_PTR(glMakeImageHandleNonResidentARB_Idx) = dlsym(RTLD_NEXT,"glMakeImageHandleNonResidentARB");
-            if(!GL_ENTRY_PTR(glMakeImageHandleNonResidentARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMakeImageHandleNonResidentARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMakeImageHandleNonResidentARB(GLuint64 handle)
         GL_ENTRY_LAST_TS(glMakeImageHandleNonResidentARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMakeImageHandleNonResidentARB_Idx),
 				 GL_ENTRY_LAST_TS(glMakeImageHandleNonResidentARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMakeImageHandleNonResidentARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMakeImageHandleNonResidentARB_Idx),

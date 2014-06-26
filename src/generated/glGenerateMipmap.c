@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenerateMipmap(GLenum target)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenerateMipmap_Idx))
-	{
-            GL_ENTRY_PTR(glGenerateMipmap_Idx) = dlsym(RTLD_NEXT,"glGenerateMipmap");
-            if(!GL_ENTRY_PTR(glGenerateMipmap_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenerateMipmap_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenerateMipmap(GLenum target)
         GL_ENTRY_LAST_TS(glGenerateMipmap_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenerateMipmap_Idx),
 				 GL_ENTRY_LAST_TS(glGenerateMipmap_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenerateMipmap %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenerateMipmap_Idx),

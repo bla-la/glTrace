@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetProgramiv(GLuint program,GLenum pname,GLint *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetProgramiv_Idx))
-	{
-            GL_ENTRY_PTR(glGetProgramiv_Idx) = dlsym(RTLD_NEXT,"glGetProgramiv");
-            if(!GL_ENTRY_PTR(glGetProgramiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetProgramiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetProgramiv(GLuint program,GLenum pname,GLint *params)
         GL_ENTRY_LAST_TS(glGetProgramiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetProgramiv_Idx),
 				 GL_ENTRY_LAST_TS(glGetProgramiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetProgramiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetProgramiv_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawBuffersATI(GLsizei n,const GLenum *bufs)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawBuffersATI_Idx))
-	{
-            GL_ENTRY_PTR(glDrawBuffersATI_Idx) = dlsym(RTLD_NEXT,"glDrawBuffersATI");
-            if(!GL_ENTRY_PTR(glDrawBuffersATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawBuffersATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawBuffersATI(GLsizei n,const GLenum *bufs)
         GL_ENTRY_LAST_TS(glDrawBuffersATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawBuffersATI_Idx),
 				 GL_ENTRY_LAST_TS(glDrawBuffersATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawBuffersATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawBuffersATI_Idx),

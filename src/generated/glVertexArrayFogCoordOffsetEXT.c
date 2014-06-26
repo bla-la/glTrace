@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexArrayFogCoordOffsetEXT(GLuint vaobj,GLuint buffer,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexArrayFogCoordOffsetEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexArrayFogCoordOffsetEXT_Idx) = dlsym(RTLD_NEXT,"glVertexArrayFogCoordOffsetEXT");
-            if(!GL_ENTRY_PTR(glVertexArrayFogCoordOffsetEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexArrayFogCoordOffsetEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexArrayFogCoordOffsetEXT(GLuint vaobj,GLuint buffer,G
         GL_ENTRY_LAST_TS(glVertexArrayFogCoordOffsetEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexArrayFogCoordOffsetEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexArrayFogCoordOffsetEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexArrayFogCoordOffsetEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexArrayFogCoordOffsetEXT_Idx),

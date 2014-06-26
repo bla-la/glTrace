@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteVertexArrays(GLsizei n,const GLuint *arrays)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteVertexArrays_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteVertexArrays_Idx) = dlsym(RTLD_NEXT,"glDeleteVertexArrays");
-            if(!GL_ENTRY_PTR(glDeleteVertexArrays_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteVertexArrays_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteVertexArrays(GLsizei n,const GLuint *arrays)
         GL_ENTRY_LAST_TS(glDeleteVertexArrays_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteVertexArrays_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteVertexArrays_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteVertexArrays %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteVertexArrays_Idx),

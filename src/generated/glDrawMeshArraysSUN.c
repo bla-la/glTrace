@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawMeshArraysSUN(GLenum mode,GLint first,GLsizei count,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawMeshArraysSUN_Idx))
-	{
-            GL_ENTRY_PTR(glDrawMeshArraysSUN_Idx) = dlsym(RTLD_NEXT,"glDrawMeshArraysSUN");
-            if(!GL_ENTRY_PTR(glDrawMeshArraysSUN_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawMeshArraysSUN_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawMeshArraysSUN(GLenum mode,GLint first,GLsizei count,G
         GL_ENTRY_LAST_TS(glDrawMeshArraysSUN_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawMeshArraysSUN_Idx),
 				 GL_ENTRY_LAST_TS(glDrawMeshArraysSUN_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawMeshArraysSUN %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawMeshArraysSUN_Idx),

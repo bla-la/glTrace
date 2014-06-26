@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBitmapxOES(GLsizei width,GLsizei height,GLfixed xorig,GLf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBitmapxOES_Idx))
-	{
-            GL_ENTRY_PTR(glBitmapxOES_Idx) = dlsym(RTLD_NEXT,"glBitmapxOES");
-            if(!GL_ENTRY_PTR(glBitmapxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBitmapxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBitmapxOES(GLsizei width,GLsizei height,GLfixed xorig,GLf
         GL_ENTRY_LAST_TS(glBitmapxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBitmapxOES_Idx),
 				 GL_ENTRY_LAST_TS(glBitmapxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBitmapxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBitmapxOES_Idx),

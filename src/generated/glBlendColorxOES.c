@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlendColorxOES(GLfixed red,GLfixed green,GLfixed blue,GLf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlendColorxOES_Idx))
-	{
-            GL_ENTRY_PTR(glBlendColorxOES_Idx) = dlsym(RTLD_NEXT,"glBlendColorxOES");
-            if(!GL_ENTRY_PTR(glBlendColorxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlendColorxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlendColorxOES(GLfixed red,GLfixed green,GLfixed blue,GLf
         GL_ENTRY_LAST_TS(glBlendColorxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlendColorxOES_Idx),
 				 GL_ENTRY_LAST_TS(glBlendColorxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlendColorxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlendColorxOES_Idx),

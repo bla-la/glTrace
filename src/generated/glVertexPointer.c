@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexPointer(GLint size,GLenum type,GLsizei stride,const
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexPointer_Idx))
-	{
-            GL_ENTRY_PTR(glVertexPointer_Idx) = dlsym(RTLD_NEXT,"glVertexPointer");
-            if(!GL_ENTRY_PTR(glVertexPointer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexPointer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexPointer(GLint size,GLenum type,GLsizei stride,const
         GL_ENTRY_LAST_TS(glVertexPointer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexPointer_Idx),
 				 GL_ENTRY_LAST_TS(glVertexPointer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexPointer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexPointer_Idx),

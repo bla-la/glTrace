@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glAttachShader(GLuint program,GLuint shader)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glAttachShader_Idx))
-	{
-            GL_ENTRY_PTR(glAttachShader_Idx) = dlsym(RTLD_NEXT,"glAttachShader");
-            if(!GL_ENTRY_PTR(glAttachShader_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glAttachShader_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glAttachShader(GLuint program,GLuint shader)
         GL_ENTRY_LAST_TS(glAttachShader_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glAttachShader_Idx),
 				 GL_ENTRY_LAST_TS(glAttachShader_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glAttachShader %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glAttachShader_Idx),

@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsEnabled(GLenum cap)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsEnabled_Idx))
-	{
-            GL_ENTRY_PTR(glIsEnabled_Idx) = dlsym(RTLD_NEXT,"glIsEnabled");
-            if(!GL_ENTRY_PTR(glIsEnabled_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsEnabled_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsEnabled(GLenum cap)
         GL_ENTRY_LAST_TS(glIsEnabled_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsEnabled_Idx),
 				 GL_ENTRY_LAST_TS(glIsEnabled_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsEnabled %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsEnabled_Idx),

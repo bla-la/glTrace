@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureColorMaskSGIS(GLboolean red,GLboolean green,GLbool
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureColorMaskSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glTextureColorMaskSGIS_Idx) = dlsym(RTLD_NEXT,"glTextureColorMaskSGIS");
-            if(!GL_ENTRY_PTR(glTextureColorMaskSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureColorMaskSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureColorMaskSGIS(GLboolean red,GLboolean green,GLbool
         GL_ENTRY_LAST_TS(glTextureColorMaskSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureColorMaskSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glTextureColorMaskSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureColorMaskSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureColorMaskSGIS_Idx),

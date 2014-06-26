@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glIndexFuncEXT(GLenum func,GLclampf ref)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIndexFuncEXT_Idx))
-	{
-            GL_ENTRY_PTR(glIndexFuncEXT_Idx) = dlsym(RTLD_NEXT,"glIndexFuncEXT");
-            if(!GL_ENTRY_PTR(glIndexFuncEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIndexFuncEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glIndexFuncEXT(GLenum func,GLclampf ref)
         GL_ENTRY_LAST_TS(glIndexFuncEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIndexFuncEXT_Idx),
 				 GL_ENTRY_LAST_TS(glIndexFuncEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIndexFuncEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIndexFuncEXT_Idx),

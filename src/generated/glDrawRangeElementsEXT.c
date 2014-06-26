@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawRangeElementsEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDrawRangeElementsEXT_Idx) = dlsym(RTLD_NEXT,"glDrawRangeElementsEXT");
-            if(!GL_ENTRY_PTR(glDrawRangeElementsEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawRangeElementsEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,
         GL_ENTRY_LAST_TS(glDrawRangeElementsEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawRangeElementsEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDrawRangeElementsEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawRangeElementsEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawRangeElementsEXT_Idx),

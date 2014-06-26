@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBinormal3ivEXT(const GLint *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBinormal3ivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBinormal3ivEXT_Idx) = dlsym(RTLD_NEXT,"glBinormal3ivEXT");
-            if(!GL_ENTRY_PTR(glBinormal3ivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBinormal3ivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBinormal3ivEXT(const GLint *v)
         GL_ENTRY_LAST_TS(glBinormal3ivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBinormal3ivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBinormal3ivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBinormal3ivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBinormal3ivEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexArrayRangeNV(GLsizei length,const void *pointer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexArrayRangeNV_Idx))
-	{
-            GL_ENTRY_PTR(glVertexArrayRangeNV_Idx) = dlsym(RTLD_NEXT,"glVertexArrayRangeNV");
-            if(!GL_ENTRY_PTR(glVertexArrayRangeNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexArrayRangeNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexArrayRangeNV(GLsizei length,const void *pointer)
         GL_ENTRY_LAST_TS(glVertexArrayRangeNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexArrayRangeNV_Idx),
 				 GL_ENTRY_LAST_TS(glVertexArrayRangeNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexArrayRangeNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexArrayRangeNV_Idx),

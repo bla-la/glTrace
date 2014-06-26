@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlendEquationSeparatei(GLuint buf,GLenum modeRGB,GLenum m
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlendEquationSeparatei_Idx))
-	{
-            GL_ENTRY_PTR(glBlendEquationSeparatei_Idx) = dlsym(RTLD_NEXT,"glBlendEquationSeparatei");
-            if(!GL_ENTRY_PTR(glBlendEquationSeparatei_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlendEquationSeparatei_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlendEquationSeparatei(GLuint buf,GLenum modeRGB,GLenum m
         GL_ENTRY_LAST_TS(glBlendEquationSeparatei_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlendEquationSeparatei_Idx),
 				 GL_ENTRY_LAST_TS(glBlendEquationSeparatei_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlendEquationSeparatei %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlendEquationSeparatei_Idx),

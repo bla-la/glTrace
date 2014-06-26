@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCompressedTexImage3DOES(GLenum target,GLint level,GLenum 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCompressedTexImage3DOES_Idx))
-	{
-            GL_ENTRY_PTR(glCompressedTexImage3DOES_Idx) = dlsym(RTLD_NEXT,"glCompressedTexImage3DOES");
-            if(!GL_ENTRY_PTR(glCompressedTexImage3DOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCompressedTexImage3DOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCompressedTexImage3DOES(GLenum target,GLint level,GLenum 
         GL_ENTRY_LAST_TS(glCompressedTexImage3DOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCompressedTexImage3DOES_Idx),
 				 GL_ENTRY_LAST_TS(glCompressedTexImage3DOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCompressedTexImage3DOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCompressedTexImage3DOES_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPNTrianglesfATI(GLenum pname,GLfloat param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPNTrianglesfATI_Idx))
-	{
-            GL_ENTRY_PTR(glPNTrianglesfATI_Idx) = dlsym(RTLD_NEXT,"glPNTrianglesfATI");
-            if(!GL_ENTRY_PTR(glPNTrianglesfATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPNTrianglesfATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPNTrianglesfATI(GLenum pname,GLfloat param)
         GL_ENTRY_LAST_TS(glPNTrianglesfATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPNTrianglesfATI_Idx),
 				 GL_ENTRY_LAST_TS(glPNTrianglesfATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPNTrianglesfATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPNTrianglesfATI_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCoverageMaskNV(GLboolean mask)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCoverageMaskNV_Idx))
-	{
-            GL_ENTRY_PTR(glCoverageMaskNV_Idx) = dlsym(RTLD_NEXT,"glCoverageMaskNV");
-            if(!GL_ENTRY_PTR(glCoverageMaskNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCoverageMaskNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCoverageMaskNV(GLboolean mask)
         GL_ENTRY_LAST_TS(glCoverageMaskNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCoverageMaskNV_Idx),
 				 GL_ENTRY_LAST_TS(glCoverageMaskNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCoverageMaskNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCoverageMaskNV_Idx),

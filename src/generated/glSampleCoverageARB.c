@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSampleCoverageARB(GLfloat value,GLboolean invert)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSampleCoverageARB_Idx))
-	{
-            GL_ENTRY_PTR(glSampleCoverageARB_Idx) = dlsym(RTLD_NEXT,"glSampleCoverageARB");
-            if(!GL_ENTRY_PTR(glSampleCoverageARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSampleCoverageARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSampleCoverageARB(GLfloat value,GLboolean invert)
         GL_ENTRY_LAST_TS(glSampleCoverageARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSampleCoverageARB_Idx),
 				 GL_ENTRY_LAST_TS(glSampleCoverageARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSampleCoverageARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSampleCoverageARB_Idx),

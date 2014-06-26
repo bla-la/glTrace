@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetBufferSubData(GLenum target,GLintptr offset,GLsizeiptr
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetBufferSubData_Idx))
-	{
-            GL_ENTRY_PTR(glGetBufferSubData_Idx) = dlsym(RTLD_NEXT,"glGetBufferSubData");
-            if(!GL_ENTRY_PTR(glGetBufferSubData_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetBufferSubData_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetBufferSubData(GLenum target,GLintptr offset,GLsizeiptr
         GL_ENTRY_LAST_TS(glGetBufferSubData_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetBufferSubData_Idx),
 				 GL_ENTRY_LAST_TS(glGetBufferSubData_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetBufferSubData %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetBufferSubData_Idx),

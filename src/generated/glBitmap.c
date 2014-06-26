@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBitmap(GLsizei width,GLsizei height,GLfloat xorig,GLfloat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBitmap_Idx))
-	{
-            GL_ENTRY_PTR(glBitmap_Idx) = dlsym(RTLD_NEXT,"glBitmap");
-            if(!GL_ENTRY_PTR(glBitmap_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBitmap_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBitmap(GLsizei width,GLsizei height,GLfloat xorig,GLfloat
         GL_ENTRY_LAST_TS(glBitmap_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBitmap_Idx),
 				 GL_ENTRY_LAST_TS(glBitmap_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBitmap %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBitmap_Idx),

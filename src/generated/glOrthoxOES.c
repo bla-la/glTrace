@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glOrthoxOES(GLfixed l,GLfixed r,GLfixed b,GLfixed t,GLfixed
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glOrthoxOES_Idx))
-	{
-            GL_ENTRY_PTR(glOrthoxOES_Idx) = dlsym(RTLD_NEXT,"glOrthoxOES");
-            if(!GL_ENTRY_PTR(glOrthoxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glOrthoxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glOrthoxOES(GLfixed l,GLfixed r,GLfixed b,GLfixed t,GLfixed
         GL_ENTRY_LAST_TS(glOrthoxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glOrthoxOES_Idx),
 				 GL_ENTRY_LAST_TS(glOrthoxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glOrthoxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glOrthoxOES_Idx),

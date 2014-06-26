@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEnableIndexedEXT(GLenum target,GLuint index)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEnableIndexedEXT_Idx))
-	{
-            GL_ENTRY_PTR(glEnableIndexedEXT_Idx) = dlsym(RTLD_NEXT,"glEnableIndexedEXT");
-            if(!GL_ENTRY_PTR(glEnableIndexedEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEnableIndexedEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEnableIndexedEXT(GLenum target,GLuint index)
         GL_ENTRY_LAST_TS(glEnableIndexedEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEnableIndexedEXT_Idx),
 				 GL_ENTRY_LAST_TS(glEnableIndexedEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEnableIndexedEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEnableIndexedEXT_Idx),

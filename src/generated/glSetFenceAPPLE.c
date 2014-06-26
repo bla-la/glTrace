@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSetFenceAPPLE(GLuint fence)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSetFenceAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glSetFenceAPPLE_Idx) = dlsym(RTLD_NEXT,"glSetFenceAPPLE");
-            if(!GL_ENTRY_PTR(glSetFenceAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSetFenceAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSetFenceAPPLE(GLuint fence)
         GL_ENTRY_LAST_TS(glSetFenceAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSetFenceAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glSetFenceAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSetFenceAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSetFenceAPPLE_Idx),

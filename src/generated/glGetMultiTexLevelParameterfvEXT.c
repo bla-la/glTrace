@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMultiTexLevelParameterfvEXT(GLenum texunit,GLenum targ
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMultiTexLevelParameterfvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetMultiTexLevelParameterfvEXT_Idx) = dlsym(RTLD_NEXT,"glGetMultiTexLevelParameterfvEXT");
-            if(!GL_ENTRY_PTR(glGetMultiTexLevelParameterfvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMultiTexLevelParameterfvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMultiTexLevelParameterfvEXT(GLenum texunit,GLenum targ
         GL_ENTRY_LAST_TS(glGetMultiTexLevelParameterfvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMultiTexLevelParameterfvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetMultiTexLevelParameterfvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMultiTexLevelParameterfvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMultiTexLevelParameterfvEXT_Idx),

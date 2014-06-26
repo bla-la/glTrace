@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDebugMessageInsertKHR(GLenum source,GLenum type,GLuint id
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDebugMessageInsertKHR_Idx))
-	{
-            GL_ENTRY_PTR(glDebugMessageInsertKHR_Idx) = dlsym(RTLD_NEXT,"glDebugMessageInsertKHR");
-            if(!GL_ENTRY_PTR(glDebugMessageInsertKHR_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDebugMessageInsertKHR_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDebugMessageInsertKHR(GLenum source,GLenum type,GLuint id
         GL_ENTRY_LAST_TS(glDebugMessageInsertKHR_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDebugMessageInsertKHR_Idx),
 				 GL_ENTRY_LAST_TS(glDebugMessageInsertKHR_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDebugMessageInsertKHR %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDebugMessageInsertKHR_Idx),

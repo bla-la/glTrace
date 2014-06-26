@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetnMinmaxARB(GLenum target,GLboolean reset,GLenum format
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetnMinmaxARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetnMinmaxARB_Idx) = dlsym(RTLD_NEXT,"glGetnMinmaxARB");
-            if(!GL_ENTRY_PTR(glGetnMinmaxARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetnMinmaxARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetnMinmaxARB(GLenum target,GLboolean reset,GLenum format
         GL_ENTRY_LAST_TS(glGetnMinmaxARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetnMinmaxARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetnMinmaxARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetnMinmaxARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetnMinmaxARB_Idx),

@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsSync(GLsync sync)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsSync_Idx))
-	{
-            GL_ENTRY_PTR(glIsSync_Idx) = dlsym(RTLD_NEXT,"glIsSync");
-            if(!GL_ENTRY_PTR(glIsSync_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsSync_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsSync(GLsync sync)
         GL_ENTRY_LAST_TS(glIsSync_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsSync_Idx),
 				 GL_ENTRY_LAST_TS(glIsSync_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsSync %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsSync_Idx),

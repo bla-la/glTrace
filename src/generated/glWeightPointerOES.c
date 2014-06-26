@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWeightPointerOES(GLint size,GLenum type,GLsizei stride,co
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWeightPointerOES_Idx))
-	{
-            GL_ENTRY_PTR(glWeightPointerOES_Idx) = dlsym(RTLD_NEXT,"glWeightPointerOES");
-            if(!GL_ENTRY_PTR(glWeightPointerOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWeightPointerOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWeightPointerOES(GLint size,GLenum type,GLsizei stride,co
         GL_ENTRY_LAST_TS(glWeightPointerOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWeightPointerOES_Idx),
 				 GL_ENTRY_LAST_TS(glWeightPointerOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWeightPointerOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWeightPointerOES_Idx),

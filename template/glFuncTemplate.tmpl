@@ -10,13 +10,9 @@ GLAPI $procRet APIENTRY $procName($paramStr)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR($procNameIdx))
-	{
-            GL_ENTRY_PTR($procNameIdx) = dlsym(RTLD_NEXT,"$procName");
-            if(!GL_ENTRY_PTR($procNameIdx))
-                abort();
-	}
-
+        //init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS($procNameIdx))
     	{
@@ -29,12 +25,18 @@ GLAPI $procRet APIENTRY $procName($paramStr)
 
         clock_gettime(CLOCK_REALTIME,&ed);
 
+	/*TODO
+		1) call calculate, backtrace
+		2) report call in separate thread
+        */
         GL_ENTRY_CALL_TIME($procNameIdx) += ts_diff(&st,&ed);
         GL_ENTRY_CALL_COUNT($procNameIdx) ++;
 
         GL_ENTRY_LAST_TS($procNameIdx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS($procNameIdx),
 				 GL_ENTRY_LAST_TS($procNameIdx));
+
+	//tremporary report
         if(last_diff > 1000000000){
             printf("$procName %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT($procNameIdx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEvalCoord2dv(const GLdouble *u)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEvalCoord2dv_Idx))
-	{
-            GL_ENTRY_PTR(glEvalCoord2dv_Idx) = dlsym(RTLD_NEXT,"glEvalCoord2dv");
-            if(!GL_ENTRY_PTR(glEvalCoord2dv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEvalCoord2dv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEvalCoord2dv(const GLdouble *u)
         GL_ENTRY_LAST_TS(glEvalCoord2dv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEvalCoord2dv_Idx),
 				 GL_ENTRY_LAST_TS(glEvalCoord2dv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEvalCoord2dv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEvalCoord2dv_Idx),

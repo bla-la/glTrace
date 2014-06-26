@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyColorTableSGI(GLenum target,GLenum internalformat,GLi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyColorTableSGI_Idx))
-	{
-            GL_ENTRY_PTR(glCopyColorTableSGI_Idx) = dlsym(RTLD_NEXT,"glCopyColorTableSGI");
-            if(!GL_ENTRY_PTR(glCopyColorTableSGI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyColorTableSGI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyColorTableSGI(GLenum target,GLenum internalformat,GLi
         GL_ENTRY_LAST_TS(glCopyColorTableSGI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyColorTableSGI_Idx),
 				 GL_ENTRY_LAST_TS(glCopyColorTableSGI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyColorTableSGI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyColorTableSGI_Idx),

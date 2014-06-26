@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glStopInstrumentsSGIX(GLint marker)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glStopInstrumentsSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glStopInstrumentsSGIX_Idx) = dlsym(RTLD_NEXT,"glStopInstrumentsSGIX");
-            if(!GL_ENTRY_PTR(glStopInstrumentsSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glStopInstrumentsSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glStopInstrumentsSGIX(GLint marker)
         GL_ENTRY_LAST_TS(glStopInstrumentsSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glStopInstrumentsSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glStopInstrumentsSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glStopInstrumentsSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glStopInstrumentsSGIX_Idx),

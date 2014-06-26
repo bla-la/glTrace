@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glStencilFuncSeparateATI(GLenum frontfunc,GLenum backfunc,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glStencilFuncSeparateATI_Idx))
-	{
-            GL_ENTRY_PTR(glStencilFuncSeparateATI_Idx) = dlsym(RTLD_NEXT,"glStencilFuncSeparateATI");
-            if(!GL_ENTRY_PTR(glStencilFuncSeparateATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glStencilFuncSeparateATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glStencilFuncSeparateATI(GLenum frontfunc,GLenum backfunc,G
         GL_ENTRY_LAST_TS(glStencilFuncSeparateATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glStencilFuncSeparateATI_Idx),
 				 GL_ENTRY_LAST_TS(glStencilFuncSeparateATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glStencilFuncSeparateATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glStencilFuncSeparateATI_Idx),

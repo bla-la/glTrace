@@ -10,13 +10,9 @@ GLAPI GLint  APIENTRY glFinishAsyncSGIX(GLuint *markerp)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFinishAsyncSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glFinishAsyncSGIX_Idx) = dlsym(RTLD_NEXT,"glFinishAsyncSGIX");
-            if(!GL_ENTRY_PTR(glFinishAsyncSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFinishAsyncSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLint  APIENTRY glFinishAsyncSGIX(GLuint *markerp)
         GL_ENTRY_LAST_TS(glFinishAsyncSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFinishAsyncSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glFinishAsyncSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFinishAsyncSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFinishAsyncSGIX_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetTexLevelParameteriv(GLenum target,GLint level,GLenum p
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTexLevelParameteriv_Idx))
-	{
-            GL_ENTRY_PTR(glGetTexLevelParameteriv_Idx) = dlsym(RTLD_NEXT,"glGetTexLevelParameteriv");
-            if(!GL_ENTRY_PTR(glGetTexLevelParameteriv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTexLevelParameteriv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetTexLevelParameteriv(GLenum target,GLint level,GLenum p
         GL_ENTRY_LAST_TS(glGetTexLevelParameteriv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTexLevelParameteriv_Idx),
 				 GL_ENTRY_LAST_TS(glGetTexLevelParameteriv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTexLevelParameteriv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTexLevelParameteriv_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetnPixelMapfvARB(GLenum map,GLsizei bufSize,GLfloat *val
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetnPixelMapfvARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetnPixelMapfvARB_Idx) = dlsym(RTLD_NEXT,"glGetnPixelMapfvARB");
-            if(!GL_ENTRY_PTR(glGetnPixelMapfvARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetnPixelMapfvARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetnPixelMapfvARB(GLenum map,GLsizei bufSize,GLfloat *val
         GL_ENTRY_LAST_TS(glGetnPixelMapfvARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetnPixelMapfvARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetnPixelMapfvARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetnPixelMapfvARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetnPixelMapfvARB_Idx),

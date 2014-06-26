@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMapGrid2f(GLint un,GLfloat u1,GLfloat u2,GLint vn,GLfloat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMapGrid2f_Idx))
-	{
-            GL_ENTRY_PTR(glMapGrid2f_Idx) = dlsym(RTLD_NEXT,"glMapGrid2f");
-            if(!GL_ENTRY_PTR(glMapGrid2f_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMapGrid2f_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMapGrid2f(GLint un,GLfloat u1,GLfloat u2,GLint vn,GLfloat
         GL_ENTRY_LAST_TS(glMapGrid2f_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMapGrid2f_Idx),
 				 GL_ENTRY_LAST_TS(glMapGrid2f_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMapGrid2f %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMapGrid2f_Idx),

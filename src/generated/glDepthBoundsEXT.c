@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDepthBoundsEXT(GLclampd zmin,GLclampd zmax)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDepthBoundsEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDepthBoundsEXT_Idx) = dlsym(RTLD_NEXT,"glDepthBoundsEXT");
-            if(!GL_ENTRY_PTR(glDepthBoundsEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDepthBoundsEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDepthBoundsEXT(GLclampd zmin,GLclampd zmax)
         GL_ENTRY_LAST_TS(glDepthBoundsEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDepthBoundsEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDepthBoundsEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDepthBoundsEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDepthBoundsEXT_Idx),

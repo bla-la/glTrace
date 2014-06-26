@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSecondaryColorPointerListIBM(GLint size,GLenum type,GLint
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSecondaryColorPointerListIBM_Idx))
-	{
-            GL_ENTRY_PTR(glSecondaryColorPointerListIBM_Idx) = dlsym(RTLD_NEXT,"glSecondaryColorPointerListIBM");
-            if(!GL_ENTRY_PTR(glSecondaryColorPointerListIBM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSecondaryColorPointerListIBM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSecondaryColorPointerListIBM(GLint size,GLenum type,GLint
         GL_ENTRY_LAST_TS(glSecondaryColorPointerListIBM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSecondaryColorPointerListIBM_Idx),
 				 GL_ENTRY_LAST_TS(glSecondaryColorPointerListIBM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSecondaryColorPointerListIBM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSecondaryColorPointerListIBM_Idx),

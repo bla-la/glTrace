@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsList(GLuint list)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsList_Idx))
-	{
-            GL_ENTRY_PTR(glIsList_Idx) = dlsym(RTLD_NEXT,"glIsList");
-            if(!GL_ENTRY_PTR(glIsList_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsList_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsList(GLuint list)
         GL_ENTRY_LAST_TS(glIsList_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsList_Idx),
 				 GL_ENTRY_LAST_TS(glIsList_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsList %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsList_Idx),

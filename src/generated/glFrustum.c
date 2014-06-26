@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFrustum(GLdouble left,GLdouble right,GLdouble bottom,GLdo
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFrustum_Idx))
-	{
-            GL_ENTRY_PTR(glFrustum_Idx) = dlsym(RTLD_NEXT,"glFrustum");
-            if(!GL_ENTRY_PTR(glFrustum_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFrustum_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFrustum(GLdouble left,GLdouble right,GLdouble bottom,GLdo
         GL_ENTRY_LAST_TS(glFrustum_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFrustum_Idx),
 				 GL_ENTRY_LAST_TS(glFrustum_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFrustum %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFrustum_Idx),

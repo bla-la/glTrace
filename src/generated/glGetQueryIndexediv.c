@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetQueryIndexediv(GLenum target,GLuint index,GLenum pname
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetQueryIndexediv_Idx))
-	{
-            GL_ENTRY_PTR(glGetQueryIndexediv_Idx) = dlsym(RTLD_NEXT,"glGetQueryIndexediv");
-            if(!GL_ENTRY_PTR(glGetQueryIndexediv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetQueryIndexediv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetQueryIndexediv(GLenum target,GLuint index,GLenum pname
         GL_ENTRY_LAST_TS(glGetQueryIndexediv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetQueryIndexediv_Idx),
 				 GL_ENTRY_LAST_TS(glGetQueryIndexediv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetQueryIndexediv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetQueryIndexediv_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetPerfMonitorCounterInfoAMD(GLuint group,GLuint counter,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetPerfMonitorCounterInfoAMD_Idx))
-	{
-            GL_ENTRY_PTR(glGetPerfMonitorCounterInfoAMD_Idx) = dlsym(RTLD_NEXT,"glGetPerfMonitorCounterInfoAMD");
-            if(!GL_ENTRY_PTR(glGetPerfMonitorCounterInfoAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetPerfMonitorCounterInfoAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetPerfMonitorCounterInfoAMD(GLuint group,GLuint counter,
         GL_ENTRY_LAST_TS(glGetPerfMonitorCounterInfoAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetPerfMonitorCounterInfoAMD_Idx),
 				 GL_ENTRY_LAST_TS(glGetPerfMonitorCounterInfoAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetPerfMonitorCounterInfoAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetPerfMonitorCounterInfoAMD_Idx),

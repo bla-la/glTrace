@@ -10,13 +10,9 @@ GLAPI GLhandleARB  APIENTRY glGetHandleARB(GLenum pname)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetHandleARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetHandleARB_Idx) = dlsym(RTLD_NEXT,"glGetHandleARB");
-            if(!GL_ENTRY_PTR(glGetHandleARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetHandleARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLhandleARB  APIENTRY glGetHandleARB(GLenum pname)
         GL_ENTRY_LAST_TS(glGetHandleARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetHandleARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetHandleARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetHandleARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetHandleARB_Idx),

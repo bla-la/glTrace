@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawElementsInstancedEXT(GLenum mode,GLsizei count,GLenum
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawElementsInstancedEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDrawElementsInstancedEXT_Idx) = dlsym(RTLD_NEXT,"glDrawElementsInstancedEXT");
-            if(!GL_ENTRY_PTR(glDrawElementsInstancedEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawElementsInstancedEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawElementsInstancedEXT(GLenum mode,GLsizei count,GLenum
         GL_ENTRY_LAST_TS(glDrawElementsInstancedEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawElementsInstancedEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDrawElementsInstancedEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawElementsInstancedEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawElementsInstancedEXT_Idx),

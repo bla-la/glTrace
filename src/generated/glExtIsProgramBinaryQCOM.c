@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glExtIsProgramBinaryQCOM(GLuint program)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glExtIsProgramBinaryQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glExtIsProgramBinaryQCOM_Idx) = dlsym(RTLD_NEXT,"glExtIsProgramBinaryQCOM");
-            if(!GL_ENTRY_PTR(glExtIsProgramBinaryQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glExtIsProgramBinaryQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glExtIsProgramBinaryQCOM(GLuint program)
         GL_ENTRY_LAST_TS(glExtIsProgramBinaryQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glExtIsProgramBinaryQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glExtIsProgramBinaryQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glExtIsProgramBinaryQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glExtIsProgramBinaryQCOM_Idx),

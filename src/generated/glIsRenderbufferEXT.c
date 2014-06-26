@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsRenderbufferEXT(GLuint renderbuffer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsRenderbufferEXT_Idx))
-	{
-            GL_ENTRY_PTR(glIsRenderbufferEXT_Idx) = dlsym(RTLD_NEXT,"glIsRenderbufferEXT");
-            if(!GL_ENTRY_PTR(glIsRenderbufferEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsRenderbufferEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsRenderbufferEXT(GLuint renderbuffer)
         GL_ENTRY_LAST_TS(glIsRenderbufferEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsRenderbufferEXT_Idx),
 				 GL_ENTRY_LAST_TS(glIsRenderbufferEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsRenderbufferEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsRenderbufferEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureImage2DMultisampleNV(GLuint texture,GLenum target,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureImage2DMultisampleNV_Idx))
-	{
-            GL_ENTRY_PTR(glTextureImage2DMultisampleNV_Idx) = dlsym(RTLD_NEXT,"glTextureImage2DMultisampleNV");
-            if(!GL_ENTRY_PTR(glTextureImage2DMultisampleNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureImage2DMultisampleNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureImage2DMultisampleNV(GLuint texture,GLenum target,
         GL_ENTRY_LAST_TS(glTextureImage2DMultisampleNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureImage2DMultisampleNV_Idx),
 				 GL_ENTRY_LAST_TS(glTextureImage2DMultisampleNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureImage2DMultisampleNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureImage2DMultisampleNV_Idx),

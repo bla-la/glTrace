@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyTextureSubImage1DEXT(GLuint texture,GLenum target,GLi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyTextureSubImage1DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCopyTextureSubImage1DEXT_Idx) = dlsym(RTLD_NEXT,"glCopyTextureSubImage1DEXT");
-            if(!GL_ENTRY_PTR(glCopyTextureSubImage1DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyTextureSubImage1DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyTextureSubImage1DEXT(GLuint texture,GLenum target,GLi
         GL_ENTRY_LAST_TS(glCopyTextureSubImage1DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyTextureSubImage1DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCopyTextureSubImage1DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyTextureSubImage1DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyTextureSubImage1DEXT_Idx),

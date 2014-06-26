@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glActiveTexture(GLenum texture)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glActiveTexture_Idx))
-	{
-            GL_ENTRY_PTR(glActiveTexture_Idx) = dlsym(RTLD_NEXT,"glActiveTexture");
-            if(!GL_ENTRY_PTR(glActiveTexture_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glActiveTexture_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glActiveTexture(GLenum texture)
         GL_ENTRY_LAST_TS(glActiveTexture_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glActiveTexture_Idx),
 				 GL_ENTRY_LAST_TS(glActiveTexture_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glActiveTexture %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glActiveTexture_Idx),

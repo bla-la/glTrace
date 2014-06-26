@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glSetLocalConstantEXT(GLuint id,GLenum type,const void *add
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glSetLocalConstantEXT_Idx))
-	{
-            GL_ENTRY_PTR(glSetLocalConstantEXT_Idx) = dlsym(RTLD_NEXT,"glSetLocalConstantEXT");
-            if(!GL_ENTRY_PTR(glSetLocalConstantEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glSetLocalConstantEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glSetLocalConstantEXT(GLuint id,GLenum type,const void *add
         GL_ENTRY_LAST_TS(glSetLocalConstantEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glSetLocalConstantEXT_Idx),
 				 GL_ENTRY_LAST_TS(glSetLocalConstantEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glSetLocalConstantEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glSetLocalConstantEXT_Idx),

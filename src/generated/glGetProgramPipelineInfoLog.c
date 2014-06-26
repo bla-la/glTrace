@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetProgramPipelineInfoLog(GLuint pipeline,GLsizei bufSize
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetProgramPipelineInfoLog_Idx))
-	{
-            GL_ENTRY_PTR(glGetProgramPipelineInfoLog_Idx) = dlsym(RTLD_NEXT,"glGetProgramPipelineInfoLog");
-            if(!GL_ENTRY_PTR(glGetProgramPipelineInfoLog_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetProgramPipelineInfoLog_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetProgramPipelineInfoLog(GLuint pipeline,GLsizei bufSize
         GL_ENTRY_LAST_TS(glGetProgramPipelineInfoLog_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetProgramPipelineInfoLog_Idx),
 				 GL_ENTRY_LAST_TS(glGetProgramPipelineInfoLog_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetProgramPipelineInfoLog %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetProgramPipelineInfoLog_Idx),

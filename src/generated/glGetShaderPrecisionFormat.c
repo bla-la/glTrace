@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetShaderPrecisionFormat(GLenum shadertype,GLenum precisi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetShaderPrecisionFormat_Idx))
-	{
-            GL_ENTRY_PTR(glGetShaderPrecisionFormat_Idx) = dlsym(RTLD_NEXT,"glGetShaderPrecisionFormat");
-            if(!GL_ENTRY_PTR(glGetShaderPrecisionFormat_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetShaderPrecisionFormat_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetShaderPrecisionFormat(GLenum shadertype,GLenum precisi
         GL_ENTRY_LAST_TS(glGetShaderPrecisionFormat_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetShaderPrecisionFormat_Idx),
 				 GL_ENTRY_LAST_TS(glGetShaderPrecisionFormat_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetShaderPrecisionFormat %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetShaderPrecisionFormat_Idx),

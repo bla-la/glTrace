@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyColorSubTableEXT(GLenum target,GLsizei start,GLint x,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyColorSubTableEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCopyColorSubTableEXT_Idx) = dlsym(RTLD_NEXT,"glCopyColorSubTableEXT");
-            if(!GL_ENTRY_PTR(glCopyColorSubTableEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyColorSubTableEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyColorSubTableEXT(GLenum target,GLsizei start,GLint x,
         GL_ENTRY_LAST_TS(glCopyColorSubTableEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyColorSubTableEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCopyColorSubTableEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyColorSubTableEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyColorSubTableEXT_Idx),

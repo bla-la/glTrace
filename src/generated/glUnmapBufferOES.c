@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glUnmapBufferOES(GLenum target)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUnmapBufferOES_Idx))
-	{
-            GL_ENTRY_PTR(glUnmapBufferOES_Idx) = dlsym(RTLD_NEXT,"glUnmapBufferOES");
-            if(!GL_ENTRY_PTR(glUnmapBufferOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUnmapBufferOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glUnmapBufferOES(GLenum target)
         GL_ENTRY_LAST_TS(glUnmapBufferOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUnmapBufferOES_Idx),
 				 GL_ENTRY_LAST_TS(glUnmapBufferOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUnmapBufferOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUnmapBufferOES_Idx),

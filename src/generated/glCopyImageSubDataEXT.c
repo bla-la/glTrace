@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCopyImageSubDataEXT(GLuint srcName,GLenum srcTarget,GLint
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCopyImageSubDataEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCopyImageSubDataEXT_Idx) = dlsym(RTLD_NEXT,"glCopyImageSubDataEXT");
-            if(!GL_ENTRY_PTR(glCopyImageSubDataEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCopyImageSubDataEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCopyImageSubDataEXT(GLuint srcName,GLenum srcTarget,GLint
         GL_ENTRY_LAST_TS(glCopyImageSubDataEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCopyImageSubDataEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCopyImageSubDataEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCopyImageSubDataEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCopyImageSubDataEXT_Idx),

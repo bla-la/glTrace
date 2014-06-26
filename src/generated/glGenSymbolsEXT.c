@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glGenSymbolsEXT(GLenum datatype,GLenum storagetype,GLenum
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenSymbolsEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGenSymbolsEXT_Idx) = dlsym(RTLD_NEXT,"glGenSymbolsEXT");
-            if(!GL_ENTRY_PTR(glGenSymbolsEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenSymbolsEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glGenSymbolsEXT(GLenum datatype,GLenum storagetype,GLenum
         GL_ENTRY_LAST_TS(glGenSymbolsEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenSymbolsEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGenSymbolsEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenSymbolsEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenSymbolsEXT_Idx),

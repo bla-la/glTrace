@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetFragmentLightivSGIX(GLenum light,GLenum pname,GLint *p
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetFragmentLightivSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glGetFragmentLightivSGIX_Idx) = dlsym(RTLD_NEXT,"glGetFragmentLightivSGIX");
-            if(!GL_ENTRY_PTR(glGetFragmentLightivSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetFragmentLightivSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetFragmentLightivSGIX(GLenum light,GLenum pname,GLint *p
         GL_ENTRY_LAST_TS(glGetFragmentLightivSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetFragmentLightivSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glGetFragmentLightivSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetFragmentLightivSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetFragmentLightivSGIX_Idx),

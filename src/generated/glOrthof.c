@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glOrthof(GLfloat l,GLfloat r,GLfloat b,GLfloat t,GLfloat n,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glOrthof_Idx))
-	{
-            GL_ENTRY_PTR(glOrthof_Idx) = dlsym(RTLD_NEXT,"glOrthof");
-            if(!GL_ENTRY_PTR(glOrthof_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glOrthof_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glOrthof(GLfloat l,GLfloat r,GLfloat b,GLfloat t,GLfloat n,
         GL_ENTRY_LAST_TS(glOrthof_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glOrthof_Idx),
 				 GL_ENTRY_LAST_TS(glOrthof_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glOrthof %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glOrthof_Idx),

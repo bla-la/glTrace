@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawArraysInstancedANGLE(GLenum mode,GLint first,GLsizei 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawArraysInstancedANGLE_Idx))
-	{
-            GL_ENTRY_PTR(glDrawArraysInstancedANGLE_Idx) = dlsym(RTLD_NEXT,"glDrawArraysInstancedANGLE");
-            if(!GL_ENTRY_PTR(glDrawArraysInstancedANGLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawArraysInstancedANGLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawArraysInstancedANGLE(GLenum mode,GLint first,GLsizei 
         GL_ENTRY_LAST_TS(glDrawArraysInstancedANGLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawArraysInstancedANGLE_Idx),
 				 GL_ENTRY_LAST_TS(glDrawArraysInstancedANGLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawArraysInstancedANGLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawArraysInstancedANGLE_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureImage3DMultisampleCoverageNV(GLuint texture,GLenum
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureImage3DMultisampleCoverageNV_Idx))
-	{
-            GL_ENTRY_PTR(glTextureImage3DMultisampleCoverageNV_Idx) = dlsym(RTLD_NEXT,"glTextureImage3DMultisampleCoverageNV");
-            if(!GL_ENTRY_PTR(glTextureImage3DMultisampleCoverageNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureImage3DMultisampleCoverageNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureImage3DMultisampleCoverageNV(GLuint texture,GLenum
         GL_ENTRY_LAST_TS(glTextureImage3DMultisampleCoverageNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureImage3DMultisampleCoverageNV_Idx),
 				 GL_ENTRY_LAST_TS(glTextureImage3DMultisampleCoverageNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureImage3DMultisampleCoverageNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureImage3DMultisampleCoverageNV_Idx),

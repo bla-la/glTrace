@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClipPlane(GLenum plane,const GLdouble *equation)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClipPlane_Idx))
-	{
-            GL_ENTRY_PTR(glClipPlane_Idx) = dlsym(RTLD_NEXT,"glClipPlane");
-            if(!GL_ENTRY_PTR(glClipPlane_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClipPlane_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClipPlane(GLenum plane,const GLdouble *equation)
         GL_ENTRY_LAST_TS(glClipPlane_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClipPlane_Idx),
 				 GL_ENTRY_LAST_TS(glClipPlane_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClipPlane %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClipPlane_Idx),

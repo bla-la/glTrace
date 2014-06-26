@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glEdgeFlagPointerEXT(GLsizei stride,GLsizei count,const GLb
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glEdgeFlagPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glEdgeFlagPointerEXT_Idx) = dlsym(RTLD_NEXT,"glEdgeFlagPointerEXT");
-            if(!GL_ENTRY_PTR(glEdgeFlagPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glEdgeFlagPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glEdgeFlagPointerEXT(GLsizei stride,GLsizei count,const GLb
         GL_ENTRY_LAST_TS(glEdgeFlagPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glEdgeFlagPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glEdgeFlagPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glEdgeFlagPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glEdgeFlagPointerEXT_Idx),

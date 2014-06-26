@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDebugMessageControl(GLenum source,GLenum type,GLenum seve
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDebugMessageControl_Idx))
-	{
-            GL_ENTRY_PTR(glDebugMessageControl_Idx) = dlsym(RTLD_NEXT,"glDebugMessageControl");
-            if(!GL_ENTRY_PTR(glDebugMessageControl_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDebugMessageControl_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDebugMessageControl(GLenum source,GLenum type,GLenum seve
         GL_ENTRY_LAST_TS(glDebugMessageControl_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDebugMessageControl_Idx),
 				 GL_ENTRY_LAST_TS(glDebugMessageControl_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDebugMessageControl %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDebugMessageControl_Idx),

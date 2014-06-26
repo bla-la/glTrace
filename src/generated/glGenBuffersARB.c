@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenBuffersARB(GLsizei n,GLuint *buffers)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenBuffersARB_Idx))
-	{
-            GL_ENTRY_PTR(glGenBuffersARB_Idx) = dlsym(RTLD_NEXT,"glGenBuffersARB");
-            if(!GL_ENTRY_PTR(glGenBuffersARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenBuffersARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenBuffersARB(GLsizei n,GLuint *buffers)
         GL_ENTRY_LAST_TS(glGenBuffersARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenBuffersARB_Idx),
 				 GL_ENTRY_LAST_TS(glGenBuffersARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenBuffersARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenBuffersARB_Idx),

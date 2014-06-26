@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawTexxvOES(const GLfixed *coords)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawTexxvOES_Idx))
-	{
-            GL_ENTRY_PTR(glDrawTexxvOES_Idx) = dlsym(RTLD_NEXT,"glDrawTexxvOES");
-            if(!GL_ENTRY_PTR(glDrawTexxvOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawTexxvOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawTexxvOES(const GLfixed *coords)
         GL_ENTRY_LAST_TS(glDrawTexxvOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawTexxvOES_Idx),
 				 GL_ENTRY_LAST_TS(glDrawTexxvOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawTexxvOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawTexxvOES_Idx),

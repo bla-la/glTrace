@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProvokingVertexEXT(GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProvokingVertexEXT_Idx))
-	{
-            GL_ENTRY_PTR(glProvokingVertexEXT_Idx) = dlsym(RTLD_NEXT,"glProvokingVertexEXT");
-            if(!GL_ENTRY_PTR(glProvokingVertexEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProvokingVertexEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProvokingVertexEXT(GLenum mode)
         GL_ENTRY_LAST_TS(glProvokingVertexEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProvokingVertexEXT_Idx),
 				 GL_ENTRY_LAST_TS(glProvokingVertexEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProvokingVertexEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProvokingVertexEXT_Idx),

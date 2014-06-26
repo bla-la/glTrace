@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glShaderBinary(GLsizei count,const GLuint *shaders,GLenum b
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glShaderBinary_Idx))
-	{
-            GL_ENTRY_PTR(glShaderBinary_Idx) = dlsym(RTLD_NEXT,"glShaderBinary");
-            if(!GL_ENTRY_PTR(glShaderBinary_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glShaderBinary_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glShaderBinary(GLsizei count,const GLuint *shaders,GLenum b
         GL_ENTRY_LAST_TS(glShaderBinary_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glShaderBinary_Idx),
 				 GL_ENTRY_LAST_TS(glShaderBinary_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glShaderBinary %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glShaderBinary_Idx),

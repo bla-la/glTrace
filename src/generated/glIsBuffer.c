@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsBuffer(GLuint buffer)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsBuffer_Idx))
-	{
-            GL_ENTRY_PTR(glIsBuffer_Idx) = dlsym(RTLD_NEXT,"glIsBuffer");
-            if(!GL_ENTRY_PTR(glIsBuffer_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsBuffer_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsBuffer(GLuint buffer)
         GL_ENTRY_LAST_TS(glIsBuffer_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsBuffer_Idx),
 				 GL_ENTRY_LAST_TS(glIsBuffer_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsBuffer %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsBuffer_Idx),

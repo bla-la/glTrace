@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexStorageSparseAMD(GLenum target,GLenum internalFormat,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexStorageSparseAMD_Idx))
-	{
-            GL_ENTRY_PTR(glTexStorageSparseAMD_Idx) = dlsym(RTLD_NEXT,"glTexStorageSparseAMD");
-            if(!GL_ENTRY_PTR(glTexStorageSparseAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexStorageSparseAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexStorageSparseAMD(GLenum target,GLenum internalFormat,G
         GL_ENTRY_LAST_TS(glTexStorageSparseAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexStorageSparseAMD_Idx),
 				 GL_ENTRY_LAST_TS(glTexStorageSparseAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexStorageSparseAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexStorageSparseAMD_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetSyncivAPPLE(GLsync sync,GLenum pname,GLsizei bufSize,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetSyncivAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glGetSyncivAPPLE_Idx) = dlsym(RTLD_NEXT,"glGetSyncivAPPLE");
-            if(!GL_ENTRY_PTR(glGetSyncivAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetSyncivAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetSyncivAPPLE(GLsync sync,GLenum pname,GLsizei bufSize,G
         GL_ENTRY_LAST_TS(glGetSyncivAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetSyncivAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glGetSyncivAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetSyncivAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetSyncivAPPLE_Idx),

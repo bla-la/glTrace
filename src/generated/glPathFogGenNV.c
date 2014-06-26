@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathFogGenNV(GLenum genMode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathFogGenNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathFogGenNV_Idx) = dlsym(RTLD_NEXT,"glPathFogGenNV");
-            if(!GL_ENTRY_PTR(glPathFogGenNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathFogGenNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathFogGenNV(GLenum genMode)
         GL_ENTRY_LAST_TS(glPathFogGenNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathFogGenNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathFogGenNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathFogGenNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathFogGenNV_Idx),

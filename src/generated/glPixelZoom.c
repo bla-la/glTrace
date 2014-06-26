@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPixelZoom(GLfloat xfactor,GLfloat yfactor)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPixelZoom_Idx))
-	{
-            GL_ENTRY_PTR(glPixelZoom_Idx) = dlsym(RTLD_NEXT,"glPixelZoom");
-            if(!GL_ENTRY_PTR(glPixelZoom_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPixelZoom_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPixelZoom(GLfloat xfactor,GLfloat yfactor)
         GL_ENTRY_LAST_TS(glPixelZoom_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPixelZoom_Idx),
 				 GL_ENTRY_LAST_TS(glPixelZoom_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPixelZoom %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPixelZoom_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNamedFramebufferTextureEXT(GLuint framebuffer,GLenum atta
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNamedFramebufferTextureEXT_Idx))
-	{
-            GL_ENTRY_PTR(glNamedFramebufferTextureEXT_Idx) = dlsym(RTLD_NEXT,"glNamedFramebufferTextureEXT");
-            if(!GL_ENTRY_PTR(glNamedFramebufferTextureEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNamedFramebufferTextureEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNamedFramebufferTextureEXT(GLuint framebuffer,GLenum atta
         GL_ENTRY_LAST_TS(glNamedFramebufferTextureEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNamedFramebufferTextureEXT_Idx),
 				 GL_ENTRY_LAST_TS(glNamedFramebufferTextureEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNamedFramebufferTextureEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNamedFramebufferTextureEXT_Idx),

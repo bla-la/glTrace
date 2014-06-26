@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNamedRenderbufferStorageMultisampleEXT(GLuint renderbuffe
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNamedRenderbufferStorageMultisampleEXT_Idx))
-	{
-            GL_ENTRY_PTR(glNamedRenderbufferStorageMultisampleEXT_Idx) = dlsym(RTLD_NEXT,"glNamedRenderbufferStorageMultisampleEXT");
-            if(!GL_ENTRY_PTR(glNamedRenderbufferStorageMultisampleEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNamedRenderbufferStorageMultisampleEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNamedRenderbufferStorageMultisampleEXT(GLuint renderbuffe
         GL_ENTRY_LAST_TS(glNamedRenderbufferStorageMultisampleEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNamedRenderbufferStorageMultisampleEXT_Idx),
 				 GL_ENTRY_LAST_TS(glNamedRenderbufferStorageMultisampleEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNamedRenderbufferStorageMultisampleEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNamedRenderbufferStorageMultisampleEXT_Idx),

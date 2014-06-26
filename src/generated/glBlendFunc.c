@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBlendFunc(GLenum sfactor,GLenum dfactor)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBlendFunc_Idx))
-	{
-            GL_ENTRY_PTR(glBlendFunc_Idx) = dlsym(RTLD_NEXT,"glBlendFunc");
-            if(!GL_ENTRY_PTR(glBlendFunc_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBlendFunc_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBlendFunc(GLenum sfactor,GLenum dfactor)
         GL_ENTRY_LAST_TS(glBlendFunc_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBlendFunc_Idx),
 				 GL_ENTRY_LAST_TS(glBlendFunc_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBlendFunc %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBlendFunc_Idx),

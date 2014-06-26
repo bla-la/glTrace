@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathSubCoordsNV(GLuint path,GLsizei coordStart,GLsizei nu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathSubCoordsNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathSubCoordsNV_Idx) = dlsym(RTLD_NEXT,"glPathSubCoordsNV");
-            if(!GL_ENTRY_PTR(glPathSubCoordsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathSubCoordsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathSubCoordsNV(GLuint path,GLsizei coordStart,GLsizei nu
         GL_ENTRY_LAST_TS(glPathSubCoordsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathSubCoordsNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathSubCoordsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathSubCoordsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathSubCoordsNV_Idx),

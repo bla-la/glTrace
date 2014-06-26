@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPixelTransformParameterfvEXT(GLenum target,GLenum pname,c
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPixelTransformParameterfvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glPixelTransformParameterfvEXT_Idx) = dlsym(RTLD_NEXT,"glPixelTransformParameterfvEXT");
-            if(!GL_ENTRY_PTR(glPixelTransformParameterfvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPixelTransformParameterfvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPixelTransformParameterfvEXT(GLenum target,GLenum pname,c
         GL_ENTRY_LAST_TS(glPixelTransformParameterfvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPixelTransformParameterfvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glPixelTransformParameterfvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPixelTransformParameterfvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPixelTransformParameterfvEXT_Idx),

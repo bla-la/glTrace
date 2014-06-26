@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetInvariantFloatvEXT(GLuint id,GLenum value,GLfloat *dat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetInvariantFloatvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetInvariantFloatvEXT_Idx) = dlsym(RTLD_NEXT,"glGetInvariantFloatvEXT");
-            if(!GL_ENTRY_PTR(glGetInvariantFloatvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetInvariantFloatvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetInvariantFloatvEXT(GLuint id,GLenum value,GLfloat *dat
         GL_ENTRY_LAST_TS(glGetInvariantFloatvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetInvariantFloatvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetInvariantFloatvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetInvariantFloatvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetInvariantFloatvEXT_Idx),

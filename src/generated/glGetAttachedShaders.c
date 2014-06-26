@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetAttachedShaders(GLuint program,GLsizei maxCount,GLsize
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetAttachedShaders_Idx))
-	{
-            GL_ENTRY_PTR(glGetAttachedShaders_Idx) = dlsym(RTLD_NEXT,"glGetAttachedShaders");
-            if(!GL_ENTRY_PTR(glGetAttachedShaders_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetAttachedShaders_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetAttachedShaders(GLuint program,GLsizei maxCount,GLsize
         GL_ENTRY_LAST_TS(glGetAttachedShaders_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetAttachedShaders_Idx),
 				 GL_ENTRY_LAST_TS(glGetAttachedShaders_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetAttachedShaders %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetAttachedShaders_Idx),

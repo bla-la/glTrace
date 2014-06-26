@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNormal3i(GLint nx,GLint ny,GLint nz)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNormal3i_Idx))
-	{
-            GL_ENTRY_PTR(glNormal3i_Idx) = dlsym(RTLD_NEXT,"glNormal3i");
-            if(!GL_ENTRY_PTR(glNormal3i_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNormal3i_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNormal3i(GLint nx,GLint ny,GLint nz)
         GL_ENTRY_LAST_TS(glNormal3i_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNormal3i_Idx),
 				 GL_ENTRY_LAST_TS(glNormal3i_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNormal3i %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNormal3i_Idx),

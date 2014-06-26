@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexAttribLFormat(GLuint attribindex,GLint size,GLenum 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexAttribLFormat_Idx))
-	{
-            GL_ENTRY_PTR(glVertexAttribLFormat_Idx) = dlsym(RTLD_NEXT,"glVertexAttribLFormat");
-            if(!GL_ENTRY_PTR(glVertexAttribLFormat_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexAttribLFormat_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexAttribLFormat(GLuint attribindex,GLint size,GLenum 
         GL_ENTRY_LAST_TS(glVertexAttribLFormat_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexAttribLFormat_Idx),
 				 GL_ENTRY_LAST_TS(glVertexAttribLFormat_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexAttribLFormat %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexAttribLFormat_Idx),

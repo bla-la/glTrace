@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDisableVertexAttribArrayARB(GLuint index)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDisableVertexAttribArrayARB_Idx))
-	{
-            GL_ENTRY_PTR(glDisableVertexAttribArrayARB_Idx) = dlsym(RTLD_NEXT,"glDisableVertexAttribArrayARB");
-            if(!GL_ENTRY_PTR(glDisableVertexAttribArrayARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDisableVertexAttribArrayARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDisableVertexAttribArrayARB(GLuint index)
         GL_ENTRY_LAST_TS(glDisableVertexAttribArrayARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDisableVertexAttribArrayARB_Idx),
 				 GL_ENTRY_LAST_TS(glDisableVertexAttribArrayARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDisableVertexAttribArrayARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDisableVertexAttribArrayARB_Idx),

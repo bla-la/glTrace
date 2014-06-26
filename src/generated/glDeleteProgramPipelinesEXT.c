@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteProgramPipelinesEXT(GLsizei n,const GLuint *pipelin
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteProgramPipelinesEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteProgramPipelinesEXT_Idx) = dlsym(RTLD_NEXT,"glDeleteProgramPipelinesEXT");
-            if(!GL_ENTRY_PTR(glDeleteProgramPipelinesEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteProgramPipelinesEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteProgramPipelinesEXT(GLsizei n,const GLuint *pipelin
         GL_ENTRY_LAST_TS(glDeleteProgramPipelinesEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteProgramPipelinesEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteProgramPipelinesEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteProgramPipelinesEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteProgramPipelinesEXT_Idx),

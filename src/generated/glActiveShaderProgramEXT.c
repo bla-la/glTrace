@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glActiveShaderProgramEXT(GLuint pipeline,GLuint program)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glActiveShaderProgramEXT_Idx))
-	{
-            GL_ENTRY_PTR(glActiveShaderProgramEXT_Idx) = dlsym(RTLD_NEXT,"glActiveShaderProgramEXT");
-            if(!GL_ENTRY_PTR(glActiveShaderProgramEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glActiveShaderProgramEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glActiveShaderProgramEXT(GLuint pipeline,GLuint program)
         GL_ENTRY_LAST_TS(glActiveShaderProgramEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glActiveShaderProgramEXT_Idx),
 				 GL_ENTRY_LAST_TS(glActiveShaderProgramEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glActiveShaderProgramEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glActiveShaderProgramEXT_Idx),

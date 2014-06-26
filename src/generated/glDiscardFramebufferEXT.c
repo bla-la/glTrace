@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDiscardFramebufferEXT(GLenum target,GLsizei numAttachment
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDiscardFramebufferEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDiscardFramebufferEXT_Idx) = dlsym(RTLD_NEXT,"glDiscardFramebufferEXT");
-            if(!GL_ENTRY_PTR(glDiscardFramebufferEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDiscardFramebufferEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDiscardFramebufferEXT(GLenum target,GLsizei numAttachment
         GL_ENTRY_LAST_TS(glDiscardFramebufferEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDiscardFramebufferEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDiscardFramebufferEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDiscardFramebufferEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDiscardFramebufferEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glIndexMaterialEXT(GLenum face,GLenum mode)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIndexMaterialEXT_Idx))
-	{
-            GL_ENTRY_PTR(glIndexMaterialEXT_Idx) = dlsym(RTLD_NEXT,"glIndexMaterialEXT");
-            if(!GL_ENTRY_PTR(glIndexMaterialEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIndexMaterialEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glIndexMaterialEXT(GLenum face,GLenum mode)
         GL_ENTRY_LAST_TS(glIndexMaterialEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIndexMaterialEXT_Idx),
 				 GL_ENTRY_LAST_TS(glIndexMaterialEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIndexMaterialEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIndexMaterialEXT_Idx),

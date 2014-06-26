@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexCoordPointerEXT(GLint size,GLenum type,GLsizei stride,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexCoordPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTexCoordPointerEXT_Idx) = dlsym(RTLD_NEXT,"glTexCoordPointerEXT");
-            if(!GL_ENTRY_PTR(glTexCoordPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexCoordPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexCoordPointerEXT(GLint size,GLenum type,GLsizei stride,
         GL_ENTRY_LAST_TS(glTexCoordPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexCoordPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTexCoordPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexCoordPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexCoordPointerEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawElementsIndirectAMD(GLenum mode,GLenum type,cons
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawElementsIndirectAMD_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawElementsIndirectAMD_Idx) = dlsym(RTLD_NEXT,"glMultiDrawElementsIndirectAMD");
-            if(!GL_ENTRY_PTR(glMultiDrawElementsIndirectAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawElementsIndirectAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawElementsIndirectAMD(GLenum mode,GLenum type,cons
         GL_ENTRY_LAST_TS(glMultiDrawElementsIndirectAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawElementsIndirectAMD_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawElementsIndirectAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawElementsIndirectAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawElementsIndirectAMD_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBeginQuery(GLenum target,GLuint id)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBeginQuery_Idx))
-	{
-            GL_ENTRY_PTR(glBeginQuery_Idx) = dlsym(RTLD_NEXT,"glBeginQuery");
-            if(!GL_ENTRY_PTR(glBeginQuery_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBeginQuery_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBeginQuery(GLenum target,GLuint id)
         GL_ENTRY_LAST_TS(glBeginQuery_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBeginQuery_Idx),
 				 GL_ENTRY_LAST_TS(glBeginQuery_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBeginQuery %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBeginQuery_Idx),

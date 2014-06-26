@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetSamplerParameterIuivEXT(GLuint sampler,GLenum pname,GL
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetSamplerParameterIuivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetSamplerParameterIuivEXT_Idx) = dlsym(RTLD_NEXT,"glGetSamplerParameterIuivEXT");
-            if(!GL_ENTRY_PTR(glGetSamplerParameterIuivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetSamplerParameterIuivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetSamplerParameterIuivEXT(GLuint sampler,GLenum pname,GL
         GL_ENTRY_LAST_TS(glGetSamplerParameterIuivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetSamplerParameterIuivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetSamplerParameterIuivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetSamplerParameterIuivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetSamplerParameterIuivEXT_Idx),

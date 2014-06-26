@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexCoord1iv(const GLint *v)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexCoord1iv_Idx))
-	{
-            GL_ENTRY_PTR(glTexCoord1iv_Idx) = dlsym(RTLD_NEXT,"glTexCoord1iv");
-            if(!GL_ENTRY_PTR(glTexCoord1iv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexCoord1iv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexCoord1iv(const GLint *v)
         GL_ENTRY_LAST_TS(glTexCoord1iv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexCoord1iv_Idx),
 				 GL_ENTRY_LAST_TS(glTexCoord1iv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexCoord1iv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexCoord1iv_Idx),

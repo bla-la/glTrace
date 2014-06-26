@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCullParameterdvEXT(GLenum pname,GLdouble *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCullParameterdvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glCullParameterdvEXT_Idx) = dlsym(RTLD_NEXT,"glCullParameterdvEXT");
-            if(!GL_ENTRY_PTR(glCullParameterdvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCullParameterdvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCullParameterdvEXT(GLenum pname,GLdouble *params)
         GL_ENTRY_LAST_TS(glCullParameterdvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCullParameterdvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glCullParameterdvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCullParameterdvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCullParameterdvEXT_Idx),

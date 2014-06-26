@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNamedProgramLocalParameters4fvEXT(GLuint program,GLenum t
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNamedProgramLocalParameters4fvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glNamedProgramLocalParameters4fvEXT_Idx) = dlsym(RTLD_NEXT,"glNamedProgramLocalParameters4fvEXT");
-            if(!GL_ENTRY_PTR(glNamedProgramLocalParameters4fvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNamedProgramLocalParameters4fvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNamedProgramLocalParameters4fvEXT(GLuint program,GLenum t
         GL_ENTRY_LAST_TS(glNamedProgramLocalParameters4fvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNamedProgramLocalParameters4fvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glNamedProgramLocalParameters4fvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNamedProgramLocalParameters4fvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNamedProgramLocalParameters4fvEXT_Idx),

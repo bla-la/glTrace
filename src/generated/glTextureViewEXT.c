@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureViewEXT(GLuint texture,GLenum target,GLuint origte
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureViewEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTextureViewEXT_Idx) = dlsym(RTLD_NEXT,"glTextureViewEXT");
-            if(!GL_ENTRY_PTR(glTextureViewEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureViewEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureViewEXT(GLuint texture,GLenum target,GLuint origte
         GL_ENTRY_LAST_TS(glTextureViewEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureViewEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTextureViewEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureViewEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureViewEXT_Idx),

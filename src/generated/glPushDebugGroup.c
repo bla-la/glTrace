@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPushDebugGroup(GLenum source,GLuint id,GLsizei length,con
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPushDebugGroup_Idx))
-	{
-            GL_ENTRY_PTR(glPushDebugGroup_Idx) = dlsym(RTLD_NEXT,"glPushDebugGroup");
-            if(!GL_ENTRY_PTR(glPushDebugGroup_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPushDebugGroup_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPushDebugGroup(GLenum source,GLuint id,GLsizei length,con
         GL_ENTRY_LAST_TS(glPushDebugGroup_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPushDebugGroup_Idx),
 				 GL_ENTRY_LAST_TS(glPushDebugGroup_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPushDebugGroup %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPushDebugGroup_Idx),

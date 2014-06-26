@@ -10,13 +10,9 @@ GLAPI GLuint64  APIENTRY glGetTextureSamplerHandleNV(GLuint texture,GLuint sampl
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTextureSamplerHandleNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetTextureSamplerHandleNV_Idx) = dlsym(RTLD_NEXT,"glGetTextureSamplerHandleNV");
-            if(!GL_ENTRY_PTR(glGetTextureSamplerHandleNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTextureSamplerHandleNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint64  APIENTRY glGetTextureSamplerHandleNV(GLuint texture,GLuint sampl
         GL_ENTRY_LAST_TS(glGetTextureSamplerHandleNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTextureSamplerHandleNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetTextureSamplerHandleNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTextureSamplerHandleNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTextureSamplerHandleNV_Idx),

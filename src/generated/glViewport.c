@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glViewport(GLint x,GLint y,GLsizei width,GLsizei height)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glViewport_Idx))
-	{
-            GL_ENTRY_PTR(glViewport_Idx) = dlsym(RTLD_NEXT,"glViewport");
-            if(!GL_ENTRY_PTR(glViewport_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glViewport_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glViewport(GLint x,GLint y,GLsizei width,GLsizei height)
         GL_ENTRY_LAST_TS(glViewport_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glViewport_Idx),
 				 GL_ENTRY_LAST_TS(glViewport_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glViewport %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glViewport_Idx),

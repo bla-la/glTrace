@@ -60,7 +60,7 @@ def parseCommand(xml):
 
     comm = libxml2.parseDoc(xml)
     commCtxt = comm.xpathNewContext()
-#    tmp = commCtxt.xpathEval("//proto")[0].content.split(' ')[1].split('*')
+
 
 
     p = getProcParamAndName(commCtxt.xpathEval("//proto")[0].content)
@@ -74,7 +74,6 @@ def parseCommand(xml):
         paramName = ''
         paramDeclare = str(i.content)
 
-        tmp = i.content.split(' ')
         paramName = getParamName(i.content)
 
 
@@ -91,6 +90,7 @@ def parseCommand(xml):
         else:
             paramStr += ','+i[0]
             paramCallStr += ','+i[1]
+
     if is_void == 1:
         retVal = ''
         retStmt = ''

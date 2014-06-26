@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColor4xvOES(const GLfixed *components)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColor4xvOES_Idx))
-	{
-            GL_ENTRY_PTR(glColor4xvOES_Idx) = dlsym(RTLD_NEXT,"glColor4xvOES");
-            if(!GL_ENTRY_PTR(glColor4xvOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColor4xvOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColor4xvOES(const GLfixed *components)
         GL_ENTRY_LAST_TS(glColor4xvOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColor4xvOES_Idx),
 				 GL_ENTRY_LAST_TS(glColor4xvOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColor4xvOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColor4xvOES_Idx),

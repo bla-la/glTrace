@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawTransformFeedbackStreamInstanced(GLenum mode,GLuint i
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawTransformFeedbackStreamInstanced_Idx))
-	{
-            GL_ENTRY_PTR(glDrawTransformFeedbackStreamInstanced_Idx) = dlsym(RTLD_NEXT,"glDrawTransformFeedbackStreamInstanced");
-            if(!GL_ENTRY_PTR(glDrawTransformFeedbackStreamInstanced_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawTransformFeedbackStreamInstanced_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawTransformFeedbackStreamInstanced(GLenum mode,GLuint i
         GL_ENTRY_LAST_TS(glDrawTransformFeedbackStreamInstanced_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawTransformFeedbackStreamInstanced_Idx),
 				 GL_ENTRY_LAST_TS(glDrawTransformFeedbackStreamInstanced_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawTransformFeedbackStreamInstanced %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawTransformFeedbackStreamInstanced_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glLineStipple(GLint factor,GLushort pattern)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glLineStipple_Idx))
-	{
-            GL_ENTRY_PTR(glLineStipple_Idx) = dlsym(RTLD_NEXT,"glLineStipple");
-            if(!GL_ENTRY_PTR(glLineStipple_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glLineStipple_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glLineStipple(GLint factor,GLushort pattern)
         GL_ENTRY_LAST_TS(glLineStipple_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glLineStipple_Idx),
 				 GL_ENTRY_LAST_TS(glLineStipple_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glLineStipple %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glLineStipple_Idx),

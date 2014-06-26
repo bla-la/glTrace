@@ -10,13 +10,9 @@ GLAPI void * APIENTRY glMapTexture2DINTEL(GLuint texture,GLint level,GLbitfield 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMapTexture2DINTEL_Idx))
-	{
-            GL_ENTRY_PTR(glMapTexture2DINTEL_Idx) = dlsym(RTLD_NEXT,"glMapTexture2DINTEL");
-            if(!GL_ENTRY_PTR(glMapTexture2DINTEL_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMapTexture2DINTEL_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void * APIENTRY glMapTexture2DINTEL(GLuint texture,GLint level,GLbitfield 
         GL_ENTRY_LAST_TS(glMapTexture2DINTEL_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMapTexture2DINTEL_Idx),
 				 GL_ENTRY_LAST_TS(glMapTexture2DINTEL_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMapTexture2DINTEL %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMapTexture2DINTEL_Idx),

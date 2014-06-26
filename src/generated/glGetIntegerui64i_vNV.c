@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetIntegerui64i_vNV(GLenum value,GLuint index,GLuint64EXT
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetIntegerui64i_vNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetIntegerui64i_vNV_Idx) = dlsym(RTLD_NEXT,"glGetIntegerui64i_vNV");
-            if(!GL_ENTRY_PTR(glGetIntegerui64i_vNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetIntegerui64i_vNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetIntegerui64i_vNV(GLenum value,GLuint index,GLuint64EXT
         GL_ENTRY_LAST_TS(glGetIntegerui64i_vNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetIntegerui64i_vNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetIntegerui64i_vNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetIntegerui64i_vNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetIntegerui64i_vNV_Idx),

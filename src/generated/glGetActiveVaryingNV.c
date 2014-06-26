@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetActiveVaryingNV(GLuint program,GLuint index,GLsizei bu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetActiveVaryingNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetActiveVaryingNV_Idx) = dlsym(RTLD_NEXT,"glGetActiveVaryingNV");
-            if(!GL_ENTRY_PTR(glGetActiveVaryingNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetActiveVaryingNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetActiveVaryingNV(GLuint program,GLuint index,GLsizei bu
         GL_ENTRY_LAST_TS(glGetActiveVaryingNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetActiveVaryingNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetActiveVaryingNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetActiveVaryingNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetActiveVaryingNV_Idx),

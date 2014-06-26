@@ -10,13 +10,9 @@ GLAPI void * APIENTRY glMapNamedBufferEXT(GLuint buffer,GLenum access)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMapNamedBufferEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMapNamedBufferEXT_Idx) = dlsym(RTLD_NEXT,"glMapNamedBufferEXT");
-            if(!GL_ENTRY_PTR(glMapNamedBufferEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMapNamedBufferEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void * APIENTRY glMapNamedBufferEXT(GLuint buffer,GLenum access)
         GL_ENTRY_LAST_TS(glMapNamedBufferEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMapNamedBufferEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMapNamedBufferEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMapNamedBufferEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMapNamedBufferEXT_Idx),

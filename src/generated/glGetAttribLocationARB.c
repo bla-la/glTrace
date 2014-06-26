@@ -10,13 +10,9 @@ GLAPI GLint  APIENTRY glGetAttribLocationARB(GLhandleARB programObj,const GLchar
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetAttribLocationARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetAttribLocationARB_Idx) = dlsym(RTLD_NEXT,"glGetAttribLocationARB");
-            if(!GL_ENTRY_PTR(glGetAttribLocationARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetAttribLocationARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLint  APIENTRY glGetAttribLocationARB(GLhandleARB programObj,const GLchar
         GL_ENTRY_LAST_TS(glGetAttribLocationARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetAttribLocationARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetAttribLocationARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetAttribLocationARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetAttribLocationARB_Idx),

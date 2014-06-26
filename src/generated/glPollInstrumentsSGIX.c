@@ -10,13 +10,9 @@ GLAPI GLint  APIENTRY glPollInstrumentsSGIX(GLint *marker_p)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPollInstrumentsSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glPollInstrumentsSGIX_Idx) = dlsym(RTLD_NEXT,"glPollInstrumentsSGIX");
-            if(!GL_ENTRY_PTR(glPollInstrumentsSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPollInstrumentsSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLint  APIENTRY glPollInstrumentsSGIX(GLint *marker_p)
         GL_ENTRY_LAST_TS(glPollInstrumentsSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPollInstrumentsSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glPollInstrumentsSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPollInstrumentsSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPollInstrumentsSGIX_Idx),

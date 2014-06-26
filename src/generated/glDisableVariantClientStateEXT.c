@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDisableVariantClientStateEXT(GLuint id)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDisableVariantClientStateEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDisableVariantClientStateEXT_Idx) = dlsym(RTLD_NEXT,"glDisableVariantClientStateEXT");
-            if(!GL_ENTRY_PTR(glDisableVariantClientStateEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDisableVariantClientStateEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDisableVariantClientStateEXT(GLuint id)
         GL_ENTRY_LAST_TS(glDisableVariantClientStateEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDisableVariantClientStateEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDisableVariantClientStateEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDisableVariantClientStateEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDisableVariantClientStateEXT_Idx),

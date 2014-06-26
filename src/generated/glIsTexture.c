@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsTexture(GLuint texture)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsTexture_Idx))
-	{
-            GL_ENTRY_PTR(glIsTexture_Idx) = dlsym(RTLD_NEXT,"glIsTexture");
-            if(!GL_ENTRY_PTR(glIsTexture_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsTexture_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsTexture(GLuint texture)
         GL_ENTRY_LAST_TS(glIsTexture_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsTexture_Idx),
 				 GL_ENTRY_LAST_TS(glIsTexture_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsTexture %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsTexture_Idx),

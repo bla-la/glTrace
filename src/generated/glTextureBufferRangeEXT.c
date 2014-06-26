@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTextureBufferRangeEXT(GLuint texture,GLenum target,GLenum
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTextureBufferRangeEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTextureBufferRangeEXT_Idx) = dlsym(RTLD_NEXT,"glTextureBufferRangeEXT");
-            if(!GL_ENTRY_PTR(glTextureBufferRangeEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTextureBufferRangeEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTextureBufferRangeEXT(GLuint texture,GLenum target,GLenum
         GL_ENTRY_LAST_TS(glTextureBufferRangeEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTextureBufferRangeEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTextureBufferRangeEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTextureBufferRangeEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTextureBufferRangeEXT_Idx),

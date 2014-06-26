@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glGetProgramResourceIndex(GLuint program,GLenum programIn
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetProgramResourceIndex_Idx))
-	{
-            GL_ENTRY_PTR(glGetProgramResourceIndex_Idx) = dlsym(RTLD_NEXT,"glGetProgramResourceIndex");
-            if(!GL_ENTRY_PTR(glGetProgramResourceIndex_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetProgramResourceIndex_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glGetProgramResourceIndex(GLuint program,GLenum programIn
         GL_ENTRY_LAST_TS(glGetProgramResourceIndex_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetProgramResourceIndex_Idx),
 				 GL_ENTRY_LAST_TS(glGetProgramResourceIndex_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetProgramResourceIndex %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetProgramResourceIndex_Idx),

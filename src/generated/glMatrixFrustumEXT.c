@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixFrustumEXT(GLenum mode,GLdouble left,GLdouble right
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixFrustumEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixFrustumEXT_Idx) = dlsym(RTLD_NEXT,"glMatrixFrustumEXT");
-            if(!GL_ENTRY_PTR(glMatrixFrustumEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixFrustumEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixFrustumEXT(GLenum mode,GLdouble left,GLdouble right
         GL_ENTRY_LAST_TS(glMatrixFrustumEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixFrustumEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixFrustumEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixFrustumEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixFrustumEXT_Idx),

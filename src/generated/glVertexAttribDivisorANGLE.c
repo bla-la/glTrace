@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexAttribDivisorANGLE(GLuint index,GLuint divisor)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexAttribDivisorANGLE_Idx))
-	{
-            GL_ENTRY_PTR(glVertexAttribDivisorANGLE_Idx) = dlsym(RTLD_NEXT,"glVertexAttribDivisorANGLE");
-            if(!GL_ENTRY_PTR(glVertexAttribDivisorANGLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexAttribDivisorANGLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexAttribDivisorANGLE(GLuint index,GLuint divisor)
         GL_ENTRY_LAST_TS(glVertexAttribDivisorANGLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexAttribDivisorANGLE_Idx),
 				 GL_ENTRY_LAST_TS(glVertexAttribDivisorANGLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexAttribDivisorANGLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexAttribDivisorANGLE_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glExtGetShadersQCOM(GLuint *shaders,GLint maxShaders,GLint 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glExtGetShadersQCOM_Idx))
-	{
-            GL_ENTRY_PTR(glExtGetShadersQCOM_Idx) = dlsym(RTLD_NEXT,"glExtGetShadersQCOM");
-            if(!GL_ENTRY_PTR(glExtGetShadersQCOM_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glExtGetShadersQCOM_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glExtGetShadersQCOM(GLuint *shaders,GLint maxShaders,GLint 
         GL_ENTRY_LAST_TS(glExtGetShadersQCOM_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glExtGetShadersQCOM_Idx),
 				 GL_ENTRY_LAST_TS(glExtGetShadersQCOM_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glExtGetShadersQCOM %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glExtGetShadersQCOM_Idx),

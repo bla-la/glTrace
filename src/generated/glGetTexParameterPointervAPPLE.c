@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetTexParameterPointervAPPLE(GLenum target,GLenum pname,v
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTexParameterPointervAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glGetTexParameterPointervAPPLE_Idx) = dlsym(RTLD_NEXT,"glGetTexParameterPointervAPPLE");
-            if(!GL_ENTRY_PTR(glGetTexParameterPointervAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTexParameterPointervAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetTexParameterPointervAPPLE(GLenum target,GLenum pname,v
         GL_ENTRY_LAST_TS(glGetTexParameterPointervAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTexParameterPointervAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glGetTexParameterPointervAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTexParameterPointervAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTexParameterPointervAPPLE_Idx),

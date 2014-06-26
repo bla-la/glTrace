@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClearDepthxOES(GLfixed depth)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClearDepthxOES_Idx))
-	{
-            GL_ENTRY_PTR(glClearDepthxOES_Idx) = dlsym(RTLD_NEXT,"glClearDepthxOES");
-            if(!GL_ENTRY_PTR(glClearDepthxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClearDepthxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClearDepthxOES(GLfixed depth)
         GL_ENTRY_LAST_TS(glClearDepthxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClearDepthxOES_Idx),
 				 GL_ENTRY_LAST_TS(glClearDepthxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClearDepthxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClearDepthxOES_Idx),

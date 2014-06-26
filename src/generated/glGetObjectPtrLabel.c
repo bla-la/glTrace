@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetObjectPtrLabel(const void *ptr,GLsizei bufSize,GLsizei
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetObjectPtrLabel_Idx))
-	{
-            GL_ENTRY_PTR(glGetObjectPtrLabel_Idx) = dlsym(RTLD_NEXT,"glGetObjectPtrLabel");
-            if(!GL_ENTRY_PTR(glGetObjectPtrLabel_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetObjectPtrLabel_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetObjectPtrLabel(const void *ptr,GLsizei bufSize,GLsizei
         GL_ENTRY_LAST_TS(glGetObjectPtrLabel_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetObjectPtrLabel_Idx),
 				 GL_ENTRY_LAST_TS(glGetObjectPtrLabel_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetObjectPtrLabel %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetObjectPtrLabel_Idx),

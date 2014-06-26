@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPathCommandsNV(GLuint path,GLsizei numCommands,const GLub
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPathCommandsNV_Idx))
-	{
-            GL_ENTRY_PTR(glPathCommandsNV_Idx) = dlsym(RTLD_NEXT,"glPathCommandsNV");
-            if(!GL_ENTRY_PTR(glPathCommandsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPathCommandsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPathCommandsNV(GLuint path,GLsizei numCommands,const GLub
         GL_ENTRY_LAST_TS(glPathCommandsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPathCommandsNV_Idx),
 				 GL_ENTRY_LAST_TS(glPathCommandsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPathCommandsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPathCommandsNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPixelTexGenParameteriSGIS(GLenum pname,GLint param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPixelTexGenParameteriSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glPixelTexGenParameteriSGIS_Idx) = dlsym(RTLD_NEXT,"glPixelTexGenParameteriSGIS");
-            if(!GL_ENTRY_PTR(glPixelTexGenParameteriSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPixelTexGenParameteriSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPixelTexGenParameteriSGIS(GLenum pname,GLint param)
         GL_ENTRY_LAST_TS(glPixelTexGenParameteriSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPixelTexGenParameteriSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glPixelTexGenParameteriSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPixelTexGenParameteriSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPixelTexGenParameteriSGIS_Idx),

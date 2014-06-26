@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexImage2DMultisampleCoverageNV(GLenum target,GLsizei cov
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexImage2DMultisampleCoverageNV_Idx))
-	{
-            GL_ENTRY_PTR(glTexImage2DMultisampleCoverageNV_Idx) = dlsym(RTLD_NEXT,"glTexImage2DMultisampleCoverageNV");
-            if(!GL_ENTRY_PTR(glTexImage2DMultisampleCoverageNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexImage2DMultisampleCoverageNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexImage2DMultisampleCoverageNV(GLenum target,GLsizei cov
         GL_ENTRY_LAST_TS(glTexImage2DMultisampleCoverageNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexImage2DMultisampleCoverageNV_Idx),
 				 GL_ENTRY_LAST_TS(glTexImage2DMultisampleCoverageNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexImage2DMultisampleCoverageNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexImage2DMultisampleCoverageNV_Idx),

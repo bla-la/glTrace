@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetIntegerIndexedvEXT(GLenum target,GLuint index,GLint *d
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetIntegerIndexedvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetIntegerIndexedvEXT_Idx) = dlsym(RTLD_NEXT,"glGetIntegerIndexedvEXT");
-            if(!GL_ENTRY_PTR(glGetIntegerIndexedvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetIntegerIndexedvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetIntegerIndexedvEXT(GLenum target,GLuint index,GLint *d
         GL_ENTRY_LAST_TS(glGetIntegerIndexedvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetIntegerIndexedvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetIntegerIndexedvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetIntegerIndexedvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetIntegerIndexedvEXT_Idx),

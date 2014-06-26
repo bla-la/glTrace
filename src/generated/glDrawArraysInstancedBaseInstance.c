@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDrawArraysInstancedBaseInstance(GLenum mode,GLint first,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDrawArraysInstancedBaseInstance_Idx))
-	{
-            GL_ENTRY_PTR(glDrawArraysInstancedBaseInstance_Idx) = dlsym(RTLD_NEXT,"glDrawArraysInstancedBaseInstance");
-            if(!GL_ENTRY_PTR(glDrawArraysInstancedBaseInstance_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDrawArraysInstancedBaseInstance_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDrawArraysInstancedBaseInstance(GLenum mode,GLint first,G
         GL_ENTRY_LAST_TS(glDrawArraysInstancedBaseInstance_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDrawArraysInstancedBaseInstance_Idx),
 				 GL_ENTRY_LAST_TS(glDrawArraysInstancedBaseInstance_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDrawArraysInstancedBaseInstance %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDrawArraysInstancedBaseInstance_Idx),

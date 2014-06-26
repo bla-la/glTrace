@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiTexCoord4d(GLenum target,GLdouble s,GLdouble t,GLdou
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiTexCoord4d_Idx))
-	{
-            GL_ENTRY_PTR(glMultiTexCoord4d_Idx) = dlsym(RTLD_NEXT,"glMultiTexCoord4d");
-            if(!GL_ENTRY_PTR(glMultiTexCoord4d_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiTexCoord4d_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiTexCoord4d(GLenum target,GLdouble s,GLdouble t,GLdou
         GL_ENTRY_LAST_TS(glMultiTexCoord4d_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiTexCoord4d_Idx),
 				 GL_ENTRY_LAST_TS(glMultiTexCoord4d_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiTexCoord4d %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiTexCoord4d_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexturePageCommitmentEXT(GLuint texture,GLint level,GLint
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexturePageCommitmentEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTexturePageCommitmentEXT_Idx) = dlsym(RTLD_NEXT,"glTexturePageCommitmentEXT");
-            if(!GL_ENTRY_PTR(glTexturePageCommitmentEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexturePageCommitmentEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexturePageCommitmentEXT(GLuint texture,GLint level,GLint
         GL_ENTRY_LAST_TS(glTexturePageCommitmentEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexturePageCommitmentEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTexturePageCommitmentEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexturePageCommitmentEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexturePageCommitmentEXT_Idx),

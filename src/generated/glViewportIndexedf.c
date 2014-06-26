@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glViewportIndexedf(GLuint index,GLfloat x,GLfloat y,GLfloat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glViewportIndexedf_Idx))
-	{
-            GL_ENTRY_PTR(glViewportIndexedf_Idx) = dlsym(RTLD_NEXT,"glViewportIndexedf");
-            if(!GL_ENTRY_PTR(glViewportIndexedf_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glViewportIndexedf_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glViewportIndexedf(GLuint index,GLfloat x,GLfloat y,GLfloat
         GL_ENTRY_LAST_TS(glViewportIndexedf_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glViewportIndexedf_Idx),
 				 GL_ENTRY_LAST_TS(glViewportIndexedf_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glViewportIndexedf %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glViewportIndexedf_Idx),

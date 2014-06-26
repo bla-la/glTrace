@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsProgramPipeline(GLuint pipeline)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsProgramPipeline_Idx))
-	{
-            GL_ENTRY_PTR(glIsProgramPipeline_Idx) = dlsym(RTLD_NEXT,"glIsProgramPipeline");
-            if(!GL_ENTRY_PTR(glIsProgramPipeline_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsProgramPipeline_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsProgramPipeline(GLuint pipeline)
         GL_ENTRY_LAST_TS(glIsProgramPipeline_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsProgramPipeline_Idx),
 				 GL_ENTRY_LAST_TS(glIsProgramPipeline_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsProgramPipeline %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsProgramPipeline_Idx),

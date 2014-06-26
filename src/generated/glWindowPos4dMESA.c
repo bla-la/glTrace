@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWindowPos4dMESA(GLdouble x,GLdouble y,GLdouble z,GLdouble
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWindowPos4dMESA_Idx))
-	{
-            GL_ENTRY_PTR(glWindowPos4dMESA_Idx) = dlsym(RTLD_NEXT,"glWindowPos4dMESA");
-            if(!GL_ENTRY_PTR(glWindowPos4dMESA_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWindowPos4dMESA_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWindowPos4dMESA(GLdouble x,GLdouble y,GLdouble z,GLdouble
         GL_ENTRY_LAST_TS(glWindowPos4dMESA_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWindowPos4dMESA_Idx),
 				 GL_ENTRY_LAST_TS(glWindowPos4dMESA_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWindowPos4dMESA %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWindowPos4dMESA_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glLineWidthxOES(GLfixed width)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glLineWidthxOES_Idx))
-	{
-            GL_ENTRY_PTR(glLineWidthxOES_Idx) = dlsym(RTLD_NEXT,"glLineWidthxOES");
-            if(!GL_ENTRY_PTR(glLineWidthxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glLineWidthxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glLineWidthxOES(GLfixed width)
         GL_ENTRY_LAST_TS(glLineWidthxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glLineWidthxOES_Idx),
 				 GL_ENTRY_LAST_TS(glLineWidthxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glLineWidthxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glLineWidthxOES_Idx),

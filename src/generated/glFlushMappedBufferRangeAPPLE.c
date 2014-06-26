@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glFlushMappedBufferRangeAPPLE(GLenum target,GLintptr offset
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glFlushMappedBufferRangeAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glFlushMappedBufferRangeAPPLE_Idx) = dlsym(RTLD_NEXT,"glFlushMappedBufferRangeAPPLE");
-            if(!GL_ENTRY_PTR(glFlushMappedBufferRangeAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glFlushMappedBufferRangeAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glFlushMappedBufferRangeAPPLE(GLenum target,GLintptr offset
         GL_ENTRY_LAST_TS(glFlushMappedBufferRangeAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glFlushMappedBufferRangeAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glFlushMappedBufferRangeAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glFlushMappedBufferRangeAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glFlushMappedBufferRangeAPPLE_Idx),

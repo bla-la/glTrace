@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetBufferParameteriv(GLenum target,GLenum pname,GLint *pa
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetBufferParameteriv_Idx))
-	{
-            GL_ENTRY_PTR(glGetBufferParameteriv_Idx) = dlsym(RTLD_NEXT,"glGetBufferParameteriv");
-            if(!GL_ENTRY_PTR(glGetBufferParameteriv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetBufferParameteriv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetBufferParameteriv(GLenum target,GLenum pname,GLint *pa
         GL_ENTRY_LAST_TS(glGetBufferParameteriv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetBufferParameteriv_Idx),
 				 GL_ENTRY_LAST_TS(glGetBufferParameteriv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetBufferParameteriv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetBufferParameteriv_Idx),

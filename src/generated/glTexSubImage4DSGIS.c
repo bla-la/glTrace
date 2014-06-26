@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexSubImage4DSGIS(GLenum target,GLint level,GLint xoffset
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexSubImage4DSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glTexSubImage4DSGIS_Idx) = dlsym(RTLD_NEXT,"glTexSubImage4DSGIS");
-            if(!GL_ENTRY_PTR(glTexSubImage4DSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexSubImage4DSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexSubImage4DSGIS(GLenum target,GLint level,GLint xoffset
         GL_ENTRY_LAST_TS(glTexSubImage4DSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexSubImage4DSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glTexSubImage4DSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexSubImage4DSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexSubImage4DSGIS_Idx),

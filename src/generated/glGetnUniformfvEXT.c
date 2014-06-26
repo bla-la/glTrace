@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetnUniformfvEXT(GLuint program,GLint location,GLsizei bu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetnUniformfvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetnUniformfvEXT_Idx) = dlsym(RTLD_NEXT,"glGetnUniformfvEXT");
-            if(!GL_ENTRY_PTR(glGetnUniformfvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetnUniformfvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetnUniformfvEXT(GLuint program,GLint location,GLsizei bu
         GL_ENTRY_LAST_TS(glGetnUniformfvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetnUniformfvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetnUniformfvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetnUniformfvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetnUniformfvEXT_Idx),

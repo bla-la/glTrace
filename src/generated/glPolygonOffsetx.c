@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPolygonOffsetx(GLfixed factor,GLfixed units)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPolygonOffsetx_Idx))
-	{
-            GL_ENTRY_PTR(glPolygonOffsetx_Idx) = dlsym(RTLD_NEXT,"glPolygonOffsetx");
-            if(!GL_ENTRY_PTR(glPolygonOffsetx_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPolygonOffsetx_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPolygonOffsetx(GLfixed factor,GLfixed units)
         GL_ENTRY_LAST_TS(glPolygonOffsetx_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPolygonOffsetx_Idx),
 				 GL_ENTRY_LAST_TS(glPolygonOffsetx_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPolygonOffsetx %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPolygonOffsetx_Idx),

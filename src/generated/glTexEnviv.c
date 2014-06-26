@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexEnviv(GLenum target,GLenum pname,const GLint *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexEnviv_Idx))
-	{
-            GL_ENTRY_PTR(glTexEnviv_Idx) = dlsym(RTLD_NEXT,"glTexEnviv");
-            if(!GL_ENTRY_PTR(glTexEnviv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexEnviv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexEnviv(GLenum target,GLenum pname,const GLint *params)
         GL_ENTRY_LAST_TS(glTexEnviv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexEnviv_Idx),
 				 GL_ENTRY_LAST_TS(glTexEnviv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexEnviv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexEnviv_Idx),

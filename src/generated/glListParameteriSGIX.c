@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glListParameteriSGIX(GLuint list,GLenum pname,GLint param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glListParameteriSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glListParameteriSGIX_Idx) = dlsym(RTLD_NEXT,"glListParameteriSGIX");
-            if(!GL_ENTRY_PTR(glListParameteriSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glListParameteriSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glListParameteriSGIX(GLuint list,GLenum pname,GLint param)
         GL_ENTRY_LAST_TS(glListParameteriSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glListParameteriSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glListParameteriSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glListParameteriSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glListParameteriSGIX_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWaitSyncAPPLE(GLsync sync,GLbitfield flags,GLuint64 timeo
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWaitSyncAPPLE_Idx))
-	{
-            GL_ENTRY_PTR(glWaitSyncAPPLE_Idx) = dlsym(RTLD_NEXT,"glWaitSyncAPPLE");
-            if(!GL_ENTRY_PTR(glWaitSyncAPPLE_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWaitSyncAPPLE_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWaitSyncAPPLE(GLsync sync,GLbitfield flags,GLuint64 timeo
         GL_ENTRY_LAST_TS(glWaitSyncAPPLE_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWaitSyncAPPLE_Idx),
 				 GL_ENTRY_LAST_TS(glWaitSyncAPPLE_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWaitSyncAPPLE %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWaitSyncAPPLE_Idx),

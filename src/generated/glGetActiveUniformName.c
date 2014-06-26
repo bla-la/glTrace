@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetActiveUniformName(GLuint program,GLuint uniformIndex,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetActiveUniformName_Idx))
-	{
-            GL_ENTRY_PTR(glGetActiveUniformName_Idx) = dlsym(RTLD_NEXT,"glGetActiveUniformName");
-            if(!GL_ENTRY_PTR(glGetActiveUniformName_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetActiveUniformName_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetActiveUniformName(GLuint program,GLuint uniformIndex,G
         GL_ENTRY_LAST_TS(glGetActiveUniformName_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetActiveUniformName_Idx),
 				 GL_ENTRY_LAST_TS(glGetActiveUniformName_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetActiveUniformName %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetActiveUniformName_Idx),

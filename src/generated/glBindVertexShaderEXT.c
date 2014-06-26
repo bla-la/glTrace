@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindVertexShaderEXT(GLuint id)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindVertexShaderEXT_Idx))
-	{
-            GL_ENTRY_PTR(glBindVertexShaderEXT_Idx) = dlsym(RTLD_NEXT,"glBindVertexShaderEXT");
-            if(!GL_ENTRY_PTR(glBindVertexShaderEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindVertexShaderEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindVertexShaderEXT(GLuint id)
         GL_ENTRY_LAST_TS(glBindVertexShaderEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindVertexShaderEXT_Idx),
 				 GL_ENTRY_LAST_TS(glBindVertexShaderEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindVertexShaderEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindVertexShaderEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetSynciv(GLsync sync,GLenum pname,GLsizei bufSize,GLsize
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetSynciv_Idx))
-	{
-            GL_ENTRY_PTR(glGetSynciv_Idx) = dlsym(RTLD_NEXT,"glGetSynciv");
-            if(!GL_ENTRY_PTR(glGetSynciv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetSynciv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetSynciv(GLsync sync,GLenum pname,GLsizei bufSize,GLsize
         GL_ENTRY_LAST_TS(glGetSynciv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetSynciv_Idx),
 				 GL_ENTRY_LAST_TS(glGetSynciv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetSynciv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetSynciv_Idx),

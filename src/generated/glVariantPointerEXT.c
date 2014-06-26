@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVariantPointerEXT(GLuint id,GLenum type,GLuint stride,con
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVariantPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVariantPointerEXT_Idx) = dlsym(RTLD_NEXT,"glVariantPointerEXT");
-            if(!GL_ENTRY_PTR(glVariantPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVariantPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVariantPointerEXT(GLuint id,GLenum type,GLuint stride,con
         GL_ENTRY_LAST_TS(glVariantPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVariantPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVariantPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVariantPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVariantPointerEXT_Idx),

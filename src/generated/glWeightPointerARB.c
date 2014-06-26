@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glWeightPointerARB(GLint size,GLenum type,GLsizei stride,co
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glWeightPointerARB_Idx))
-	{
-            GL_ENTRY_PTR(glWeightPointerARB_Idx) = dlsym(RTLD_NEXT,"glWeightPointerARB");
-            if(!GL_ENTRY_PTR(glWeightPointerARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glWeightPointerARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glWeightPointerARB(GLint size,GLenum type,GLsizei stride,co
         GL_ENTRY_LAST_TS(glWeightPointerARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glWeightPointerARB_Idx),
 				 GL_ENTRY_LAST_TS(glWeightPointerARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glWeightPointerARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glWeightPointerARB_Idx),

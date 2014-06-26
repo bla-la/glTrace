@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteFramebuffers(GLsizei n,const GLuint *framebuffers)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteFramebuffers_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteFramebuffers_Idx) = dlsym(RTLD_NEXT,"glDeleteFramebuffers");
-            if(!GL_ENTRY_PTR(glDeleteFramebuffers_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteFramebuffers_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteFramebuffers(GLsizei n,const GLuint *framebuffers)
         GL_ENTRY_LAST_TS(glDeleteFramebuffers_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteFramebuffers_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteFramebuffers_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteFramebuffers %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteFramebuffers_Idx),

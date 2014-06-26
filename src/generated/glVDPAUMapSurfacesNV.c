@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVDPAUMapSurfacesNV(GLsizei numSurfaces,const GLvdpauSurfa
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVDPAUMapSurfacesNV_Idx))
-	{
-            GL_ENTRY_PTR(glVDPAUMapSurfacesNV_Idx) = dlsym(RTLD_NEXT,"glVDPAUMapSurfacesNV");
-            if(!GL_ENTRY_PTR(glVDPAUMapSurfacesNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVDPAUMapSurfacesNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVDPAUMapSurfacesNV(GLsizei numSurfaces,const GLvdpauSurfa
         GL_ENTRY_LAST_TS(glVDPAUMapSurfacesNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVDPAUMapSurfacesNV_Idx),
 				 GL_ENTRY_LAST_TS(glVDPAUMapSurfacesNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVDPAUMapSurfacesNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVDPAUMapSurfacesNV_Idx),

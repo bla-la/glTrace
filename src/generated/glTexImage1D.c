@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexImage1D(GLenum target,GLint level,GLint internalformat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexImage1D_Idx))
-	{
-            GL_ENTRY_PTR(glTexImage1D_Idx) = dlsym(RTLD_NEXT,"glTexImage1D");
-            if(!GL_ENTRY_PTR(glTexImage1D_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexImage1D_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexImage1D(GLenum target,GLint level,GLint internalformat
         GL_ENTRY_LAST_TS(glTexImage1D_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexImage1D_Idx),
 				 GL_ENTRY_LAST_TS(glTexImage1D_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexImage1D %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexImage1D_Idx),

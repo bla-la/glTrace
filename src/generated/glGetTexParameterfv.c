@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetTexParameterfv(GLenum target,GLenum pname,GLfloat *par
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTexParameterfv_Idx))
-	{
-            GL_ENTRY_PTR(glGetTexParameterfv_Idx) = dlsym(RTLD_NEXT,"glGetTexParameterfv");
-            if(!GL_ENTRY_PTR(glGetTexParameterfv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTexParameterfv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetTexParameterfv(GLenum target,GLenum pname,GLfloat *par
         GL_ENTRY_LAST_TS(glGetTexParameterfv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTexParameterfv_Idx),
 				 GL_ENTRY_LAST_TS(glGetTexParameterfv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTexParameterfv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTexParameterfv_Idx),

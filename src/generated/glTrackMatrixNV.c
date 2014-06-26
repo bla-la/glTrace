@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTrackMatrixNV(GLenum target,GLuint address,GLenum matrix,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTrackMatrixNV_Idx))
-	{
-            GL_ENTRY_PTR(glTrackMatrixNV_Idx) = dlsym(RTLD_NEXT,"glTrackMatrixNV");
-            if(!GL_ENTRY_PTR(glTrackMatrixNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTrackMatrixNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTrackMatrixNV(GLenum target,GLuint address,GLenum matrix,
         GL_ENTRY_LAST_TS(glTrackMatrixNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTrackMatrixNV_Idx),
 				 GL_ENTRY_LAST_TS(glTrackMatrixNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTrackMatrixNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTrackMatrixNV_Idx),

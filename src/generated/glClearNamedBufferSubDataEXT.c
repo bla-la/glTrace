@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClearNamedBufferSubDataEXT(GLuint buffer,GLenum internalf
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClearNamedBufferSubDataEXT_Idx))
-	{
-            GL_ENTRY_PTR(glClearNamedBufferSubDataEXT_Idx) = dlsym(RTLD_NEXT,"glClearNamedBufferSubDataEXT");
-            if(!GL_ENTRY_PTR(glClearNamedBufferSubDataEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClearNamedBufferSubDataEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClearNamedBufferSubDataEXT(GLuint buffer,GLenum internalf
         GL_ENTRY_LAST_TS(glClearNamedBufferSubDataEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClearNamedBufferSubDataEXT_Idx),
 				 GL_ENTRY_LAST_TS(glClearNamedBufferSubDataEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClearNamedBufferSubDataEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClearNamedBufferSubDataEXT_Idx),

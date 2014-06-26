@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetCompressedTextureImageEXT(GLuint texture,GLenum target
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetCompressedTextureImageEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetCompressedTextureImageEXT_Idx) = dlsym(RTLD_NEXT,"glGetCompressedTextureImageEXT");
-            if(!GL_ENTRY_PTR(glGetCompressedTextureImageEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetCompressedTextureImageEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetCompressedTextureImageEXT(GLuint texture,GLenum target
         GL_ENTRY_LAST_TS(glGetCompressedTextureImageEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetCompressedTextureImageEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetCompressedTextureImageEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetCompressedTextureImageEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetCompressedTextureImageEXT_Idx),

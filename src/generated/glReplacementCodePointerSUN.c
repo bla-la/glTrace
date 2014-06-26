@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glReplacementCodePointerSUN(GLenum type,GLsizei stride,cons
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glReplacementCodePointerSUN_Idx))
-	{
-            GL_ENTRY_PTR(glReplacementCodePointerSUN_Idx) = dlsym(RTLD_NEXT,"glReplacementCodePointerSUN");
-            if(!GL_ENTRY_PTR(glReplacementCodePointerSUN_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glReplacementCodePointerSUN_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glReplacementCodePointerSUN(GLenum type,GLsizei stride,cons
         GL_ENTRY_LAST_TS(glReplacementCodePointerSUN_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glReplacementCodePointerSUN_Idx),
 				 GL_ENTRY_LAST_TS(glReplacementCodePointerSUN_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glReplacementCodePointerSUN %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glReplacementCodePointerSUN_Idx),

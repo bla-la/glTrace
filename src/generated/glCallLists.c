@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCallLists(GLsizei n,GLenum type,const void *lists)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCallLists_Idx))
-	{
-            GL_ENTRY_PTR(glCallLists_Idx) = dlsym(RTLD_NEXT,"glCallLists");
-            if(!GL_ENTRY_PTR(glCallLists_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCallLists_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCallLists(GLsizei n,GLenum type,const void *lists)
         GL_ENTRY_LAST_TS(glCallLists_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCallLists_Idx),
 				 GL_ENTRY_LAST_TS(glCallLists_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCallLists %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCallLists_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetnHistogramARB(GLenum target,GLboolean reset,GLenum for
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetnHistogramARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetnHistogramARB_Idx) = dlsym(RTLD_NEXT,"glGetnHistogramARB");
-            if(!GL_ENTRY_PTR(glGetnHistogramARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetnHistogramARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetnHistogramARB(GLenum target,GLboolean reset,GLenum for
         GL_ENTRY_LAST_TS(glGetnHistogramARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetnHistogramARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetnHistogramARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetnHistogramARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetnHistogramARB_Idx),

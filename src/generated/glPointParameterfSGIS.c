@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPointParameterfSGIS(GLenum pname,GLfloat param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPointParameterfSGIS_Idx))
-	{
-            GL_ENTRY_PTR(glPointParameterfSGIS_Idx) = dlsym(RTLD_NEXT,"glPointParameterfSGIS");
-            if(!GL_ENTRY_PTR(glPointParameterfSGIS_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPointParameterfSGIS_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPointParameterfSGIS(GLenum pname,GLfloat param)
         GL_ENTRY_LAST_TS(glPointParameterfSGIS_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPointParameterfSGIS_Idx),
 				 GL_ENTRY_LAST_TS(glPointParameterfSGIS_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPointParameterfSGIS %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPointParameterfSGIS_Idx),

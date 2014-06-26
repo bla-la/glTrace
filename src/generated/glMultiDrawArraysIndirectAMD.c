@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectAMD(GLenum mode,const void *indire
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectAMD_Idx))
-	{
-            GL_ENTRY_PTR(glMultiDrawArraysIndirectAMD_Idx) = dlsym(RTLD_NEXT,"glMultiDrawArraysIndirectAMD");
-            if(!GL_ENTRY_PTR(glMultiDrawArraysIndirectAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiDrawArraysIndirectAMD(GLenum mode,const void *indire
         GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiDrawArraysIndirectAMD_Idx),
 				 GL_ENTRY_LAST_TS(glMultiDrawArraysIndirectAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiDrawArraysIndirectAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiDrawArraysIndirectAMD_Idx),

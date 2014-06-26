@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetUniformSubroutineuiv(GLenum shadertype,GLint location,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetUniformSubroutineuiv_Idx))
-	{
-            GL_ENTRY_PTR(glGetUniformSubroutineuiv_Idx) = dlsym(RTLD_NEXT,"glGetUniformSubroutineuiv");
-            if(!GL_ENTRY_PTR(glGetUniformSubroutineuiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetUniformSubroutineuiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetUniformSubroutineuiv(GLenum shadertype,GLint location,
         GL_ENTRY_LAST_TS(glGetUniformSubroutineuiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetUniformSubroutineuiv_Idx),
 				 GL_ENTRY_LAST_TS(glGetUniformSubroutineuiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetUniformSubroutineuiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetUniformSubroutineuiv_Idx),

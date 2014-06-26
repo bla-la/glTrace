@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetObjectParameterivARB(GLhandleARB obj,GLenum pname,GLin
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetObjectParameterivARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetObjectParameterivARB_Idx) = dlsym(RTLD_NEXT,"glGetObjectParameterivARB");
-            if(!GL_ENTRY_PTR(glGetObjectParameterivARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetObjectParameterivARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetObjectParameterivARB(GLhandleARB obj,GLenum pname,GLin
         GL_ENTRY_LAST_TS(glGetObjectParameterivARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetObjectParameterivARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetObjectParameterivARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetObjectParameterivARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetObjectParameterivARB_Idx),

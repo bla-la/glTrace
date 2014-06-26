@@ -1,10 +1,17 @@
 #include <glTraceCommon.h>
 #include <generated.h>
 
+
+spinlock __init_lock = 0;
+int __is_init = 0;
+
+
+
 struct callEntry callTable[] =
 {
 	CUSTOM_DECLARE,
 	$procDeclare
+	{0,0,0,0,0,0,0,0}
 };
 
 

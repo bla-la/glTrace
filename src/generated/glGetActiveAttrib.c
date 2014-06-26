@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetActiveAttrib(GLuint program,GLuint index,GLsizei bufSi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetActiveAttrib_Idx))
-	{
-            GL_ENTRY_PTR(glGetActiveAttrib_Idx) = dlsym(RTLD_NEXT,"glGetActiveAttrib");
-            if(!GL_ENTRY_PTR(glGetActiveAttrib_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetActiveAttrib_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetActiveAttrib(GLuint program,GLuint index,GLsizei bufSi
         GL_ENTRY_LAST_TS(glGetActiveAttrib_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetActiveAttrib_Idx),
 				 GL_ENTRY_LAST_TS(glGetActiveAttrib_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetActiveAttrib %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetActiveAttrib_Idx),

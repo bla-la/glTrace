@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glBindTransformFeedbackNV(GLenum target,GLuint id)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glBindTransformFeedbackNV_Idx))
-	{
-            GL_ENTRY_PTR(glBindTransformFeedbackNV_Idx) = dlsym(RTLD_NEXT,"glBindTransformFeedbackNV");
-            if(!GL_ENTRY_PTR(glBindTransformFeedbackNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glBindTransformFeedbackNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glBindTransformFeedbackNV(GLenum target,GLuint id)
         GL_ENTRY_LAST_TS(glBindTransformFeedbackNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glBindTransformFeedbackNV_Idx),
 				 GL_ENTRY_LAST_TS(glBindTransformFeedbackNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glBindTransformFeedbackNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glBindTransformFeedbackNV_Idx),

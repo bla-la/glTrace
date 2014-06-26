@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDebugMessageCallbackAMD(GLDEBUGPROCAMD callback,void *use
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDebugMessageCallbackAMD_Idx))
-	{
-            GL_ENTRY_PTR(glDebugMessageCallbackAMD_Idx) = dlsym(RTLD_NEXT,"glDebugMessageCallbackAMD");
-            if(!GL_ENTRY_PTR(glDebugMessageCallbackAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDebugMessageCallbackAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDebugMessageCallbackAMD(GLDEBUGPROCAMD callback,void *use
         GL_ENTRY_LAST_TS(glDebugMessageCallbackAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDebugMessageCallbackAMD_Idx),
 				 GL_ENTRY_LAST_TS(glDebugMessageCallbackAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDebugMessageCallbackAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDebugMessageCallbackAMD_Idx),

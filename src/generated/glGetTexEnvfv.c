@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetTexEnvfv(GLenum target,GLenum pname,GLfloat *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetTexEnvfv_Idx))
-	{
-            GL_ENTRY_PTR(glGetTexEnvfv_Idx) = dlsym(RTLD_NEXT,"glGetTexEnvfv");
-            if(!GL_ENTRY_PTR(glGetTexEnvfv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetTexEnvfv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetTexEnvfv(GLenum target,GLenum pname,GLfloat *params)
         GL_ENTRY_LAST_TS(glGetTexEnvfv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetTexEnvfv_Idx),
 				 GL_ENTRY_LAST_TS(glGetTexEnvfv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetTexEnvfv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetTexEnvfv_Idx),

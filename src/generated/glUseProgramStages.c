@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUseProgramStages(GLuint pipeline,GLbitfield stages,GLuint
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUseProgramStages_Idx))
-	{
-            GL_ENTRY_PTR(glUseProgramStages_Idx) = dlsym(RTLD_NEXT,"glUseProgramStages");
-            if(!GL_ENTRY_PTR(glUseProgramStages_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUseProgramStages_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUseProgramStages(GLuint pipeline,GLbitfield stages,GLuint
         GL_ENTRY_LAST_TS(glUseProgramStages_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUseProgramStages_Idx),
 				 GL_ENTRY_LAST_TS(glUseProgramStages_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUseProgramStages %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUseProgramStages_Idx),

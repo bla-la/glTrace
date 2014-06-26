@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixIndexuivARB(GLint size,const GLuint *indices)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixIndexuivARB_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixIndexuivARB_Idx) = dlsym(RTLD_NEXT,"glMatrixIndexuivARB");
-            if(!GL_ENTRY_PTR(glMatrixIndexuivARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixIndexuivARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixIndexuivARB(GLint size,const GLuint *indices)
         GL_ENTRY_LAST_TS(glMatrixIndexuivARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixIndexuivARB_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixIndexuivARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixIndexuivARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixIndexuivARB_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetColorTableParameterfvEXT(GLenum target,GLenum pname,GL
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetColorTableParameterfvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetColorTableParameterfvEXT_Idx) = dlsym(RTLD_NEXT,"glGetColorTableParameterfvEXT");
-            if(!GL_ENTRY_PTR(glGetColorTableParameterfvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetColorTableParameterfvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetColorTableParameterfvEXT(GLenum target,GLenum pname,GL
         GL_ENTRY_LAST_TS(glGetColorTableParameterfvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetColorTableParameterfvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetColorTableParameterfvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetColorTableParameterfvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetColorTableParameterfvEXT_Idx),

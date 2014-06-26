@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMinmaxParameterivEXT(GLenum target,GLenum pname,GLint 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMinmaxParameterivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetMinmaxParameterivEXT_Idx) = dlsym(RTLD_NEXT,"glGetMinmaxParameterivEXT");
-            if(!GL_ENTRY_PTR(glGetMinmaxParameterivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMinmaxParameterivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMinmaxParameterivEXT(GLenum target,GLenum pname,GLint 
         GL_ENTRY_LAST_TS(glGetMinmaxParameterivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMinmaxParameterivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetMinmaxParameterivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMinmaxParameterivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMinmaxParameterivEXT_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetShaderSourceARB(GLhandleARB obj,GLsizei maxLength,GLsi
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetShaderSourceARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetShaderSourceARB_Idx) = dlsym(RTLD_NEXT,"glGetShaderSourceARB");
-            if(!GL_ENTRY_PTR(glGetShaderSourceARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetShaderSourceARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetShaderSourceARB(GLhandleARB obj,GLsizei maxLength,GLsi
         GL_ENTRY_LAST_TS(glGetShaderSourceARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetShaderSourceARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetShaderSourceARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetShaderSourceARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetShaderSourceARB_Idx),

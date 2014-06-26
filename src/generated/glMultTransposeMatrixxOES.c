@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultTransposeMatrixxOES(const GLfixed *m)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultTransposeMatrixxOES_Idx))
-	{
-            GL_ENTRY_PTR(glMultTransposeMatrixxOES_Idx) = dlsym(RTLD_NEXT,"glMultTransposeMatrixxOES");
-            if(!GL_ENTRY_PTR(glMultTransposeMatrixxOES_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultTransposeMatrixxOES_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultTransposeMatrixxOES(const GLfixed *m)
         GL_ENTRY_LAST_TS(glMultTransposeMatrixxOES_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultTransposeMatrixxOES_Idx),
 				 GL_ENTRY_LAST_TS(glMultTransposeMatrixxOES_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultTransposeMatrixxOES %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultTransposeMatrixxOES_Idx),

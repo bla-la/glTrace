@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glRenderbufferStorageMultisampleIMG(GLenum target,GLsizei s
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glRenderbufferStorageMultisampleIMG_Idx))
-	{
-            GL_ENTRY_PTR(glRenderbufferStorageMultisampleIMG_Idx) = dlsym(RTLD_NEXT,"glRenderbufferStorageMultisampleIMG");
-            if(!GL_ENTRY_PTR(glRenderbufferStorageMultisampleIMG_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glRenderbufferStorageMultisampleIMG_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glRenderbufferStorageMultisampleIMG(GLenum target,GLsizei s
         GL_ENTRY_LAST_TS(glRenderbufferStorageMultisampleIMG_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glRenderbufferStorageMultisampleIMG_Idx),
 				 GL_ENTRY_LAST_TS(glRenderbufferStorageMultisampleIMG_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glRenderbufferStorageMultisampleIMG %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glRenderbufferStorageMultisampleIMG_Idx),

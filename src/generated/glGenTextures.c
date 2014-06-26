@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGenTextures(GLsizei n,GLuint *textures)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGenTextures_Idx))
-	{
-            GL_ENTRY_PTR(glGenTextures_Idx) = dlsym(RTLD_NEXT,"glGenTextures");
-            if(!GL_ENTRY_PTR(glGenTextures_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGenTextures_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGenTextures(GLsizei n,GLuint *textures)
         GL_ENTRY_LAST_TS(glGenTextures_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGenTextures_Idx),
 				 GL_ENTRY_LAST_TS(glGenTextures_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGenTextures %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGenTextures_Idx),

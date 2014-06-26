@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixMultfEXT(GLenum mode,const GLfloat *m)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixMultfEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixMultfEXT_Idx) = dlsym(RTLD_NEXT,"glMatrixMultfEXT");
-            if(!GL_ENTRY_PTR(glMatrixMultfEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixMultfEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixMultfEXT(GLenum mode,const GLfloat *m)
         GL_ENTRY_LAST_TS(glMatrixMultfEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixMultfEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixMultfEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixMultfEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixMultfEXT_Idx),

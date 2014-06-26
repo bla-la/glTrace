@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexBufferRangeEXT(GLenum target,GLenum internalformat,GLu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexBufferRangeEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTexBufferRangeEXT_Idx) = dlsym(RTLD_NEXT,"glTexBufferRangeEXT");
-            if(!GL_ENTRY_PTR(glTexBufferRangeEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexBufferRangeEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexBufferRangeEXT(GLenum target,GLenum internalformat,GLu
         GL_ENTRY_LAST_TS(glTexBufferRangeEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexBufferRangeEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTexBufferRangeEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexBufferRangeEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexBufferRangeEXT_Idx),

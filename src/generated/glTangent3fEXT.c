@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTangent3fEXT(GLfloat tx,GLfloat ty,GLfloat tz)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTangent3fEXT_Idx))
-	{
-            GL_ENTRY_PTR(glTangent3fEXT_Idx) = dlsym(RTLD_NEXT,"glTangent3fEXT");
-            if(!GL_ENTRY_PTR(glTangent3fEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTangent3fEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTangent3fEXT(GLfloat tx,GLfloat ty,GLfloat tz)
         GL_ENTRY_LAST_TS(glTangent3fEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTangent3fEXT_Idx),
 				 GL_ENTRY_LAST_TS(glTangent3fEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTangent3fEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTangent3fEXT_Idx),

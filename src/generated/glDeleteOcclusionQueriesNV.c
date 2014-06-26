@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteOcclusionQueriesNV(GLsizei n,const GLuint *ids)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteOcclusionQueriesNV_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteOcclusionQueriesNV_Idx) = dlsym(RTLD_NEXT,"glDeleteOcclusionQueriesNV");
-            if(!GL_ENTRY_PTR(glDeleteOcclusionQueriesNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteOcclusionQueriesNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteOcclusionQueriesNV(GLsizei n,const GLuint *ids)
         GL_ENTRY_LAST_TS(glDeleteOcclusionQueriesNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteOcclusionQueriesNV_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteOcclusionQueriesNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteOcclusionQueriesNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteOcclusionQueriesNV_Idx),

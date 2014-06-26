@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glGetSubroutineIndex(GLuint program,GLenum shadertype,con
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetSubroutineIndex_Idx))
-	{
-            GL_ENTRY_PTR(glGetSubroutineIndex_Idx) = dlsym(RTLD_NEXT,"glGetSubroutineIndex");
-            if(!GL_ENTRY_PTR(glGetSubroutineIndex_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetSubroutineIndex_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glGetSubroutineIndex(GLuint program,GLenum shadertype,con
         GL_ENTRY_LAST_TS(glGetSubroutineIndex_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetSubroutineIndex_Idx),
 				 GL_ENTRY_LAST_TS(glGetSubroutineIndex_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetSubroutineIndex %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetSubroutineIndex_Idx),

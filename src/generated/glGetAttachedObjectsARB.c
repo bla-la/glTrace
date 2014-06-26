@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetAttachedObjectsARB(GLhandleARB containerObj,GLsizei ma
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetAttachedObjectsARB_Idx))
-	{
-            GL_ENTRY_PTR(glGetAttachedObjectsARB_Idx) = dlsym(RTLD_NEXT,"glGetAttachedObjectsARB");
-            if(!GL_ENTRY_PTR(glGetAttachedObjectsARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetAttachedObjectsARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetAttachedObjectsARB(GLhandleARB containerObj,GLsizei ma
         GL_ENTRY_LAST_TS(glGetAttachedObjectsARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetAttachedObjectsARB_Idx),
 				 GL_ENTRY_LAST_TS(glGetAttachedObjectsARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetAttachedObjectsARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetAttachedObjectsARB_Idx),

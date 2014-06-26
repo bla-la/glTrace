@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMaterialiv(GLenum face,GLenum pname,GLint *params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMaterialiv_Idx))
-	{
-            GL_ENTRY_PTR(glGetMaterialiv_Idx) = dlsym(RTLD_NEXT,"glGetMaterialiv");
-            if(!GL_ENTRY_PTR(glGetMaterialiv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMaterialiv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMaterialiv(GLenum face,GLenum pname,GLint *params)
         GL_ENTRY_LAST_TS(glGetMaterialiv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMaterialiv_Idx),
 				 GL_ENTRY_LAST_TS(glGetMaterialiv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMaterialiv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMaterialiv_Idx),

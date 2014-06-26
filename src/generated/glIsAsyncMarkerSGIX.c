@@ -10,13 +10,9 @@ GLAPI GLboolean  APIENTRY glIsAsyncMarkerSGIX(GLuint marker)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glIsAsyncMarkerSGIX_Idx))
-	{
-            GL_ENTRY_PTR(glIsAsyncMarkerSGIX_Idx) = dlsym(RTLD_NEXT,"glIsAsyncMarkerSGIX");
-            if(!GL_ENTRY_PTR(glIsAsyncMarkerSGIX_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glIsAsyncMarkerSGIX_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLboolean  APIENTRY glIsAsyncMarkerSGIX(GLuint marker)
         GL_ENTRY_LAST_TS(glIsAsyncMarkerSGIX_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glIsAsyncMarkerSGIX_Idx),
 				 GL_ENTRY_LAST_TS(glIsAsyncMarkerSGIX_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glIsAsyncMarkerSGIX %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glIsAsyncMarkerSGIX_Idx),

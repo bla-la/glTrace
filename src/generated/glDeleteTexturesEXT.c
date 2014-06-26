@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteTexturesEXT(GLsizei n,const GLuint *textures)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteTexturesEXT_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteTexturesEXT_Idx) = dlsym(RTLD_NEXT,"glDeleteTexturesEXT");
-            if(!GL_ENTRY_PTR(glDeleteTexturesEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteTexturesEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteTexturesEXT(GLsizei n,const GLuint *textures)
         GL_ENTRY_LAST_TS(glDeleteTexturesEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteTexturesEXT_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteTexturesEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteTexturesEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteTexturesEXT_Idx),

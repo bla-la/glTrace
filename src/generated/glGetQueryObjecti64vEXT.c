@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetQueryObjecti64vEXT(GLuint id,GLenum pname,GLint64 *par
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetQueryObjecti64vEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetQueryObjecti64vEXT_Idx) = dlsym(RTLD_NEXT,"glGetQueryObjecti64vEXT");
-            if(!GL_ENTRY_PTR(glGetQueryObjecti64vEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetQueryObjecti64vEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetQueryObjecti64vEXT(GLuint id,GLenum pname,GLint64 *par
         GL_ENTRY_LAST_TS(glGetQueryObjecti64vEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetQueryObjecti64vEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetQueryObjecti64vEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetQueryObjecti64vEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetQueryObjecti64vEXT_Idx),

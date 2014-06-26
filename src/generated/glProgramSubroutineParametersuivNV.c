@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramSubroutineParametersuivNV(GLenum target,GLsizei co
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramSubroutineParametersuivNV_Idx))
-	{
-            GL_ENTRY_PTR(glProgramSubroutineParametersuivNV_Idx) = dlsym(RTLD_NEXT,"glProgramSubroutineParametersuivNV");
-            if(!GL_ENTRY_PTR(glProgramSubroutineParametersuivNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramSubroutineParametersuivNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramSubroutineParametersuivNV(GLenum target,GLsizei co
         GL_ENTRY_LAST_TS(glProgramSubroutineParametersuivNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramSubroutineParametersuivNV_Idx),
 				 GL_ENTRY_LAST_TS(glProgramSubroutineParametersuivNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramSubroutineParametersuivNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramSubroutineParametersuivNV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetNamedBufferParameterivEXT(GLuint buffer,GLenum pname,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetNamedBufferParameterivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetNamedBufferParameterivEXT_Idx) = dlsym(RTLD_NEXT,"glGetNamedBufferParameterivEXT");
-            if(!GL_ENTRY_PTR(glGetNamedBufferParameterivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetNamedBufferParameterivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetNamedBufferParameterivEXT(GLuint buffer,GLenum pname,G
         GL_ENTRY_LAST_TS(glGetNamedBufferParameterivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetNamedBufferParameterivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetNamedBufferParameterivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetNamedBufferParameterivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetNamedBufferParameterivEXT_Idx),

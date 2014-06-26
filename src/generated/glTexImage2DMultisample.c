@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glTexImage2DMultisample(GLenum target,GLsizei samples,GLenu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glTexImage2DMultisample_Idx))
-	{
-            GL_ENTRY_PTR(glTexImage2DMultisample_Idx) = dlsym(RTLD_NEXT,"glTexImage2DMultisample");
-            if(!GL_ENTRY_PTR(glTexImage2DMultisample_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glTexImage2DMultisample_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glTexImage2DMultisample(GLenum target,GLsizei samples,GLenu
         GL_ENTRY_LAST_TS(glTexImage2DMultisample_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glTexImage2DMultisample_Idx),
 				 GL_ENTRY_LAST_TS(glTexImage2DMultisample_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glTexImage2DMultisample %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glTexImage2DMultisample_Idx),

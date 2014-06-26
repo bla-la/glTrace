@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDepthRangeArrayv(GLuint first,GLsizei count,const GLdoubl
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDepthRangeArrayv_Idx))
-	{
-            GL_ENTRY_PTR(glDepthRangeArrayv_Idx) = dlsym(RTLD_NEXT,"glDepthRangeArrayv");
-            if(!GL_ENTRY_PTR(glDepthRangeArrayv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDepthRangeArrayv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDepthRangeArrayv(GLuint first,GLsizei count,const GLdoubl
         GL_ENTRY_LAST_TS(glDepthRangeArrayv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDepthRangeArrayv_Idx),
 				 GL_ENTRY_LAST_TS(glDepthRangeArrayv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDepthRangeArrayv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDepthRangeArrayv_Idx),

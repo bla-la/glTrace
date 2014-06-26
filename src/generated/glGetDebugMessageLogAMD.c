@@ -10,13 +10,9 @@ GLAPI GLuint  APIENTRY glGetDebugMessageLogAMD(GLuint count,GLsizei bufsize,GLen
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetDebugMessageLogAMD_Idx))
-	{
-            GL_ENTRY_PTR(glGetDebugMessageLogAMD_Idx) = dlsym(RTLD_NEXT,"glGetDebugMessageLogAMD");
-            if(!GL_ENTRY_PTR(glGetDebugMessageLogAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetDebugMessageLogAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI GLuint  APIENTRY glGetDebugMessageLogAMD(GLuint count,GLsizei bufsize,GLen
         GL_ENTRY_LAST_TS(glGetDebugMessageLogAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetDebugMessageLogAMD_Idx),
 				 GL_ENTRY_LAST_TS(glGetDebugMessageLogAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetDebugMessageLogAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetDebugMessageLogAMD_Idx),

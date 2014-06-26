@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glNormalStream3sATI(GLenum stream,GLshort nx,GLshort ny,GLs
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glNormalStream3sATI_Idx))
-	{
-            GL_ENTRY_PTR(glNormalStream3sATI_Idx) = dlsym(RTLD_NEXT,"glNormalStream3sATI");
-            if(!GL_ENTRY_PTR(glNormalStream3sATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glNormalStream3sATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glNormalStream3sATI(GLenum stream,GLshort nx,GLshort ny,GLs
         GL_ENTRY_LAST_TS(glNormalStream3sATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glNormalStream3sATI_Idx),
 				 GL_ENTRY_LAST_TS(glNormalStream3sATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glNormalStream3sATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glNormalStream3sATI_Idx),

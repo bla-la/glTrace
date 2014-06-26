@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glColorP3ui(GLenum type,GLuint color)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glColorP3ui_Idx))
-	{
-            GL_ENTRY_PTR(glColorP3ui_Idx) = dlsym(RTLD_NEXT,"glColorP3ui");
-            if(!GL_ENTRY_PTR(glColorP3ui_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glColorP3ui_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glColorP3ui(GLenum type,GLuint color)
         GL_ENTRY_LAST_TS(glColorP3ui_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glColorP3ui_Idx),
 				 GL_ENTRY_LAST_TS(glColorP3ui_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glColorP3ui %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glColorP3ui_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramEnvParameter4fvARB(GLenum target,GLuint index,cons
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramEnvParameter4fvARB_Idx))
-	{
-            GL_ENTRY_PTR(glProgramEnvParameter4fvARB_Idx) = dlsym(RTLD_NEXT,"glProgramEnvParameter4fvARB");
-            if(!GL_ENTRY_PTR(glProgramEnvParameter4fvARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramEnvParameter4fvARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramEnvParameter4fvARB(GLenum target,GLuint index,cons
         GL_ENTRY_LAST_TS(glProgramEnvParameter4fvARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramEnvParameter4fvARB_Idx),
 				 GL_ENTRY_LAST_TS(glProgramEnvParameter4fvARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramEnvParameter4fvARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramEnvParameter4fvARB_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetVariantBooleanvEXT(GLuint id,GLenum value,GLboolean *d
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetVariantBooleanvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetVariantBooleanvEXT_Idx) = dlsym(RTLD_NEXT,"glGetVariantBooleanvEXT");
-            if(!GL_ENTRY_PTR(glGetVariantBooleanvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetVariantBooleanvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetVariantBooleanvEXT(GLuint id,GLenum value,GLboolean *d
         GL_ENTRY_LAST_TS(glGetVariantBooleanvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetVariantBooleanvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetVariantBooleanvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetVariantBooleanvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetVariantBooleanvEXT_Idx),

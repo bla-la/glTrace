@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glStencilStrokePathInstancedNV(GLsizei numPaths,GLenum path
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glStencilStrokePathInstancedNV_Idx))
-	{
-            GL_ENTRY_PTR(glStencilStrokePathInstancedNV_Idx) = dlsym(RTLD_NEXT,"glStencilStrokePathInstancedNV");
-            if(!GL_ENTRY_PTR(glStencilStrokePathInstancedNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glStencilStrokePathInstancedNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glStencilStrokePathInstancedNV(GLsizei numPaths,GLenum path
         GL_ENTRY_LAST_TS(glStencilStrokePathInstancedNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glStencilStrokePathInstancedNV_Idx),
 				 GL_ENTRY_LAST_TS(glStencilStrokePathInstancedNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glStencilStrokePathInstancedNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glStencilStrokePathInstancedNV_Idx),

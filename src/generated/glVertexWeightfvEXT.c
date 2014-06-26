@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexWeightfvEXT(const GLfloat *weight)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexWeightfvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexWeightfvEXT_Idx) = dlsym(RTLD_NEXT,"glVertexWeightfvEXT");
-            if(!GL_ENTRY_PTR(glVertexWeightfvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexWeightfvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexWeightfvEXT(const GLfloat *weight)
         GL_ENTRY_LAST_TS(glVertexWeightfvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexWeightfvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexWeightfvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexWeightfvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexWeightfvEXT_Idx),

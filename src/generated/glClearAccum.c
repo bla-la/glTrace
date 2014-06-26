@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glClearAccum(GLfloat red,GLfloat green,GLfloat blue,GLfloat
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glClearAccum_Idx))
-	{
-            GL_ENTRY_PTR(glClearAccum_Idx) = dlsym(RTLD_NEXT,"glClearAccum");
-            if(!GL_ENTRY_PTR(glClearAccum_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glClearAccum_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glClearAccum(GLfloat red,GLfloat green,GLfloat blue,GLfloat
         GL_ENTRY_LAST_TS(glClearAccum_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glClearAccum_Idx),
 				 GL_ENTRY_LAST_TS(glClearAccum_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glClearAccum %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glClearAccum_Idx),

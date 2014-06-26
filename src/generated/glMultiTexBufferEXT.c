@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiTexBufferEXT(GLenum texunit,GLenum target,GLenum int
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiTexBufferEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMultiTexBufferEXT_Idx) = dlsym(RTLD_NEXT,"glMultiTexBufferEXT");
-            if(!GL_ENTRY_PTR(glMultiTexBufferEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiTexBufferEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiTexBufferEXT(GLenum texunit,GLenum target,GLenum int
         GL_ENTRY_LAST_TS(glMultiTexBufferEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiTexBufferEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMultiTexBufferEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiTexBufferEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiTexBufferEXT_Idx),

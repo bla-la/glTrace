@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramUniformHandleui64vARB(GLuint program,GLint locatio
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramUniformHandleui64vARB_Idx))
-	{
-            GL_ENTRY_PTR(glProgramUniformHandleui64vARB_Idx) = dlsym(RTLD_NEXT,"glProgramUniformHandleui64vARB");
-            if(!GL_ENTRY_PTR(glProgramUniformHandleui64vARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramUniformHandleui64vARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramUniformHandleui64vARB(GLuint program,GLint locatio
         GL_ENTRY_LAST_TS(glProgramUniformHandleui64vARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramUniformHandleui64vARB_Idx),
 				 GL_ENTRY_LAST_TS(glProgramUniformHandleui64vARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramUniformHandleui64vARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramUniformHandleui64vARB_Idx),

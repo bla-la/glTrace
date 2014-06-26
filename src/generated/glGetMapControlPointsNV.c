@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetMapControlPointsNV(GLenum target,GLuint index,GLenum t
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetMapControlPointsNV_Idx))
-	{
-            GL_ENTRY_PTR(glGetMapControlPointsNV_Idx) = dlsym(RTLD_NEXT,"glGetMapControlPointsNV");
-            if(!GL_ENTRY_PTR(glGetMapControlPointsNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetMapControlPointsNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetMapControlPointsNV(GLenum target,GLuint index,GLenum t
         GL_ENTRY_LAST_TS(glGetMapControlPointsNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetMapControlPointsNV_Idx),
 				 GL_ENTRY_LAST_TS(glGetMapControlPointsNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetMapControlPointsNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetMapControlPointsNV_Idx),

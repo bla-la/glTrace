@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glCombinerInputNV(GLenum stage,GLenum portion,GLenum variab
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glCombinerInputNV_Idx))
-	{
-            GL_ENTRY_PTR(glCombinerInputNV_Idx) = dlsym(RTLD_NEXT,"glCombinerInputNV");
-            if(!GL_ENTRY_PTR(glCombinerInputNV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glCombinerInputNV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glCombinerInputNV(GLenum stage,GLenum portion,GLenum variab
         GL_ENTRY_LAST_TS(glCombinerInputNV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glCombinerInputNV_Idx),
 				 GL_ENTRY_LAST_TS(glCombinerInputNV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glCombinerInputNV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glCombinerInputNV_Idx),

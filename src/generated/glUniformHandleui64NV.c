@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glUniformHandleui64NV(GLint location,GLuint64 value)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glUniformHandleui64NV_Idx))
-	{
-            GL_ENTRY_PTR(glUniformHandleui64NV_Idx) = dlsym(RTLD_NEXT,"glUniformHandleui64NV");
-            if(!GL_ENTRY_PTR(glUniformHandleui64NV_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glUniformHandleui64NV_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glUniformHandleui64NV(GLint location,GLuint64 value)
         GL_ENTRY_LAST_TS(glUniformHandleui64NV_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glUniformHandleui64NV_Idx),
 				 GL_ENTRY_LAST_TS(glUniformHandleui64NV_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glUniformHandleui64NV %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glUniformHandleui64NV_Idx),

@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetConvolutionFilterEXT(GLenum target,GLenum format,GLenu
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetConvolutionFilterEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetConvolutionFilterEXT_Idx) = dlsym(RTLD_NEXT,"glGetConvolutionFilterEXT");
-            if(!GL_ENTRY_PTR(glGetConvolutionFilterEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetConvolutionFilterEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetConvolutionFilterEXT(GLenum target,GLenum format,GLenu
         GL_ENTRY_LAST_TS(glGetConvolutionFilterEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetConvolutionFilterEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetConvolutionFilterEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetConvolutionFilterEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetConvolutionFilterEXT_Idx),

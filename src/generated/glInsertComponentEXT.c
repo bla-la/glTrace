@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glInsertComponentEXT(GLuint res,GLuint src,GLuint num)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glInsertComponentEXT_Idx))
-	{
-            GL_ENTRY_PTR(glInsertComponentEXT_Idx) = dlsym(RTLD_NEXT,"glInsertComponentEXT");
-            if(!GL_ENTRY_PTR(glInsertComponentEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glInsertComponentEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glInsertComponentEXT(GLuint res,GLuint src,GLuint num)
         GL_ENTRY_LAST_TS(glInsertComponentEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glInsertComponentEXT_Idx),
 				 GL_ENTRY_LAST_TS(glInsertComponentEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glInsertComponentEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glInsertComponentEXT_Idx),

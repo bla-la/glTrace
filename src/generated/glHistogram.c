@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glHistogram(GLenum target,GLsizei width,GLenum internalform
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glHistogram_Idx))
-	{
-            GL_ENTRY_PTR(glHistogram_Idx) = dlsym(RTLD_NEXT,"glHistogram");
-            if(!GL_ENTRY_PTR(glHistogram_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glHistogram_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glHistogram(GLenum target,GLsizei width,GLenum internalform
         GL_ENTRY_LAST_TS(glHistogram_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glHistogram_Idx),
 				 GL_ENTRY_LAST_TS(glHistogram_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glHistogram %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glHistogram_Idx),

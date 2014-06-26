@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glPointSize(GLfloat size)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glPointSize_Idx))
-	{
-            GL_ENTRY_PTR(glPointSize_Idx) = dlsym(RTLD_NEXT,"glPointSize");
-            if(!GL_ENTRY_PTR(glPointSize_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glPointSize_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glPointSize(GLfloat size)
         GL_ENTRY_LAST_TS(glPointSize_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glPointSize_Idx),
 				 GL_ENTRY_LAST_TS(glPointSize_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glPointSize %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glPointSize_Idx),

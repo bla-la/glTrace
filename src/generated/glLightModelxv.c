@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glLightModelxv(GLenum pname,const GLfixed *param)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glLightModelxv_Idx))
-	{
-            GL_ENTRY_PTR(glLightModelxv_Idx) = dlsym(RTLD_NEXT,"glLightModelxv");
-            if(!GL_ENTRY_PTR(glLightModelxv_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glLightModelxv_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glLightModelxv(GLenum pname,const GLfixed *param)
         GL_ENTRY_LAST_TS(glLightModelxv_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glLightModelxv_Idx),
 				 GL_ENTRY_LAST_TS(glLightModelxv_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glLightModelxv %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glLightModelxv_Idx),

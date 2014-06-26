@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetConvolutionParameterivEXT(GLenum target,GLenum pname,G
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetConvolutionParameterivEXT_Idx))
-	{
-            GL_ENTRY_PTR(glGetConvolutionParameterivEXT_Idx) = dlsym(RTLD_NEXT,"glGetConvolutionParameterivEXT");
-            if(!GL_ENTRY_PTR(glGetConvolutionParameterivEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetConvolutionParameterivEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetConvolutionParameterivEXT(GLenum target,GLenum pname,G
         GL_ENTRY_LAST_TS(glGetConvolutionParameterivEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetConvolutionParameterivEXT_Idx),
 				 GL_ENTRY_LAST_TS(glGetConvolutionParameterivEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetConvolutionParameterivEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetConvolutionParameterivEXT_Idx),

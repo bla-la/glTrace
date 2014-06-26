@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glGetPointervKHR(GLenum pname,void **params)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glGetPointervKHR_Idx))
-	{
-            GL_ENTRY_PTR(glGetPointervKHR_Idx) = dlsym(RTLD_NEXT,"glGetPointervKHR");
-            if(!GL_ENTRY_PTR(glGetPointervKHR_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glGetPointervKHR_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glGetPointervKHR(GLenum pname,void **params)
         GL_ENTRY_LAST_TS(glGetPointervKHR_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glGetPointervKHR_Idx),
 				 GL_ENTRY_LAST_TS(glGetPointervKHR_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glGetPointervKHR %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glGetPointervKHR_Idx),

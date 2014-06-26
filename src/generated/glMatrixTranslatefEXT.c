@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMatrixTranslatefEXT(GLenum mode,GLfloat x,GLfloat y,GLflo
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMatrixTranslatefEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMatrixTranslatefEXT_Idx) = dlsym(RTLD_NEXT,"glMatrixTranslatefEXT");
-            if(!GL_ENTRY_PTR(glMatrixTranslatefEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMatrixTranslatefEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMatrixTranslatefEXT(GLenum mode,GLfloat x,GLfloat y,GLflo
         GL_ENTRY_LAST_TS(glMatrixTranslatefEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMatrixTranslatefEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMatrixTranslatefEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMatrixTranslatefEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMatrixTranslatefEXT_Idx),

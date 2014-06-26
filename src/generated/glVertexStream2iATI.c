@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexStream2iATI(GLenum stream,GLint x,GLint y)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexStream2iATI_Idx))
-	{
-            GL_ENTRY_PTR(glVertexStream2iATI_Idx) = dlsym(RTLD_NEXT,"glVertexStream2iATI");
-            if(!GL_ENTRY_PTR(glVertexStream2iATI_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexStream2iATI_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexStream2iATI(GLenum stream,GLint x,GLint y)
         GL_ENTRY_LAST_TS(glVertexStream2iATI_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexStream2iATI_Idx),
 				 GL_ENTRY_LAST_TS(glVertexStream2iATI_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexStream2iATI %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexStream2iATI_Idx),

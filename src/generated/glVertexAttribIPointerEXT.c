@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexAttribIPointerEXT(GLuint index,GLint size,GLenum ty
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexAttribIPointerEXT_Idx))
-	{
-            GL_ENTRY_PTR(glVertexAttribIPointerEXT_Idx) = dlsym(RTLD_NEXT,"glVertexAttribIPointerEXT");
-            if(!GL_ENTRY_PTR(glVertexAttribIPointerEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexAttribIPointerEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexAttribIPointerEXT(GLuint index,GLint size,GLenum ty
         GL_ENTRY_LAST_TS(glVertexAttribIPointerEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexAttribIPointerEXT_Idx),
 				 GL_ENTRY_LAST_TS(glVertexAttribIPointerEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexAttribIPointerEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexAttribIPointerEXT_Idx),

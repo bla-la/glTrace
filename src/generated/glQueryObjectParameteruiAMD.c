@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glQueryObjectParameteruiAMD(GLenum target,GLuint id,GLenum 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glQueryObjectParameteruiAMD_Idx))
-	{
-            GL_ENTRY_PTR(glQueryObjectParameteruiAMD_Idx) = dlsym(RTLD_NEXT,"glQueryObjectParameteruiAMD");
-            if(!GL_ENTRY_PTR(glQueryObjectParameteruiAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glQueryObjectParameteruiAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glQueryObjectParameteruiAMD(GLenum target,GLuint id,GLenum 
         GL_ENTRY_LAST_TS(glQueryObjectParameteruiAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glQueryObjectParameteruiAMD_Idx),
 				 GL_ENTRY_LAST_TS(glQueryObjectParameteruiAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glQueryObjectParameteruiAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glQueryObjectParameteruiAMD_Idx),

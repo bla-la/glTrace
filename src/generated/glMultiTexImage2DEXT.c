@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glMultiTexImage2DEXT(GLenum texunit,GLenum target,GLint lev
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glMultiTexImage2DEXT_Idx))
-	{
-            GL_ENTRY_PTR(glMultiTexImage2DEXT_Idx) = dlsym(RTLD_NEXT,"glMultiTexImage2DEXT");
-            if(!GL_ENTRY_PTR(glMultiTexImage2DEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glMultiTexImage2DEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glMultiTexImage2DEXT(GLenum texunit,GLenum target,GLint lev
         GL_ENTRY_LAST_TS(glMultiTexImage2DEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glMultiTexImage2DEXT_Idx),
 				 GL_ENTRY_LAST_TS(glMultiTexImage2DEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glMultiTexImage2DEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glMultiTexImage2DEXT_Idx),

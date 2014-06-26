@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteQueriesARB(GLsizei n,const GLuint *ids)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteQueriesARB_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteQueriesARB_Idx) = dlsym(RTLD_NEXT,"glDeleteQueriesARB");
-            if(!GL_ENTRY_PTR(glDeleteQueriesARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteQueriesARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteQueriesARB(GLsizei n,const GLuint *ids)
         GL_ENTRY_LAST_TS(glDeleteQueriesARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteQueriesARB_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteQueriesARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteQueriesARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteQueriesARB_Idx),

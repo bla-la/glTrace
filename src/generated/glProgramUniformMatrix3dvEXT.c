@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glProgramUniformMatrix3dvEXT(GLuint program,GLint location,
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glProgramUniformMatrix3dvEXT_Idx))
-	{
-            GL_ENTRY_PTR(glProgramUniformMatrix3dvEXT_Idx) = dlsym(RTLD_NEXT,"glProgramUniformMatrix3dvEXT");
-            if(!GL_ENTRY_PTR(glProgramUniformMatrix3dvEXT_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glProgramUniformMatrix3dvEXT_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glProgramUniformMatrix3dvEXT(GLuint program,GLint location,
         GL_ENTRY_LAST_TS(glProgramUniformMatrix3dvEXT_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glProgramUniformMatrix3dvEXT_Idx),
 				 GL_ENTRY_LAST_TS(glProgramUniformMatrix3dvEXT_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glProgramUniformMatrix3dvEXT %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glProgramUniformMatrix3dvEXT_Idx),

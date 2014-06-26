@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glVertexBlendARB(GLint count)
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glVertexBlendARB_Idx))
-	{
-            GL_ENTRY_PTR(glVertexBlendARB_Idx) = dlsym(RTLD_NEXT,"glVertexBlendARB");
-            if(!GL_ENTRY_PTR(glVertexBlendARB_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glVertexBlendARB_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glVertexBlendARB(GLint count)
         GL_ENTRY_LAST_TS(glVertexBlendARB_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glVertexBlendARB_Idx),
 				 GL_ENTRY_LAST_TS(glVertexBlendARB_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glVertexBlendARB %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glVertexBlendARB_Idx),

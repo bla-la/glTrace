@@ -10,13 +10,9 @@ GLAPI void  APIENTRY glDeleteNamesAMD(GLenum identifier,GLuint num,const GLuint 
 {
 	struct timespec st,ed;
 
-	if(!GL_ENTRY_PTR(glDeleteNamesAMD_Idx))
-	{
-            GL_ENTRY_PTR(glDeleteNamesAMD_Idx) = dlsym(RTLD_NEXT,"glDeleteNamesAMD");
-            if(!GL_ENTRY_PTR(glDeleteNamesAMD_Idx))
-                abort();
-	}
-
+//init on start
+	if(!__is_init)
+		initCallEntry();
 
 	if( !GL_ENTRY_PREV_TS(glDeleteNamesAMD_Idx))
     	{
@@ -35,6 +31,8 @@ GLAPI void  APIENTRY glDeleteNamesAMD(GLenum identifier,GLuint num,const GLuint 
         GL_ENTRY_LAST_TS(glDeleteNamesAMD_Idx) = get_ts();
         long long last_diff = get_ns_diff(GL_ENTRY_PREV_TS(glDeleteNamesAMD_Idx),
 				 GL_ENTRY_LAST_TS(glDeleteNamesAMD_Idx));
+
+
         if(last_diff > 1000000000){
             printf("glDeleteNamesAMD %lld %lld avg %lld  total time left %lld pct %f\n",
 	             GL_ENTRY_CALL_COUNT(glDeleteNamesAMD_Idx),
